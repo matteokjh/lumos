@@ -1,5 +1,4 @@
 import React from 'react'
-import { DEFAULTAVATAR } from '../utils/default'
 
 const Avatar = (props: { imageUrl: string }) => {
     return (
