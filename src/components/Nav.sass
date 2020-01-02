@@ -1,0 +1,41 @@
+.top-nav
+    display: inline-flex
+    width: 100%
+    justify-content: space-between
+    align-items: center
+    padding: 0 200px
+    border-bottom: 1px solid #eee
+    user-select: none
+
+
+    .left
+        display: inline-flex
+        justify-content: center
+        align-items: center
+        .logo
+
+            .ant-menu
+                border: none
+    .right
+        border: none
+        .ant-menu-item
+            display: flex
+            align-items: center
+        .avatar
+            background-image: url(../img/defaultAvatar.png)
+            background-repeat: no-repeat
+            background-position: center
+            background-size: cover
+            display: block
+            width: 20px
+            height: 20px
+
+.ant-dropdown-menu-item
+    display: flex
+    align-items: center
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected
+    background-color: #fff
+
+p
+    margin: 0
