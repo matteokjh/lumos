@@ -9,7 +9,6 @@ import { userProps } from '../types/user'
 // 下拉菜单
 const UserMenu = (props: any) => {
     const { location } = useReactRouter()
-
     // methods
     const logout = () => {}
 
@@ -47,7 +46,7 @@ const UserMenu = (props: any) => {
                     okText="确定"
                     cancelText="取消"
                 >
-                    <div>
+                    <div onClick={(e)=>e.stopPropagation()}>
                         <Icon type="logout" />
                         <p>退出</p>
                     </div>
@@ -86,13 +85,13 @@ const Nav = (props: { userInfo: userProps }) => {
                         placement="bottomCenter"
                         trigger={['click']}
                     >
-                        <span
+                        <div
                             className="avatar"
                             style={{
                                 backgroundImage: `url(${userInfo.avatar ||
                                     require('../img/defaultAvatar.png')})`,
                             }}
-                        ></span>
+                        ></div>
                     </Dropdown>
                 </Menu.Item>
             </Menu>
