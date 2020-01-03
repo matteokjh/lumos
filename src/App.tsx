@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Nav from './components/Nav'
 import { userProps } from './types/user'
 import Navigate from './components/Navigate'
 import { BrowserRouter as Router } from 'react-router-dom'
 import './App.sass'
+import { store } from './store/index'
 
 const App: React.FC = () => {
-    const [userInfo, setUserInfo] = useState({} as userProps)
+    const { dispatch }: any = useContext(store)
 
     // methods
     const getUserInfo = () => {
-        setUserInfo({
+        const user = {
             username: 'James',
-            name: 'James',
-            password: '123123',
+            name: 'James.Zhong',
             avatar: ''
-        })
+        }
+        dispatch({type: 'SET_USER', payload: user})
     }
 
     useEffect(() => {
@@ -26,7 +27,7 @@ const App: React.FC = () => {
         <div className="App">
             <Router>
                 {/* 顶部导航栏 */}
-                <Nav userInfo={userInfo} />
+                <Nav />
                 {/* 主体 */}
                 <Navigate></Navigate>
             </Router>

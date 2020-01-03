@@ -1,13 +1,12 @@
-
 import React from 'react'
 import { Layout } from 'antd'
 
-const Exercise = () => {
+const InfoCard = () => {
     return (
         <Layout>
-            题库
+            
         </Layout>
     )
 }
 
-export default Exercise
+export default InfoCard

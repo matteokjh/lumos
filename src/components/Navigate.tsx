@@ -2,7 +2,7 @@ import React from 'react'
 import { Route } from 'react-router-dom'
 import Post from '../pages/Post'
 import Exercise from '../pages/Exercise'
-import UserCenter from '../pages/UserCenter'
+import UserCenter from '../pages/UserCenter/index'
 import { Layout } from 'antd'
 
 const Navigate = () => (

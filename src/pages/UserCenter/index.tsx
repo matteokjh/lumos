@@ -4,7 +4,7 @@ import { Layout } from 'antd'
 const UserCenter = () => {
     return (
         <Layout>
-            个人中心
+            
         </Layout>
     )
 }

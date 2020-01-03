@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Menu, Icon, Dropdown, Popconfirm } from 'antd'
 import { NavLink } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
 import './Nav.sass'
 import { userProps } from '../types/user'
+import { store } from '../store/index'
 
 // 下拉菜单
 const UserMenu = (props: any) => {
@@ -46,7 +47,7 @@ const UserMenu = (props: any) => {
                     okText="确定"
                     cancelText="取消"
                 >
-                    <div onClick={(e)=>e.stopPropagation()}>
+                    <div onClick={e => e.stopPropagation()}>
                         <Icon type="logout" />
                         <p>退出</p>
                     </div>
@@ -57,9 +58,10 @@ const UserMenu = (props: any) => {
     )
 }
 
-const Nav = (props: { userInfo: userProps }) => {
+const Nav = () => {
     const { location } = useReactRouter()
-    const { userInfo } = props
+    const globalStore = useContext(store)
+    const { userInfo } = globalStore
 
     // methods
 
