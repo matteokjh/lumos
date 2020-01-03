@@ -7,5 +7,5 @@ export interface stateProps {
 
 export interface contextProps {
     state: stateProps,
-    dispatch: () => void
+    dispatch: React.Dispatch<any>
 }

@@ -60,8 +60,9 @@ const UserMenu = (props: any) => {
 
 const Nav = () => {
     const { location } = useReactRouter()
-    const { state }: any = useContext(store)
-    const { userInfo } = state
+    const globalStore = useContext(store)
+    const { userInfo } = globalStore.state
+    console.log(globalStore)
 
     // methods
 

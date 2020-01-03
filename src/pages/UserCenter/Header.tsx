@@ -4,7 +4,7 @@ import { store } from '../../store/index'
 
 const Header = () => {
     const globalStore = useContext(store)
-    const { userInfo } = globalStore
+    const { userInfo } = globalStore.state
     return (
         <Layout>
             <div className="avatar" style={{
