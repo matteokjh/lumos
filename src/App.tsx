@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Nav from './components/Nav'
 import { userProps } from './types/user'
+import { contextProps } from './types/index'
 import Navigate from './components/Navigate'
 import { BrowserRouter as Router } from 'react-router-dom'
 import './App.sass'
@@ -8,7 +9,6 @@ import { store } from './store/index'
 
 const App: React.FC = () => {
     const { dispatch }: any = useContext(store)
-
     // methods
     const getUserInfo = () => {
         const user = {

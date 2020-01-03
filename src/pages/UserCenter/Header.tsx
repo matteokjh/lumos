@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useContext, useReducer } from 'react'
 import { Layout } from 'antd'
+import { store } from '../../store/index'
 
 const Header = () => {
+    const globalStore = useContext(store)
+    const { userInfo } = globalStore
     return (
         <Layout>
             <div className="avatar" style={{
-                // backgroundImage: url()
+                backgroundImage: 'url()'
             }}></div>
         </Layout>
     )
