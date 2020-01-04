@@ -4,11 +4,11 @@ import { store } from '../../store/index'
 
 const UserCenter = () => {
     const globalStore = useContext(store)
-    console.log(globalStore)
+    const { userInfo } = globalStore.state
 
     return (
         <Layout>
-            
+            <p>Hello {userInfo.name}</p>
         </Layout>
     )
 }

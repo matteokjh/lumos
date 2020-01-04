@@ -62,7 +62,6 @@ const Nav = () => {
     const { location } = useReactRouter()
     const globalStore = useContext(store)
     const { userInfo } = globalStore.state
-    console.log(globalStore)
 
     // methods
 

@@ -9,11 +9,13 @@ const App: React.FC = () => {
     const { dispatch } = useContext(store)
     // methods
     const getUserInfo = () => {
+        // request userInfo
         const user = {
             username: 'James',
             name: 'James.Zhong',
             avatar: ''
         }
+        // store userInfo
         dispatch({type: 'SET_USER', payload: user})
     }
 
