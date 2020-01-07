@@ -62,7 +62,7 @@ const Nav = () => {
     const { location } = useReactRouter()
     const globalStore = useContext(store)
     const { userInfo } = globalStore.state
-
+    const { dispatch } = globalStore
     // methods
 
     return (
@@ -86,12 +86,19 @@ const Nav = () => {
                         }
                         placement="bottomCenter"
                         trigger={['click']}
+                        disabled = {!userInfo.isLogin}
                     >
                         <div
                             className="avatar"
                             style={{
                                 backgroundImage: `url(${userInfo.avatar ||
                                     require('../img/defaultAvatar.png')})`,
+                            }}
+                            onClick={() => {
+                                !userInfo.isLogin && dispatch({
+                                    type: 'SHOW_LOGIN_MODAL',
+                                    payload: true
+                                })
                             }}
                         ></div>
                     </Dropdown>

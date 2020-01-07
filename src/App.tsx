@@ -4,23 +4,21 @@ import Navigate from './components/Navigate'
 import { BrowserRouter as Router } from 'react-router-dom'
 import './App.sass'
 import { store } from './store/index'
+import { getUserInfo } from './api/user'
+import LoginModal from './components/modals/LoginModal'
+
 
 const App: React.FC = () => {
-    const { dispatch } = useContext(store)
+    const { showLoginModal } = useContext(store).state
     // methods
-    const getUserInfo = () => {
-        // request userInfo
-        const user = {
-            username: 'James',
-            name: 'James.Zhong',
-            avatar: ''
-        }
-        // store userInfo
-        dispatch({type: 'SET_USER', payload: user})
-    }
 
     useEffect(() => {
-        getUserInfo()
+        getUserInfo().then(res=>{
+            console.log(res)
+            // dispatch({type: 'SET_USER', payload: user})
+        }).catch(err=>{
+            throw err
+        })
     }, [])
 
     return (
@@ -31,6 +29,9 @@ const App: React.FC = () => {
                 {/* 主体 */}
                 <Navigate></Navigate>
             </Router>
+            {
+                showLoginModal && <LoginModal />
+            }
         </div>
     )
 }

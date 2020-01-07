@@ -1,0 +1,33 @@
+.loginModal 
+    position: fixed
+    z-index: 9999
+    top: 0
+    left: 0
+    width: 100vw
+    height: 100vh
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: rgba(0,0,0,.4)
+    user-select: none
+    .ant-form
+        width: 400px
+        height: 380px
+        background-color: #fff
+        border-radius: 5px
+        transform: translateY(-10vh)
+        padding: 20px 50px
+        .ant-form-explain
+            position: absolute
+            font-size: 12px
+        .cross
+            position: absolute
+            right: 10px
+            top: 8px
+            cursor: pointer
+        .ant-form-item
+            margin-bottom: 20px
+        .login-form-button
+            width: 100%
+            margin-top: 5px
+            height: 40px
