@@ -12,7 +12,8 @@ const initialContext = {
       username: '',
       isLogin: false
     },
-    showLoginModal: true
+    showLoginModal: false,
+    showRegisterModal: false,
   },
   dispatch: () => {}
 } as contextProps
@@ -26,13 +27,22 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
         case 'SET_USER':
             return {
                 ...state,
-                userInfo: action.payload,
+                userInfo: {
+                  ...action.payload,
+                  isLogin: true
+                },
             }
         // 显示登录弹框
         case 'SHOW_LOGIN_MODAL': 
             return {
               ...state,
               showLoginModal: action.payload,
+            }
+        // 显示注册弹框
+        case 'SHOW_REGISTER_MODAL': 
+            return {
+              ...state,
+              showRegisterModal: action.payload,
             }
         default:
             throw new Error()

@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useContext } from 'react'
 import { Menu, Icon, Dropdown, Popconfirm } from 'antd'
 import { NavLink } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
 import './Nav.sass'
-import { userProps } from '../types/user'
+// import { userProps } from '../types/user'
 import { store } from '../store/index'
 
 // 下拉菜单

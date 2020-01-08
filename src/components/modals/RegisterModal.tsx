@@ -1,24 +1,59 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Form, Input, Icon, Button, message } from 'antd'
 import { store } from '../../store'
 import { LoginProps } from './types/login'
-import './styles/loginModal.sass'
-import { login } from '../../api/user'
+import './styles/registerModal.sass'
+import { register, resend } from '../../api/user'
 
-const LoginModal = (props: any) => {
+const RegisterModal = (props: any) => {
     const globalStore = useContext(store)
     const { dispatch } = globalStore
 
     const { getFieldDecorator } = props.form
+    const [remainTime, setRemainTime] = useState(60)
+    const [timeStart, setTimeStart] = useState(false)
+
+    const TIME = 60
 
     // methods
+    // 提交注册信息
     const handleSubmit = () => {
         props.form.validateFields(async (err: Error, values: LoginProps) => {
             if (!err) {
                 try {
-                    let res = await login(values)
+                    let res = await register(values)
                     if(res.code === 200) {
-                        window.location.reload()
+                        message.success(res.msg)
+                        backToLogin()
+                    } else {
+                        message.error(res.msg)
+                    }
+                } catch(error) {
+                    throw error
+                }
+            }
+        })
+    }
+    // 返回
+    const backToLogin = () => {
+        dispatch({
+            type: 'SHOW_LOGIN_MODAL',
+            payload: true,
+        })
+        dispatch({
+            type: 'SHOW_REGISTER_MODAL',
+            payload: false,
+        })
+    }
+    // 重新发送邮件
+    const resendEmail = () => {
+        props.form.validateFields(async (err: Error, values: LoginProps) => {
+            if (values.username) {
+                startTimer()
+                try {
+                    let res = await resend(values)
+                    if(res.code === 200) {
+                        message.success(res.msg)
                     } else {
                         message.error(res.msg)
                     }
@@ -28,30 +63,43 @@ const LoginModal = (props: any) => {
             }
         })
     }
-    const showRegister = () => {
-        dispatch({
-            type: 'SHOW_REGISTER_MODAL',
-            payload: true
-        })
-        dispatch({
-            type: 'SHOW_LOGIN_MODAL',
-            payload: false
-        })
+    // 开始计时
+    const startTimer = () => {
+        setTimeStart(true)
+        let time = TIME
+        setRemainTime(time--)
+        function count() {
+            if (time > 0) {
+                setTimeout(() => {
+                    setRemainTime(time--)
+                    count()
+                }, 1000)
+            } else {
+                setTimeStart(false)
+                setRemainTime(TIME)
+            }
+        }
+        count()
     }
 
     return (
         <div className="loginModal">
             <Form onSubmit={handleSubmit} className="login-form">
+                {/* cross */}
                 <span
                     className="cross"
                     onClick={() =>
                         dispatch({
-                            type: 'SHOW_LOGIN_MODAL',
+                            type: 'SHOW_REGISTER_MODAL',
                             payload: false,
                         })
                     }
                 >
                     <Icon type="close"></Icon>
+                </span>
+                {/* return to login */}
+                <span className="return" onClick={backToLogin}>
+                    <Icon type="arrow-left" />
                 </span>
                 <div
                     style={{
@@ -115,25 +163,22 @@ const LoginModal = (props: any) => {
                         className="login-form-button"
                         onClick={handleSubmit}
                     >
-                        登录
+                        立即注册
                     </Button>
                 </Form.Item>
-                <div style={{
-                    display: 'inline-flex',
-                    width: '100%',
-                    justifyContent: 'space-between'
-                }}>
-                    <Button className="link">
-                        忘记密码
-                    </Button>
+                <div
+                    style={{
+                        display: 'inline-flex',
+                        width: '100%',
+                        justifyContent: 'flex-start',
+                    }}
+                >
                     <Button
-                        onClick={showRegister}
-                        style={{
-                            float: 'right',
-                        }}
-                        className="link"
+                        disabled={timeStart}
+                        className={`link ${timeStart && 'disbled-link'}`}
+                        onClick={resendEmail}
                     >
-                        立即注册
+                        重新发送激活邮件{timeStart && ` (${remainTime}) s`}
                     </Button>
                 </div>
             </Form>
@@ -142,5 +187,5 @@ const LoginModal = (props: any) => {
 }
 
 export default Form.create({
-    name: 'login',
-})(LoginModal)
+    name: 'register',
+})(RegisterModal)

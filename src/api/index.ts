@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import qs from 'qs'
+// import qs from 'qs'
 
 
 let fetch = axios.create({
@@ -7,10 +7,11 @@ let fetch = axios.create({
 })
 // 请求拦截
 fetch.interceptors.request.use((config: AxiosRequestConfig)=>{
+    config.withCredentials = true
     return config
 })
 // 响应拦截
-fetch.interceptors.response.use(async data =>{
+fetch.interceptors.response.use(data=> {
     return data.data
 }, err => {
     if (err.response) {

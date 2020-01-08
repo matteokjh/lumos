@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useEffect, useContext } from 'react'
 import Nav from './components/Nav'
 import Navigate from './components/Navigate'
 import { BrowserRouter as Router } from 'react-router-dom'
@@ -6,20 +6,22 @@ import './App.sass'
 import { store } from './store/index'
 import { getUserInfo } from './api/user'
 import LoginModal from './components/modals/LoginModal'
+import RegisterModal from './components/modals/RegisterModal'
+import { message } from 'antd'
 
 
 const App: React.FC = () => {
-    const { showLoginModal } = useContext(store).state
+    const { showLoginModal, showRegisterModal } = useContext(store).state
+    const { dispatch } = useContext(store)
     // methods
 
     useEffect(() => {
         getUserInfo().then(res=>{
-            console.log(res)
-            // dispatch({type: 'SET_USER', payload: user})
+            dispatch({type: 'SET_USER', payload: res.data})
         }).catch(err=>{
-            throw err
+            message.error(err)
         })
-    }, [])
+    })
 
     return (
         <div className="App">
@@ -30,7 +32,8 @@ const App: React.FC = () => {
                 <Navigate></Navigate>
             </Router>
             {
-                showLoginModal && <LoginModal />
+                (showLoginModal && <LoginModal />) ||
+                (showRegisterModal && <RegisterModal />)
             }
         </div>
     )

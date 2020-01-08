@@ -3,7 +3,8 @@ import { userProps } from './user'
 
 export interface stateProps {
     userInfo: userProps,
-    showLoginModal: boolean
+    showLoginModal: boolean,
+    showRegisterModal: boolean
 }
 
 export interface contextProps {
