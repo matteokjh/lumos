@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Form, Input, Icon, Button, message } from 'antd'
 import { store } from '../../store'
 import { LoginProps } from './types/login'
@@ -9,26 +9,28 @@ const RegisterModal = (props: any) => {
     const globalStore = useContext(store)
     const { dispatch } = globalStore
 
-    const { getFieldDecorator } = props.form
-    const [remainTime, setRemainTime] = useState(60)
-    const [timeStart, setTimeStart] = useState(false)
-
     const TIME = 60
 
+    const { getFieldDecorator } = props.form
+    const [remainTime, setRemainTime] = useState(localStorage['remainTime'] || TIME)
+    const [timeStart, setTimeStart] = useState(localStorage['timeStart'] === 'true')
+
+
     // methods
+
     // 提交注册信息
     const handleSubmit = () => {
         props.form.validateFields(async (err: Error, values: LoginProps) => {
             if (!err) {
                 try {
                     let res = await register(values)
-                    if(res.code === 200) {
+                    if (res.code === 200) {
                         message.success(res.msg)
                         backToLogin()
                     } else {
                         message.error(res.msg)
                     }
-                } catch(error) {
+                } catch (error) {
                     throw error
                 }
             }
@@ -52,12 +54,12 @@ const RegisterModal = (props: any) => {
                 startTimer()
                 try {
                     let res = await resend(values)
-                    if(res.code === 200) {
+                    if (res.code === 200) {
                         message.success(res.msg)
                     } else {
                         message.error(res.msg)
                     }
-                } catch(err) {
+                } catch (err) {
                     message.error(err)
                 }
             }
@@ -66,21 +68,44 @@ const RegisterModal = (props: any) => {
     // 开始计时
     const startTimer = () => {
         setTimeStart(true)
-        let time = TIME
+        let time = remainTime
         setRemainTime(time--)
-        function count() {
-            if (time > 0) {
-                setTimeout(() => {
-                    setRemainTime(time--)
-                    count()
+        count(time)
+    }
+    // 计时器
+    const count = (time: number) => {
+        if (time > 0) {
+            window.timer = setTimeout(() => {
+                setRemainTime(time--)
+                count(time)
+            }, 1000)
+        } else {
+            setTimeStart(false)
+            setRemainTime(TIME)
+        }
+    }
+
+    useEffect(() => {
+        function test() {
+            if (remainTime > 0) {
+                window.timer = setTimeout(() => {
+                    setRemainTime(remainTime-1)
+                    test()
                 }, 1000)
             } else {
                 setTimeStart(false)
                 setRemainTime(TIME)
             }
         }
-        count()
-    }
+        timeStart && test()
+        return () => {
+            localStorage['timeStart'] = timeStart
+            localStorage['remainTime'] = remainTime
+            
+            window.timer && clearTimeout(window.timer)
+            window.timer = null
+        };
+    }, [timeStart, remainTime])
 
     return (
         <div className="loginModal">

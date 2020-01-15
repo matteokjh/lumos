@@ -1,5 +1,6 @@
 import fetch from './index'
 import { LoginProps } from '../components/modals/types/login'
+import { message } from 'antd'
 
 const PREFIX = '/user'
 
@@ -18,4 +19,12 @@ export const resend = (data: LoginProps) => {
 // 登录
 export const login = (data: LoginProps) => {
     return fetch.post(`${PREFIX}/login`, data)
+}
+// 注销
+export const logout = async () => {
+    return fetch.post(`${PREFIX}/logout`).then(() => {
+        window.location.reload()
+    }).catch( err => {
+        message.error(err)
+    })
 }

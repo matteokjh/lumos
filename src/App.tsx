@@ -17,11 +17,11 @@ const App: React.FC = () => {
 
     useEffect(() => {
         getUserInfo().then(res=>{
-            dispatch({type: 'SET_USER', payload: res.data})
+            res.data && dispatch({type: 'SET_USER', payload: res.data})
         }).catch(err=>{
             message.error(err)
         })
-    })
+    },[dispatch])
 
     return (
         <div className="App">

@@ -6,12 +6,13 @@ import Logo from './Logo'
 import './Nav.sass'
 // import { userProps } from '../types/user'
 import { store } from '../store/index'
+import { logout } from '../api/user'
 
 // 下拉菜单
 const UserMenu = (props: any) => {
     const { location } = useReactRouter()
+
     // methods
-    const logout = () => {}
 
     return (
         <Menu selectedKeys={[`/${location.pathname.split('/')[1]}`]}>
@@ -63,6 +64,8 @@ const Nav = () => {
     const globalStore = useContext(store)
     const { userInfo } = globalStore.state
     const { dispatch } = globalStore
+
+    
     // methods
 
     return (
