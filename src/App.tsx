@@ -4,7 +4,7 @@ import Navigate from './components/Navigate'
 import { BrowserRouter as Router } from 'react-router-dom'
 import './App.sass'
 import { store } from './store/index'
-import { getUserInfo } from './api/user'
+import { getToken } from './api/user'
 import LoginModal from './components/modals/LoginModal'
 import RegisterModal from './components/modals/RegisterModal'
 import { message } from 'antd'
@@ -16,7 +16,7 @@ const App: React.FC = () => {
     // methods
 
     useEffect(() => {
-        getUserInfo().then(res=>{
+        getToken().then(res=>{
             res.data && dispatch({type: 'SET_USER', payload: res.data})
         }).catch(err=>{
             message.error(err)

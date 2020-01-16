@@ -86,18 +86,18 @@ const RegisterModal = (props: any) => {
     }
 
     useEffect(() => {
-        function test() {
+        function count2() {
             if (remainTime > 0) {
                 window.timer = setTimeout(() => {
                     setRemainTime(remainTime-1)
-                    test()
+                    count2()
                 }, 1000)
             } else {
                 setTimeStart(false)
                 setRemainTime(TIME)
             }
         }
-        timeStart && test()
+        timeStart && count2()
         return () => {
             localStorage['timeStart'] = timeStart
             localStorage['remainTime'] = remainTime

@@ -1,12 +1,19 @@
 import fetch from './index'
 import { LoginProps } from '../components/modals/types/login'
-import { message } from 'antd'
 
 const PREFIX = '/user'
 
-// 获取用户信息
-export const getUserInfo = () => {
+// 获取自己的 token
+export const getToken = () => {
     return fetch.get(`${PREFIX}/`)
+}
+// 获取用户信息
+export const getUserInfo = (username: string) => {
+    return fetch.get(`${PREFIX}/userinfo`, {
+        params: {
+            username: username
+        }
+    })
 }
 // 注册
 export const register = (data: LoginProps) => {
@@ -22,9 +29,14 @@ export const login = (data: LoginProps) => {
 }
 // 注销
 export const logout = async () => {
-    return fetch.post(`${PREFIX}/logout`).then(() => {
-        window.location.reload()
-    }).catch( err => {
-        message.error(err)
+    return fetch.post(`${PREFIX}/logout`)
+}
+// 全站排名
+export const getRank = async (data: string) => {
+    console.log(data)
+    return fetch.get(`${PREFIX}/rank`, {
+        params: {
+            username: data
+        }
     })
 }

@@ -1,10 +1,9 @@
-import React, { useContext } from 'react'
-import { Menu, Icon, Dropdown, Popconfirm } from 'antd'
-import { NavLink } from 'react-router-dom'
+import React, { useContext, useRef } from 'react'
+import { Menu, Icon, Dropdown, Popconfirm, message } from 'antd'
+import { NavLink, useHistory } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
 import './Nav.sass'
-// import { userProps } from '../types/user'
 import { store } from '../store/index'
 import { logout } from '../api/user'
 
@@ -13,6 +12,7 @@ const UserMenu = (props: any) => {
     const { location } = useReactRouter()
 
     // methods
+    const handleLogout = props.handleLogout
 
     return (
         <Menu selectedKeys={[`/${location.pathname.split('/')[1]}`]}>
@@ -44,7 +44,7 @@ const UserMenu = (props: any) => {
                 <Popconfirm
                     className="logout"
                     title="确认要退出？"
-                    onConfirm={logout}
+                    onConfirm={handleLogout}
                     okText="确定"
                     cancelText="取消"
                 >
@@ -64,9 +64,24 @@ const Nav = () => {
     const globalStore = useContext(store)
     const { userInfo } = globalStore.state
     const { dispatch } = globalStore
-
+    const history = useHistory()
+    const dropdownRef = useRef(null)
     
     // methods
+
+    const handleLogout = async () => {
+        try {
+            let res = await logout()
+            if(res.code === 200) {
+                history.push('/')
+                window.location.reload() // 临时解决菜单收不起来的问题
+            } else {
+                message.error(res.msg)
+            }
+        } catch(err) {
+            message.error(err)
+        }
+    }
 
     return (
         <div className="top-nav">
@@ -85,11 +100,12 @@ const Nav = () => {
                 <Menu.Item className="userItem" key="userInfo">
                     <Dropdown
                         overlay={
-                            <UserMenu username={userInfo.username}></UserMenu>
+                            <UserMenu handleLogout={handleLogout} username={userInfo.username}></UserMenu>
                         }
                         placement="bottomCenter"
                         trigger={['click']}
                         disabled = {!userInfo.isLogin}
+                        ref={dropdownRef}
                     >
                         <div
                             className="avatar"

@@ -10,7 +10,8 @@ const initialContext = {
       name: '',
       avatar: '',
       username: '',
-      isLogin: false
+      isLogin: false,
+      rank: -1
     },
     showLoginModal: false,
     showRegisterModal: false,
