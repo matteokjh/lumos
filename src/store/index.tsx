@@ -11,7 +11,13 @@ const initialContext = {
       avatar: '',
       username: '',
       isLogin: false,
-      rank: -1
+      rank: -1,
+      introduction: '',
+      company: [],
+      school: [],
+      sex: '',
+      location: '',
+      website: ''
     },
     showLoginModal: false,
     showRegisterModal: false,
