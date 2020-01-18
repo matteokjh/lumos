@@ -11,7 +11,9 @@ const initialContext = {
       avatar: '',
       username: '',
       isLogin: false,
-      rank: -1,
+      rankId: {
+        rank: -1
+      },
       introduction: '',
       company: [],
       school: [],

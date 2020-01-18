@@ -17,7 +17,7 @@ const UserMenu = (props: any) => {
     return (
         <Menu selectedKeys={[`/${location.pathname.split('/')[1]}`]}>
             <Menu.Item key="/user">
-                <NavLink to={`/user/${props.username}`}>
+                <NavLink to={`/user/${props.username}/baseinfo`}>
                     <Icon type="user" />
                     <p>个人中心</p>
                 </NavLink>

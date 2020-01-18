@@ -3,7 +3,9 @@ export interface userProps {
     username: string,
     name: string,
     isLogin: boolean,
-    rank: string | number,
+    rankId: {
+        rank: string | number
+    },
     introduction: string,
     company: string[],
     school: string[],

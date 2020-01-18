@@ -1,10 +1,11 @@
 import React, { useContext } from 'react'
 import { store } from '../../store/index'
-import { Route, useLocation } from 'react-router-dom'
+import { Route, useLocation, Switch } from 'react-router-dom'
 import './index.sass'
 import BaseInfo from './BaseInfo'
 import Setting from './Setting'
 import Nav from './Nav'
+import My404Component from '../../components/My404Component'
 
 const UserCenter = () => {
     const globalStore = useContext(store)
@@ -17,12 +18,24 @@ const UserCenter = () => {
         <>
             {/* 导航 */}
             {isSelf && <Nav userInfo={userInfo}></Nav>}
-            {/* 基本信息 */}
-            <Route exact path="/user/:username" component={BaseInfo}></Route>
-            {/* 设置 */}
-            {isSelf && (
-                <Route exact path="/user/:username/setting" component={Setting}></Route>
-            )}
+            
+            <Switch>
+                {/* 基本信息 */}
+                <Route
+                    exact
+                    path="/user/:username/baseinfo"
+                    component={BaseInfo}
+                ></Route>
+                {/* 设置 */}
+                {isSelf && (
+                    <Route
+                        exact
+                        path="/user/:username/setting"
+                        component={Setting}
+                    ></Route>
+                )}
+                <Route component={My404Component}></Route>
+            </Switch>
         </>
     )
 }

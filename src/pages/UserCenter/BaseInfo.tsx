@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { store } from '../../store'
 import { getUserInfo } from '../../api/user'
 import { message, Button, Icon } from 'antd'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import { userProps } from '../../types/user'
 import MyIcon from '../../components/MyIcon'
 
@@ -13,6 +13,8 @@ const BaseInfo = () => {
     const [user, setUser] = useState({} as userProps)
     // 根据 url 请求个人信息
     const location = useLocation()
+    // 跳转
+    const history = useHistory()
     // methods
     useEffect(() => {
         ;(async () => {
@@ -20,19 +22,16 @@ const BaseInfo = () => {
                 let username = location.pathname.split('/')[2]
                 let res = await getUserInfo(username)
                 if (res.code === 200) {
-                    setUser({
-                        ...res.data.userInfo,
-                        rank: res.data.rank,
-                    })
-                    console.log(res.data)
+                    setUser(res.data.userInfo)
                 } else {
                     message.error(res.msg)
+                    history.push('/')
                 }
             } catch (err) {
                 message.error(err)
             }
         })()
-    }, [location])
+    }, [location, history])
     return (
         <div className="baseInfo">
             {/* top */}
@@ -56,7 +55,7 @@ const BaseInfo = () => {
                                 color: '#333',
                             }}
                         >
-                            {user.rank}
+                            {user?.rankId?.rank}
                         </span>
                     </p>
                 </div>
@@ -66,12 +65,14 @@ const BaseInfo = () => {
                 {/* left */}
                 <div className="info-detail">
                     {/* 编辑按钮 */}
-                    <div className="edit">
-                        <Button type="primary">
-                            <Icon type="edit" />
-                            编辑个人资料
-                        </Button>
-                    </div>
+                    {user.username === userInfo.username && (
+                        <div className="edit">
+                            <Button type="primary">
+                                <Icon type="edit" />
+                                编辑个人资料
+                            </Button>
+                        </div>
+                    )}
                     {/* 个人简介 */}
                     <div className="intro">
                         <b>个人简介</b>
