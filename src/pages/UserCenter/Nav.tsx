@@ -23,7 +23,7 @@ const Nav = (props: { userInfo: userProps }) => {
                 <VerticalLine></VerticalLine>
                 {username === props.userInfo.username && (
                     <Menu.Item key="setting">
-                        <NavLink to={`${PREFIX}/setting`}>设置</NavLink>
+                        <NavLink to={`${PREFIX}/setting/info`}>设置</NavLink>
                     </Menu.Item>
                 )}
             </Menu>
