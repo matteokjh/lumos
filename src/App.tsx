@@ -9,19 +9,20 @@ import LoginModal from './components/modals/LoginModal'
 import RegisterModal from './components/modals/RegisterModal'
 import { message } from 'antd'
 
-
 const App: React.FC = () => {
     const { showLoginModal, showRegisterModal } = useContext(store).state
     const { dispatch } = useContext(store)
     // methods
 
     useEffect(() => {
-        getToken().then(res=>{
-            res.data && dispatch({type: 'SET_USER', payload: res.data})
-        }).catch(err=>{
-            message.error(err)
-        })
-    },[dispatch])
+        getToken()
+            .then(res => {
+                res.data && dispatch({ type: 'SET_USER', payload: res.data })
+            })
+            .catch(err => {
+                message.error(err)
+            })
+    }, [dispatch])
 
     return (
         <div className="App">
@@ -31,10 +32,8 @@ const App: React.FC = () => {
                 {/* 主体 */}
                 <Navigate></Navigate>
             </Router>
-            {
-                (showLoginModal && <LoginModal />) ||
-                (showRegisterModal && <RegisterModal />)
-            }
+            {(showLoginModal && <LoginModal />) ||
+                (showRegisterModal && <RegisterModal />)}
         </div>
     )
 }

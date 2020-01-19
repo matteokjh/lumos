@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { store } from '../../store'
 import { getUserInfo } from '../../api/user'
 import { message, Button, Icon } from 'antd'
-import { useLocation, useHistory } from 'react-router-dom'
+import { useLocation, useHistory, NavLink } from 'react-router-dom'
 import { userProps } from '../../types/user'
 import MyIcon from '../../components/MyIcon'
 
@@ -68,8 +68,17 @@ const BaseInfo = () => {
                     {user.username === userInfo.username && (
                         <div className="edit">
                             <Button type="primary">
-                                <Icon type="edit" />
-                                编辑个人资料
+                                <NavLink
+                                    to={`/user/${userInfo.username}/setting/info`}
+                                    style={{
+                                        color: '#fff'
+                                    }}
+                                >
+                                    <Icon type="edit" style={{
+                                        marginRight: '5px'
+                                    }} />
+                                    <span>编辑个人资料</span>
+                                </NavLink>
                             </Button>
                         </div>
                     )}
@@ -128,7 +137,7 @@ const BaseInfo = () => {
                             <MyIcon type="iconico-sex"></MyIcon>
                             {(userInfo.sex === 'male' && <p>男</p>) ||
                                 (userInfo.sex === 'female' && <p>女</p>) || (
-                                    <p>未设置</p>
+                                    <p>保密</p>
                                 )}
                         </div>
                         {/* 博客 */}
@@ -139,6 +148,9 @@ const BaseInfo = () => {
                                     href={userInfo.website}
                                     target="_blank"
                                     rel="noopener noreferrer"
+                                    style={{
+                                        marginLeft: '10px'
+                                    }}
                                 >
                                     {userInfo.website}
                                 </a>
