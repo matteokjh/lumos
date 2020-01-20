@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
-import { Icon, Button, message, Upload, Modal } from 'antd'
+import React, { useState, useContext } from 'react'
+import { Icon, message, Upload, Modal } from 'antd'
 import './styles/uploadAvatarModal.sass'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { uploadAvatar } from '../../api/user'
+import { store } from '../../store'
 
 const UploadAvatarModal = (props: any) => {
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false)
+    const { dispatch } = useContext(store)
 
     // methods
     const submit = async () => {
@@ -20,7 +22,10 @@ const UploadAvatarModal = (props: any) => {
                 base64: imageUrl
             })
             if(res.code === 200) {
-
+                dispatch({
+                    type: 'SET_AVATAR',
+                    payload: `${process.env.REACT_APP_QINIU_URL}/${res.data}`
+                })
             } else {
                 message.error(res.msg)
             }
@@ -91,7 +96,7 @@ const UploadAvatarModal = (props: any) => {
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
-                    {imageUrl ? <img src={imageUrl} /> : uploadButton}
+                    {imageUrl ? <img src={imageUrl} alt='avatar'/> : uploadButton}
                 </Upload>
             </Modal>
         </div>

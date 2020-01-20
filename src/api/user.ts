@@ -53,3 +53,7 @@ export const uploadAvatar = async (imageUrl: {
 }) => {
     return fetch.put(`${PREFIX}/uploadavatar`, imageUrl)
 }
+// 图片格式
+export const getAvatar = (url: string) => {
+    return fetch.get(`${process.env.REACT_APP_QINIU_URL}/${url}`)
+}

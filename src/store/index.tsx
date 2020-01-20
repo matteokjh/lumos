@@ -42,6 +42,15 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
                   isLogin: true
                 },
             }
+        // 头像
+        case 'SET_AVATAR':
+            return {
+                ...state,
+                userInfo: {
+                  ...state.userInfo,
+                  avatar: action.payload
+                },
+            }
         // 显示登录弹框
         case 'SHOW_LOGIN_MODAL': 
             return {

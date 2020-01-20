@@ -1,6 +1,5 @@
 import { userProps } from '../types/user'
 
-
 export interface setUserAction {
     type: 'SET_USER'
     payload: userProps
@@ -13,6 +12,15 @@ export interface showRegisterModalAction {
     type: 'SHOW_REGISTER_MODAL'
     payload: boolean
 }
-export type actionProps = setUserAction | showLoginModalAction | showRegisterModalAction
+export interface setAvatarAction {
+    type: 'SET_AVATAR'
+    payload: string
+}
+
+export type actionProps =
+    | setUserAction
+    | setAvatarAction
+    | showLoginModalAction
+    | showRegisterModalAction
 
 export type Reducer<S, A> = (prevState: S, action: A) => S
