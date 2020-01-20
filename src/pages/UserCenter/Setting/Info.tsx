@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 import { store } from '../../../store'
 import UserInfoForm from '../../../components/UserInfoForm'
 import UploadAvatarModal from '../../../components/modals/UploadAvatarModal'
@@ -7,13 +7,6 @@ import { getAvatar } from '../../../api/user'
 const Info = () => {
     const { userInfo } = useContext(store).state
     const [uploadAvatarModal, setUploadAvatarModal] = useState(false)
-
-    useEffect(() => {
-        (async () => {
-            let res = await getAvatar(userInfo.avatar)
-            console.log(res)
-        })()
-    }, [])
 
     return (
         <div className="info">

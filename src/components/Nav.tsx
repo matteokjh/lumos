@@ -1,11 +1,11 @@
-import React, { useContext, useRef } from 'react'
+import React, { useContext, useRef, useEffect } from 'react'
 import { Menu, Icon, Dropdown, Popconfirm, message } from 'antd'
 import { NavLink, useHistory } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
 import './Nav.sass'
 import { store } from '../store/index'
-import { logout } from '../api/user'
+import { logout, getAvatar } from '../api/user'
 
 // 下拉菜单
 const UserMenu = (props: any) => {
@@ -66,19 +66,28 @@ const Nav = () => {
     const { dispatch } = globalStore
     const history = useHistory()
     const dropdownRef = useRef(null)
-    
+
+    useEffect(() => {
+        // (async () => {
+        //     if(userInfo.avatar) {
+        //         let a = await getAvatar(userInfo.avatar)
+        //         console.log(a)
+        //     }
+        // })()
+    }, [userInfo])
+
     // methods
 
     const handleLogout = async () => {
         try {
             let res = await logout()
-            if(res.code === 200) {
+            if (res.code === 200) {
                 history.push('/')
                 window.location.reload() // 临时解决菜单收不起来的问题
             } else {
                 message.error(res.msg)
             }
-        } catch(err) {
+        } catch (err) {
             message.error(err)
         }
     }
@@ -100,24 +109,30 @@ const Nav = () => {
                 <Menu.Item className="userItem" key="userInfo">
                     <Dropdown
                         overlay={
-                            <UserMenu handleLogout={handleLogout} username={userInfo.username}></UserMenu>
+                            <UserMenu
+                                handleLogout={handleLogout}
+                                username={userInfo.username}
+                            ></UserMenu>
                         }
                         placement="bottomCenter"
                         trigger={['click']}
-                        disabled = {!userInfo.isLogin}
+                        disabled={!userInfo.isLogin}
                         ref={dropdownRef}
                     >
                         <div
                             className="avatar"
                             style={{
-                                backgroundImage: `url(${userInfo.avatar ||
-                                    require('../img/defaultAvatar.png')})`,
+                                backgroundImage:
+                                    userInfo.avatar &&
+                                    // `url(${getAvatar(userInfo.avatar)})`,
+                                    `url(${process.env.REACT_APP_QINIU_URL}/${userInfo.avatar})`
                             }}
                             onClick={() => {
-                                !userInfo.isLogin && dispatch({
-                                    type: 'SHOW_LOGIN_MODAL',
-                                    payload: true
-                                })
+                                !userInfo.isLogin &&
+                                    dispatch({
+                                        type: 'SHOW_LOGIN_MODAL',
+                                        payload: true,
+                                    })
                             }}
                         ></div>
                     </Dropdown>

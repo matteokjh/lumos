@@ -7,7 +7,10 @@ let fetch = axios.create({
 })
 // 请求拦截
 fetch.interceptors.request.use((config: AxiosRequestConfig)=>{
-    config.withCredentials = true
+    // 不是 7牛 的请求就带上 cookie，是 7牛 的请求就不带cookie，以保证 *
+    if(config.url && config.url.indexOf('clouddn') === -1) {
+        config.withCredentials = true
+    }
     return config
 })
 // 响应拦截
