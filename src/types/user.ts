@@ -11,5 +11,6 @@ export interface userProps {
     school: string[],
     sex?: 'male' | 'female' | '',
     location: string,
-    website: string
+    website: string,
+    birthday: any
 }

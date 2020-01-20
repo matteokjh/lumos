@@ -46,3 +46,10 @@ export const getRank = async (data: string) => {
 export const setSelfInfo = async (data: userProps) => {
     return fetch.put(`${PREFIX}/setuserinfo`,data)
 }
+
+// 上传头像到 7牛
+export const uploadAvatar = async (imageUrl: {
+    base64: string
+}) => {
+    return fetch.put(`${PREFIX}/uploadavatar`, imageUrl)
+}

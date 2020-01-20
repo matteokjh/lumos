@@ -71,12 +71,15 @@ const BaseInfo = () => {
                                 <NavLink
                                     to={`/user/${userInfo.username}/setting/info`}
                                     style={{
-                                        color: '#fff'
+                                        color: '#fff',
                                     }}
                                 >
-                                    <Icon type="edit" style={{
-                                        marginRight: '5px'
-                                    }} />
+                                    <Icon
+                                        type="edit"
+                                        style={{
+                                            marginRight: '5px',
+                                        }}
+                                    />
                                     <span>编辑个人资料</span>
                                 </NavLink>
                             </Button>
@@ -145,11 +148,15 @@ const BaseInfo = () => {
                             <MyIcon type="iconwww"></MyIcon>
                             {(userInfo.website && (
                                 <a
-                                    href={userInfo.website}
+                                    href={
+                                        userInfo.website.match(/http:\/\//)
+                                            ? userInfo.website
+                                            : `http://${userInfo.website}`
+                                    }
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     style={{
-                                        marginLeft: '10px'
+                                        marginLeft: '10px',
                                     }}
                                 >
                                     {userInfo.website}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Form, Input, Radio, Button, message } from 'antd'
+import { Form, Input, Radio, Button, message, DatePicker } from 'antd'
 import './userInfoForm.sass'
 import { userProps } from '../types/user'
 import { store } from '../store'
 import { setSelfInfo } from '../api/user'
+import moment from 'moment'
 
 const PROP_MAP: any = {
     name: 1,
@@ -13,8 +14,10 @@ const PROP_MAP: any = {
     introduction: 1,
     website: 1,
     company: 1,
-    school: 1
+    school: 1,
 }
+
+const dateFormat = 'YYYY-MM-DD'
 
 const UserInfoForm = (props: any) => {
     const { userInfo } = useContext(store).state
@@ -28,31 +31,35 @@ const UserInfoForm = (props: any) => {
     const cancel = () => {
         // return to initial value
         let obj = {} as any
-        for(let [key, val] of Object.entries(userInfo)) {
-            if(PROP_MAP[key]) {
+        for (let [key, val] of Object.entries(userInfo)) {
+            if (PROP_MAP[key]) {
                 obj[key] = val
             }
         }
-        console.log(obj)
-        setFieldsValue(obj)
+        // 只有生日需要特殊处理
+        setFieldsValue({
+            ...obj,
+            birthday: obj['birthday'] ? moment(obj['birthday'], dateFormat) : null
+        })
         // set false
         setIsEdit(false)
     }
     const submit = () => {
         props.form.validateFields(async (err: Error, userObj: userProps) => {
             if (err) return
+            userObj['birthday'] = userObj['birthday'] && userObj['birthday'].format(dateFormat)
             try {
                 let res = await setSelfInfo(userObj)
-                if(res.code === 200) {
+                if (res.code === 200) {
                     message.success(res.msg)
                     dispatch({
                         type: 'SET_USER',
-                        payload: res.data
+                        payload: res.data,
                     })
                 } else {
                     message.error(res.msg)
                 }
-            } catch(err) {
+            } catch (err) {
                 message.error(err)
             }
             // set false
@@ -62,16 +69,19 @@ const UserInfoForm = (props: any) => {
 
     useEffect(() => {
         let obj = {} as any
-        for(let [key, val] of Object.entries(userInfo)) {
-            if(PROP_MAP[key]) {
+        for (let [key, val] of Object.entries(userInfo)) {
+            if (PROP_MAP[key]) {
                 obj[key] = val
             }
         }
-        setFieldsValue(obj)
+        setFieldsValue({
+            ...obj,
+            birthday: obj['birthday'] ? moment(obj['birthday'], dateFormat) : null
+        })
     }, [userInfo, setFieldsValue])
 
     return (
-        <Form className='userInfoSetting'>
+        <Form className="userInfoSetting">
             {/* 昵称 */}
             <Form.Item label="昵称">
                 {getFieldDecorator('name', {
@@ -101,8 +111,12 @@ const UserInfoForm = (props: any) => {
             </Form.Item>
             {/* 生日 */}
             <Form.Item label="生日">
-                {getFieldDecorator('birth')(
-                    <Input disabled={!isEdit} spellCheck={false}></Input>
+                {getFieldDecorator('birthday')(
+                    <DatePicker
+                        format={dateFormat}
+                        disabled={!isEdit}
+                        placeholder="请选择日期"
+                    ></DatePicker>
                 )}
             </Form.Item>
             {/* 个人简介 */}
@@ -134,7 +148,7 @@ const UserInfoForm = (props: any) => {
             {/* 按钮组 */}
             <Form.Item
                 style={{
-                    textAlign: 'center',
+                    justifyContent: 'center',
                 }}
             >
                 {isEdit ? (

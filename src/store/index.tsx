@@ -19,7 +19,8 @@ const initialContext = {
       school: [],
       sex: '',
       location: '',
-      website: ''
+      website: '',
+      birthday: ''
     },
     showLoginModal: false,
     showRegisterModal: false,
