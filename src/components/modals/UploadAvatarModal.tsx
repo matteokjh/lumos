@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { Icon, message, Upload, Modal } from 'antd'
 import './styles/uploadAvatarModal.sass'
 import { UploadChangeParam } from 'antd/lib/upload'
@@ -10,26 +10,36 @@ const UploadAvatarModal = (props: any) => {
     const [imageUrl, setImageUrl] = useState('')
     const [loading, setLoading] = useState(false)
     const { dispatch } = useContext(store)
+    const { userInfo } = useContext(store).state
+
+    useEffect(() => {
+        if (userInfo.avatar) {
+            setImageUrl(userInfo.avatar)
+        }
+    }, [userInfo])
 
     // methods
     const submit = async () => {
-        if(!imageUrl) {
+        if (!imageUrl) {
             message.warning('请上传图片！')
             return
         }
+        setLoading(true)
         try {
             let res = await uploadAvatar({
-                base64: imageUrl
+                base64: imageUrl,
             })
-            if(res.code === 200) {
+            if (res.code === 200) {
                 dispatch({
                     type: 'SET_AVATAR',
-                    payload: `${process.env.REACT_APP_QINIU_URL}/${res.data}`
+                    payload: imageUrl,
                 })
+                setLoading(false)
+                props.hideModal()
             } else {
                 message.error(res.msg)
             }
-        } catch(err) {
+        } catch (err) {
             message.error(err)
         }
     }
@@ -48,11 +58,11 @@ const UploadAvatarModal = (props: any) => {
         if (!isJpgOrPng) {
             message.error('文件格式错误，仅支持 JPG/PNG 格式的文件')
         }
-        const isLt2M = file.size / 1024 / 1024 < 2
-        if (!isLt2M) {
-            message.error('图片不能大于 2MB!')
+        const isLtM = file.size / 1024 / 1024 < 1
+        if (!isLtM) {
+            message.error('图片不能大于 1MB!')
         }
-        return isJpgOrPng && isLt2M
+        return isJpgOrPng && isLtM
     }
     const handleChange = (info: UploadChangeParam<UploadFile<any>>) => {
         if (info.file.status === 'uploading') {
@@ -61,31 +71,29 @@ const UploadAvatarModal = (props: any) => {
         }
         if (info.file.status === 'done') {
             // Get this url from response in real world.
-            getBase64(info.file.originFileObj, (imageUrl: string | ArrayBuffer | null) => {
-                setImageUrl(imageUrl as string)
-                setLoading(false)
-            })
+            getBase64(
+                info.file.originFileObj,
+                (imageUrl: string | ArrayBuffer | null) => {
+                    setImageUrl(imageUrl as string)
+                    setLoading(false)
+                }
+            )
         }
     }
-
-    // 上传按钮
-    const uploadButton = (
-        <div>
-            <Icon type={loading ? 'loading' : 'plus'} />
-            <div className="ant-upload-text">点击上传</div>
-        </div>
-    )
 
     return (
         <div className="UploadAvatarModal">
             <Modal
-                okText="确定"
                 cancelText="取消"
+                okText="确定"
                 visible
                 title="上传头像"
                 onOk={submit}
                 onCancel={props.hideModal}
                 maskClosable={false}
+                okButtonProps={{
+                    loading: loading,
+                }}
             >
                 <Upload
                     name="avatar"
@@ -96,7 +104,30 @@ const UploadAvatarModal = (props: any) => {
                     beforeUpload={beforeUpload}
                     onChange={handleChange}
                 >
-                    {imageUrl ? <img src={imageUrl} alt='avatar'/> : uploadButton}
+                    {imageUrl ? (
+                        <div className="wrapper">
+                            <div className="img-wrapper">
+                                <img
+                                    className="avatar"
+                                    src={imageUrl}
+                                    alt="avatar"
+                                />
+                            </div>
+                            <div className="upload-btn" style={{
+                                opacity: loading ? .8 : 0
+                            }}>
+                                <div>
+                                    <Icon type={loading ? 'loading' : 'plus'} />
+                                    <p>点击上传</p>
+                                </div>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="upload-btn-default">
+                            <Icon type={loading ? 'loading' : 'plus'} />
+                            <p>点击上传</p>
+                        </div>
+                    )}
                 </Upload>
             </Modal>
         </div>

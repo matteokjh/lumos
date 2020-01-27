@@ -1,11 +1,11 @@
-import React, { useContext, useRef, useEffect } from 'react'
+import React, { useContext, useRef } from 'react'
 import { Menu, Icon, Dropdown, Popconfirm, message } from 'antd'
 import { NavLink, useHistory } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
 import './Nav.sass'
 import { store } from '../store/index'
-import { logout, getAvatar } from '../api/user'
+import { logout } from '../api/user'
 
 // 下拉菜单
 const UserMenu = (props: any) => {
@@ -67,15 +67,6 @@ const Nav = () => {
     const history = useHistory()
     const dropdownRef = useRef(null)
 
-    useEffect(() => {
-        // (async () => {
-        //     if(userInfo.avatar) {
-        //         let a = await getAvatar(userInfo.avatar)
-        //         console.log(a)
-        //     }
-        // })()
-    }, [userInfo])
-
     // methods
 
     const handleLogout = async () => {
@@ -124,8 +115,7 @@ const Nav = () => {
                             style={{
                                 backgroundImage:
                                     userInfo.avatar &&
-                                    // `url(${getAvatar(userInfo.avatar)})`,
-                                    `url(${process.env.REACT_APP_QINIU_URL}/${userInfo.avatar})`
+                                    `url(${userInfo.avatar})`
                             }}
                             onClick={() => {
                                 !userInfo.isLogin &&
