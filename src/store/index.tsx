@@ -20,7 +20,9 @@ const initialContext = {
       sex: '',
       location: '',
       website: '',
-      birthday: ''
+      birthday: '',
+      companys: [],
+      schools: []
     },
     showLoginModal: false,
     showRegisterModal: false,

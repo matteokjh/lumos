@@ -1,6 +1,6 @@
 import fetch from './index'
 import { LoginProps } from '../components/modals/types/login'
-import { userProps } from '../types/user'
+import { UserProps } from '../types/user'
 
 const PREFIX = '/user'
 
@@ -43,7 +43,7 @@ export const getRank = async (data: string) => {
 }
 
 // 修改个人资料
-export const setSelfInfo = async (data: userProps) => {
+export const setSelfInfo = async (data: UserProps) => {
     return fetch.put(`${PREFIX}/setuserinfo`,data)
 }
 

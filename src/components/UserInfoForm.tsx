@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Form, Input, Radio, Button, message, DatePicker } from 'antd'
+import { Form, Input, Radio, Button, message, DatePicker, Icon } from 'antd'
 import './userInfoForm.sass'
-import { userProps } from '../types/user'
+import { UserProps, CompanyProps } from '../types/user'
 import { store } from '../store'
 import { setSelfInfo } from '../api/user'
 import moment from 'moment'
@@ -23,7 +23,12 @@ const UserInfoForm = (props: any) => {
     const { userInfo } = useContext(store).state
     const { dispatch } = useContext(store)
     const { getFieldDecorator, setFieldsValue } = props.form
-    // const [userObj, setUserObj] = useState({} as userProps)
+    // const [userObj, setUserObj] = useState({} as UserProps)
+    const [companys, setCompanys] = useState([{
+        name: '',
+        title: ''
+    }] as CompanyProps[])
+
     // 是否处于编辑状态
     const [isEdit, setIsEdit] = useState(false)
 
@@ -36,19 +41,25 @@ const UserInfoForm = (props: any) => {
                 obj[key] = val
             }
         }
+        props.form.resetFields()
         // 只有生日需要特殊处理
         setFieldsValue({
             ...obj,
-            birthday: obj['birthday'] ? moment(obj['birthday'], dateFormat) : null
+            birthday: obj['birthday']
+                ? moment(obj['birthday'], dateFormat)
+                : null,
         })
         // set false
         setIsEdit(false)
     }
     const submit = () => {
-        props.form.validateFields(async (err: Error, userObj: userProps) => {
+        props.form.validateFields(async (err: Error, userObj: UserProps) => {
             if (err) return
-            userObj['birthday'] = userObj['birthday'] && userObj['birthday'].format(dateFormat)
+            userObj['birthday'] =
+                userObj['birthday'] && userObj['birthday'].format(dateFormat)
             try {
+                console.log(userObj)
+                return
                 let res = await setSelfInfo(userObj)
                 if (res.code === 200) {
                     message.success(res.msg)
@@ -76,9 +87,46 @@ const UserInfoForm = (props: any) => {
         }
         setFieldsValue({
             ...obj,
-            birthday: obj['birthday'] ? moment(obj['birthday'], dateFormat) : null
+            birthday: obj['birthday']
+                ? moment(obj['birthday'], dateFormat)
+                : null,
         })
     }, [userInfo, setFieldsValue])
+
+    // component
+
+    const CompanyGroup = companys.length
+        ? companys.map((e, idx) => (
+              <div className="company-group" key={idx}>
+                  {/* 公司名 */}
+                  <Form.Item>
+                      {getFieldDecorator(`companys[${idx}].name`, {
+                          initialValue: e?.name || '',
+                      })(
+                          <Input
+                              disabled={!isEdit}
+                              spellCheck={false}
+                              autoComplete="off"
+                              placeholder={isEdit ? "公司名称" : ''}
+                          ></Input>
+                      )}
+                  </Form.Item>
+                  {/* title */}
+                  <Form.Item>
+                      {getFieldDecorator(`companys[${idx}].title`, {
+                          initialValue: e?.title || '',
+                      })(
+                          <Input
+                              disabled={!isEdit}
+                              spellCheck={false}
+                              autoComplete="off"
+                              placeholder={isEdit ? "职位" : ''}
+                          ></Input>
+                      )}
+                  </Form.Item>
+              </div>
+          ))
+        : ''
 
     return (
         <Form className="userInfoSetting">
@@ -138,12 +186,19 @@ const UserInfoForm = (props: any) => {
                 )}
             </Form.Item>
             {/* 工作经历 */}
-            <Form.Item label="工作经历">
-                {getFieldDecorator('company')(
-                    <Input disabled={!isEdit} spellCheck={false}></Input>
-                )}
+            <Form.Item className={`career ${isEdit && 'career-active'}`}>
+                <span className='ant-col ant-form-item-label'>工作经历：</span>
+                {CompanyGroup}
+                {/* 添加按钮 */}
+                <div className="add-btn">
+                    <div>
+                        <Icon type="plus-circle" />
+                        <span>添加</span>
+                    </div>
+                </div>
             </Form.Item>
             {/* 教育经历 */}
+
             {/* 专业技能 */}
             {/* 按钮组 */}
             <Form.Item

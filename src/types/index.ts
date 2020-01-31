@@ -1,8 +1,8 @@
-import { userProps } from './user'
+import { UserProps } from './user'
 
 
 export interface stateProps {
-    userInfo: userProps,
+    userInfo: UserProps,
     showLoginModal: boolean,
     showRegisterModal: boolean
 }

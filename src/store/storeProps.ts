@@ -1,8 +1,8 @@
-import { userProps } from '../types/user'
+import { UserProps } from '../types/user'
 
 export interface setUserAction {
     type: 'SET_USER'
-    payload: userProps
+    payload: UserProps
 }
 export interface showLoginModalAction {
     type: 'SHOW_LOGIN_MODAL'

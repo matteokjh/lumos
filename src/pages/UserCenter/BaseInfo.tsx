@@ -3,14 +3,14 @@ import { store } from '../../store'
 import { getUserInfo } from '../../api/user'
 import { message, Button, Icon } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
-import { userProps } from '../../types/user'
+import { UserProps } from '../../types/user'
 import MyIcon from '../../components/MyIcon'
 
 const BaseInfo = () => {
     // 自己的个人信息
     const { userInfo } = useContext(store).state
     // 个人信息（可能是别人的）
-    const [user, setUser] = useState({} as userProps)
+    const [user, setUser] = useState({} as UserProps)
     // 根据 url 请求个人信息
     const location = useLocation()
     // 跳转

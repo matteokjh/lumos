@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import { Menu } from 'antd'
-import { userProps } from '../../types/user'
+import { UserProps } from '../../types/user'
 import VerticalLine from '../../components/VerticalLine'
 
-const Nav = (props: { userInfo: userProps }) => {
+const Nav = (props: { userInfo: UserProps }) => {
     const [keys, setKeys] = useState('baseInfo')
     const location = useLocation()
     const username = location.pathname.split('/')[2]

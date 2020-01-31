@@ -1,12 +1,43 @@
 .userInfoSetting
     display: flex
-    width: 400px
+    width: 600px
     flex-wrap: wrap
     .ant-form-item
         display: inline-flex
-        width: 300px
+        width: 500px
         &-label
             width: 70px
             margin-right: 30px
     .ant-form-explain
         padding-left: 100px
+    .career
+        display: inline-flex
+        position: relative
+        padding-bottom: 30px
+        &-active
+            &:hover .add-btn > div
+                display: block
+    .add-btn
+        text-align: center
+        height: 30px
+        line-height: 28px
+        width: 300px
+        display: flex
+        justify-content: center
+        position: absolute
+        bottom: -20px
+        > div
+            width: 70px
+            border: 1px solid #333
+            border-radius: 5px
+            cursor: pointer
+            display: none
+            span
+                margin-left: 5px
+    .company-group
+        display: inline-flex
+        width: 300px
+        .ant-form-item-children
+            margin-right: 10px
+.ant-form-item-children
+    display: inline-flex
