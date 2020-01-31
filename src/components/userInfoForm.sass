@@ -14,9 +14,25 @@
         display: inline-flex
         position: relative
         padding-bottom: 30px
+        .ant-form-item-label
+            flex-shrink: 0
         &-active
             &:hover .add-btn > div
                 display: block
+        .ant-form-item-children
+            display: block
+        .company-wrapper
+            display: flex
+            flex-wrap: wrap
+            .company-group
+                display: inline-flex
+                width: 300px
+                align-items: center
+                .minus
+                    margin-bottom: 24px
+                .ant-form-item-children
+                    margin-right: 10px
+                    display: inline-flex
     .add-btn
         text-align: center
         height: 30px
@@ -34,10 +50,3 @@
             display: none
             span
                 margin-left: 5px
-    .company-group
-        display: inline-flex
-        width: 300px
-        .ant-form-item-children
-            margin-right: 10px
-.ant-form-item-children
-    display: inline-flex

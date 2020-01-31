@@ -24,15 +24,23 @@ const UserInfoForm = (props: any) => {
     const { dispatch } = useContext(store)
     const { getFieldDecorator, setFieldsValue } = props.form
     // const [userObj, setUserObj] = useState({} as UserProps)
-    const [companys, setCompanys] = useState([{
-        name: '',
-        title: ''
-    }] as CompanyProps[])
+    const [companys, setCompanys] = useState([
+        {
+            name: '',
+            title: '',
+        },
+    ] as CompanyProps[])
 
     // 是否处于编辑状态
     const [isEdit, setIsEdit] = useState(false)
 
     // methods
+    const addCompany = () => {
+        setCompanys(companys.concat({ name: '', title: '' }))
+    }
+    const removeCompany = () => {
+        console.log(companys)
+    }
     const cancel = () => {
         // return to initial value
         let obj = {} as any
@@ -95,6 +103,7 @@ const UserInfoForm = (props: any) => {
 
     // component
 
+    // 公司 Item
     const CompanyGroup = companys.length
         ? companys.map((e, idx) => (
               <div className="company-group" key={idx}>
@@ -107,7 +116,7 @@ const UserInfoForm = (props: any) => {
                               disabled={!isEdit}
                               spellCheck={false}
                               autoComplete="off"
-                              placeholder={isEdit ? "公司名称" : ''}
+                              placeholder={isEdit ? '公司名称' : ''}
                           ></Input>
                       )}
                   </Form.Item>
@@ -120,10 +129,18 @@ const UserInfoForm = (props: any) => {
                               disabled={!isEdit}
                               spellCheck={false}
                               autoComplete="off"
-                              placeholder={isEdit ? "职位" : ''}
+                              placeholder={isEdit ? '职位' : ''}
                           ></Input>
                       )}
                   </Form.Item>
+                  {/* 删除按钮 */}
+                  {companys.length > 1 && (
+                      <Icon
+                          type="minus-circle"
+                          className="minus"
+                          onClick={removeCompany}
+                      />
+                  )}
               </div>
           ))
         : ''
@@ -187,11 +204,17 @@ const UserInfoForm = (props: any) => {
             </Form.Item>
             {/* 工作经历 */}
             <Form.Item className={`career ${isEdit && 'career-active'}`}>
-                <span className='ant-col ant-form-item-label'>工作经历：</span>
-                {CompanyGroup}
+                <div style={{
+                    display: 'inline-flex'
+                }}>
+                    <span className="ant-col ant-form-item-label">
+                        工作经历：
+                    </span>
+                    <div className="company-wrapper">{CompanyGroup}</div>
+                </div>
                 {/* 添加按钮 */}
                 <div className="add-btn">
-                    <div>
+                    <div onClick={addCompany}>
                         <Icon type="plus-circle" />
                         <span>添加</span>
                     </div>
