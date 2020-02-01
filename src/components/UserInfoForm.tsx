@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Form, Input, Radio, Button, message, DatePicker, Icon } from 'antd'
 import './userInfoForm.sass'
-import { UserProps, CompanyProps } from '../types/user'
+import { UserProps, CompanyProps, SchoolProps } from '../types/user'
 import { store } from '../store'
 import { setSelfInfo } from '../api/user'
 import moment from 'moment'
@@ -22,7 +22,7 @@ const dateFormat = 'YYYY-MM-DD'
 const UserInfoForm = (props: any) => {
     const { userInfo } = useContext(store).state
     const { dispatch } = useContext(store)
-    const { getFieldDecorator, setFieldsValue } = props.form
+    const { getFieldDecorator, setFieldsValue, getFieldValue } = props.form
     // const [userObj, setUserObj] = useState({} as UserProps)
     const [companys, setCompanys] = useState([
         {
@@ -30,17 +30,53 @@ const UserInfoForm = (props: any) => {
             title: '',
         },
     ] as CompanyProps[])
+    const [schools, setSchools] = useState([
+        {
+            name: '',
+            time: '',
+        },
+    ] as SchoolProps[])
 
     // 是否处于编辑状态
     const [isEdit, setIsEdit] = useState(false)
 
     // methods
-    const addCompany = () => {
-        setCompanys(companys.concat({ name: '', title: '' }))
+
+    // 是否显示添加行按钮
+    const showAddRowBtn = (key: 'companys' | 'schools') => {
+        let c: (CompanyProps | SchoolProps)[] = getFieldValue(key)
+        return isEdit && c.length < 5 && c.every(e => e.name)
     }
-    const removeCompany = () => {
-        console.log(companys)
+    // 添加行
+    const add = (key: keyof UserProps) => {
+        switch (key) {
+            case 'companys':
+                setCompanys(companys.concat({ name: '', title: '' }))
+                break
+            case 'schools':
+                setSchools(schools.concat({ name: '', time: '' }))
+        }
     }
+    // 删除行
+    const remove = (key: keyof UserProps, idx: number) => {
+        props.form.validateFields(async (err: Error, values: UserProps) => {
+            if (!err) {
+                let c = values[key]
+                let newC = c.slice(0, idx).concat(c.slice(idx + 1))
+                switch (key) {
+                    case 'companys':
+                        setCompanys(newC)
+                        break
+                    case 'schools':
+                        setSchools(newC)
+                }
+                setFieldsValue({
+                    [key]: newC,
+                })
+            }
+        })
+    }
+    // 返回
     const cancel = () => {
         // return to initial value
         let obj = {} as any
@@ -60,20 +96,19 @@ const UserInfoForm = (props: any) => {
         // set false
         setIsEdit(false)
     }
+    // 提交信息
     const submit = () => {
         props.form.validateFields(async (err: Error, userObj: UserProps) => {
             if (err) return
             userObj['birthday'] =
                 userObj['birthday'] && userObj['birthday'].format(dateFormat)
             try {
-                console.log(userObj)
-                return
                 let res = await setSelfInfo(userObj)
                 if (res.code === 200) {
                     message.success(res.msg)
                     dispatch({
                         type: 'SET_USER',
-                        payload: res.data,
+                        payload: res.data
                     })
                 } else {
                     message.error(res.msg)
@@ -93,6 +128,8 @@ const UserInfoForm = (props: any) => {
                 obj[key] = val
             }
         }
+        setCompanys(userInfo.companys)
+        setSchools(userInfo.schools)
         setFieldsValue({
             ...obj,
             birthday: obj['birthday']
@@ -106,7 +143,7 @@ const UserInfoForm = (props: any) => {
     // 公司 Item
     const CompanyGroup = companys.length
         ? companys.map((e, idx) => (
-              <div className="company-group" key={idx}>
+              <div className="company-group" key={`company_${idx}`}>
                   {/* 公司名 */}
                   <Form.Item>
                       {getFieldDecorator(`companys[${idx}].name`, {
@@ -116,6 +153,7 @@ const UserInfoForm = (props: any) => {
                               disabled={!isEdit}
                               spellCheck={false}
                               autoComplete="off"
+                              allowClear
                               placeholder={isEdit ? '公司名称' : ''}
                           ></Input>
                       )}
@@ -129,16 +167,60 @@ const UserInfoForm = (props: any) => {
                               disabled={!isEdit}
                               spellCheck={false}
                               autoComplete="off"
+                              allowClear
                               placeholder={isEdit ? '职位' : ''}
                           ></Input>
                       )}
                   </Form.Item>
                   {/* 删除按钮 */}
-                  {companys.length > 1 && (
+                  {companys.length > 1 && isEdit && (
                       <Icon
                           type="minus-circle"
                           className="minus"
-                          onClick={removeCompany}
+                          onClick={() => remove('companys', idx)}
+                      />
+                  )}
+              </div>
+          ))
+        : ''
+
+    const SchoolGroup = schools.length
+        ? schools.map((e, idx) => (
+              <div className="company-group" key={`schools_${idx}`}>
+                  {/* 学校名 */}
+                  <Form.Item>
+                      {getFieldDecorator(`schools[${idx}].name`, {
+                          initialValue: e?.name || '',
+                      })(
+                          <Input
+                              disabled={!isEdit}
+                              spellCheck={false}
+                              autoComplete="off"
+                              allowClear
+                              placeholder={isEdit ? '学校名称' : ''}
+                          ></Input>
+                      )}
+                  </Form.Item>
+                  {/* time */}
+                  <Form.Item>
+                      {getFieldDecorator(`schools[${idx}].time`, {
+                          initialValue: e?.time || '',
+                      })(
+                          <Input
+                              disabled={!isEdit}
+                              spellCheck={false}
+                              autoComplete="off"
+                              allowClear
+                              placeholder={isEdit ? '时间' : ''}
+                          ></Input>
+                      )}
+                  </Form.Item>
+                  {/* 删除按钮 */}
+                  {schools.length > 1 && isEdit && (
+                      <Icon
+                          type="minus-circle"
+                          className="minus"
+                          onClick={() => remove('schools', idx)}
                       />
                   )}
               </div>
@@ -156,7 +238,7 @@ const UserInfoForm = (props: any) => {
                             message: '昵称不能为空',
                         },
                     ],
-                })(<Input disabled={!isEdit} spellCheck={false}></Input>)}
+                })(<Input autoComplete="off" allowClear disabled={!isEdit} spellCheck={false}></Input>)}
             </Form.Item>
             {/* 性别 */}
             <Form.Item label="性别">
@@ -171,7 +253,7 @@ const UserInfoForm = (props: any) => {
             {/* 位置 */}
             <Form.Item label="位置">
                 {getFieldDecorator('location')(
-                    <Input disabled={!isEdit} spellCheck={false}></Input>
+                    <Input autoComplete="off" allowClear disabled={!isEdit} spellCheck={false}></Input>
                 )}
             </Form.Item>
             {/* 生日 */}
@@ -190,6 +272,7 @@ const UserInfoForm = (props: any) => {
                     <Input.TextArea
                         style={{
                             width: '181.6px',
+                            resize: isEdit ? 'vertical' : 'none'
                         }}
                         spellCheck={false}
                         disabled={!isEdit}
@@ -199,29 +282,53 @@ const UserInfoForm = (props: any) => {
             {/* 个人网站 */}
             <Form.Item label="个人网站">
                 {getFieldDecorator('website')(
-                    <Input disabled={!isEdit} spellCheck={false}></Input>
+                    <Input autoComplete="off" allowClear disabled={!isEdit} spellCheck={false}></Input>
                 )}
             </Form.Item>
             {/* 工作经历 */}
             <Form.Item className={`career ${isEdit && 'career-active'}`}>
-                <div style={{
-                    display: 'inline-flex'
-                }}>
+                <div
+                    style={{
+                        display: 'inline-flex',
+                    }}
+                >
                     <span className="ant-col ant-form-item-label">
                         工作经历：
                     </span>
                     <div className="company-wrapper">{CompanyGroup}</div>
                 </div>
                 {/* 添加按钮 */}
-                <div className="add-btn">
-                    <div onClick={addCompany}>
-                        <Icon type="plus-circle" />
-                        <span>添加</span>
+                {showAddRowBtn('companys') && (
+                    <div className="add-btn">
+                        <div onClick={() => add('companys')}>
+                            <Icon type="plus-circle" />
+                            <span>添加</span>
+                        </div>
                     </div>
-                </div>
+                )}
             </Form.Item>
             {/* 教育经历 */}
-
+            <Form.Item className={`career ${isEdit && 'career-active'}`}>
+                <div
+                    style={{
+                        display: 'inline-flex',
+                    }}
+                >
+                    <span className="ant-col ant-form-item-label">
+                        教育经历：
+                    </span>
+                    <div className="company-wrapper">{SchoolGroup}</div>
+                </div>
+                {/* 添加按钮 */}
+                {showAddRowBtn('schools') && (
+                    <div className="add-btn">
+                        <div onClick={() => add('schools')}>
+                            <Icon type="plus-circle" />
+                            <span>添加</span>
+                        </div>
+                    </div>
+                )}
+            </Form.Item>
             {/* 专业技能 */}
             {/* 按钮组 */}
             <Form.Item

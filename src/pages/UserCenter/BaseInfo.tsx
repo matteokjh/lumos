@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { store } from '../../store'
 import { getUserInfo } from '../../api/user'
-import { message, Button, Icon } from 'antd'
+import { message, Button, Icon, Tooltip } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
 import { UserProps } from '../../types/user'
 import MyIcon from '../../components/MyIcon'
@@ -44,7 +44,9 @@ const BaseInfo = () => {
                     }}
                 ></div>
                 <div className="info">
-                    <h3>{user.name}</h3>
+                    <Tooltip title={user.name}>
+                        <h3>{user.name}</h3>
+                    </Tooltip>
                     <p>{user.username}</p>
                     <p>
                         全站排名：
@@ -94,14 +96,18 @@ const BaseInfo = () => {
                         <b>个人资料</b>
                         {/* 公司 */}
                         <div className="company">
-                            {userInfo.company.length ? (
-                                userInfo.company.map((e, idx) => (
-                                    <>
-                                        {idx === 0 && (
+                            {userInfo.companys?.length ? (
+                                userInfo.companys.map((e, idx) => (
+                                    <div key={`company_${idx}`}>
+                                        {idx === 0 ? (
                                             <MyIcon type="iconcompany-fill" />
-                                        )}
-                                        <p>{e}</p>
-                                    </>
+                                        ): <MyIcon type="iconcompany-fill" />}
+                                        <div className='row-wrapper'>
+                                            <Tooltip placement='right' title={`${e.name} | ${e.title}`}>
+                                                <p>{e.name}</p><span>|</span><p>{e.title}</p>
+                                            </Tooltip>
+                                        </div>
+                                    </div>
                                 ))
                             ) : (
                                 <div className="no">
@@ -112,14 +118,18 @@ const BaseInfo = () => {
                         </div>
                         {/* 学校 */}
                         <div className="school">
-                            {userInfo.school.length ? (
-                                userInfo.school.map((e, idx) => (
-                                    <>
-                                        {idx === 0 && (
+                            {userInfo.schools?.length ? (
+                                userInfo.schools.map((e, idx) => (
+                                    <div key={`schools_${idx}`}>
+                                        {idx === 0 ? (
                                             <MyIcon type="icongraduationcap" />
-                                        )}
-                                        <p>{e}</p>
-                                    </>
+                                        ): <MyIcon type="icongraduationcap" />}
+                                        <div className='row-wrapper'>
+                                            <Tooltip placement='right' title={`${e.name} | ${e.time}`}>
+                                                <p>{e.name}</p><span>|</span><p>{e.time}</p>
+                                            </Tooltip>
+                                        </div>
+                                    </div>
                                 ))
                             ) : (
                                 <div className="no">

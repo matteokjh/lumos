@@ -7,7 +7,6 @@ export interface UserProps {
         rank: string | number
     },
     introduction: string,
-    company: string[],
     school: string[],
     sex?: 'male' | 'female' | '',
     location: string,

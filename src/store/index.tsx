@@ -15,7 +15,6 @@ const initialContext = {
         rank: -1
       },
       introduction: '',
-      company: [],
       school: [],
       sex: '',
       location: '',
