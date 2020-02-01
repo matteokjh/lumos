@@ -183,7 +183,8 @@ const UserInfoForm = (props: any) => {
               </div>
           ))
         : ''
-
+    
+    // 学校 Item
     const SchoolGroup = schools.length
         ? schools.map((e, idx) => (
               <div className="company-group" key={`schools_${idx}`}>
