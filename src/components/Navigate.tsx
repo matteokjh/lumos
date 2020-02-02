@@ -16,7 +16,7 @@ const Navigate = () => (
     >
         <Switch>
             <Route exact path="/" component={Post}></Route>
-            <Route path="/exercise" component={Exercise}></Route>
+            <Route path="/exercise/:filter" component={Exercise}></Route>
             <Route path="/user/:username" component={UserCenter}></Route>
             <Route path="/confirm_succeed" component={ConfirmSucceed}></Route>
             <Route component={My404Component}></Route>

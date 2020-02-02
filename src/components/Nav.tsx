@@ -91,8 +91,8 @@ const Nav = () => {
                     <Menu.Item key="/">
                         <NavLink to="/">主页</NavLink>
                     </Menu.Item>
-                    <Menu.Item key="/exercise">
-                        <NavLink to="/exercise">题目</NavLink>
+                    <Menu.Item key="/exercise/all">
+                        <NavLink to="/exercise/all">题目</NavLink>
                     </Menu.Item>
                 </Menu>
             </div>
