@@ -47,7 +47,7 @@ export const setSelfInfo = async (data: UserProps) => {
     return fetch.put(`${PREFIX}/setuserinfo`,data)
 }
 
-// 上传头像到 7牛
+// 上传头像
 export const uploadAvatar = async (imageUrl: {
     base64: string
 }) => {
