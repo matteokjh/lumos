@@ -1,15 +1,14 @@
 import React, { useContext } from 'react'
-import { Form, Input, Icon, Button, message } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 import { store } from '../../store'
 import { LoginProps } from './types/login'
 import './styles/loginModal.sass'
 import { login } from '../../api/user'
+import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const LoginModal = (props: any) => {
     const globalStore = useContext(store)
     const { dispatch } = globalStore
-
-    const { getFieldDecorator } = props.form
 
     // methods
     const handleSubmit = () => {
@@ -17,12 +16,12 @@ const LoginModal = (props: any) => {
             if (!err) {
                 try {
                     let res = await login(values)
-                    if(res.code === 200) {
-                        window.location.reload()
+                    if (res.code === 200) {
+                        // window.location.reload()
                     } else {
                         message.error(res.msg)
                     }
-                } catch(err) {
+                } catch (err) {
                     message.error(err)
                 }
             }
@@ -31,17 +30,17 @@ const LoginModal = (props: any) => {
     const showRegister = () => {
         dispatch({
             type: 'SHOW_REGISTER_MODAL',
-            payload: true
+            payload: true,
         })
         dispatch({
             type: 'SHOW_LOGIN_MODAL',
-            payload: false
+            payload: false,
         })
     }
 
     return (
         <div className="loginModal">
-            <Form onSubmit={handleSubmit} className="login-form">
+            <Form className="login-form">
                 <span
                     className="cross"
                     onClick={() =>
@@ -51,7 +50,7 @@ const LoginModal = (props: any) => {
                         })
                     }
                 >
-                    <Icon type="close"></Icon>
+                    <CloseOutlined />
                 </span>
                 <div
                     style={{
@@ -66,47 +65,42 @@ const LoginModal = (props: any) => {
                     style={{
                         marginBottom: 20,
                     }}
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: '用户名不能为空!',
+                        },
+                    ]}
                 >
-                    {getFieldDecorator('username', {
-                        rules: [
-                            {
-                                required: true,
-                                message: '用户名不能为空!',
-                            },
-                        ],
-                    })(
-                        <Input
-                            prefix={
-                                <Icon
-                                    type="user"
-                                    style={{ color: 'rgba(0,0,0,.25)' }}
-                                />
-                            }
-                            placeholder="用户名（邮箱）"
-                        />
-                    )}
+                    <Input
+                        prefix={
+                            <UserOutlined
+                                style={{ color: 'rgba(0,0,0,.25)' }}
+                            />
+                        }
+                        placeholder="用户名（邮箱）"
+                    />
                 </Form.Item>
                 {/* 密码 */}
-                <Form.Item>
-                    {getFieldDecorator('password', {
-                        rules: [
-                            {
-                                required: true,
-                                message: '密码不能为空!',
-                            },
-                        ],
-                    })(
-                        <Input
-                            prefix={
-                                <Icon
-                                    type="lock"
-                                    style={{ color: 'rgba(0,0,0,.25)' }}
-                                />
-                            }
-                            type="password"
-                            placeholder="密码"
-                        />
-                    )}
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: '密码不能为空!',
+                        },
+                    ]}
+                >
+                    <Input
+                        prefix={
+                            <LockOutlined
+                                style={{ color: 'rgba(0,0,0,.25)' }}
+                            />
+                        }
+                        type="password"
+                        placeholder="密码"
+                    />
                 </Form.Item>
                 {/* 登录 */}
                 <Form.Item>
@@ -118,14 +112,14 @@ const LoginModal = (props: any) => {
                         登录
                     </Button>
                 </Form.Item>
-                <div style={{
-                    display: 'inline-flex',
-                    width: '100%',
-                    justifyContent: 'space-between'
-                }}>
-                    <Button className="link">
-                        忘记密码
-                    </Button>
+                <div
+                    style={{
+                        display: 'inline-flex',
+                        width: '100%',
+                        justifyContent: 'space-between',
+                    }}
+                >
+                    <Button className="link">忘记密码</Button>
                     <Button
                         onClick={showRegister}
                         style={{
@@ -141,6 +135,4 @@ const LoginModal = (props: any) => {
     )
 }
 
-export default Form.create({
-    name: 'login',
-})(LoginModal)
+export default LoginModal

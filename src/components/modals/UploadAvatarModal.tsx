@@ -1,10 +1,11 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Icon, message, Upload, Modal } from 'antd'
+import { message, Upload, Modal } from 'antd'
 import './styles/uploadAvatarModal.sass'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { uploadAvatar } from '../../api/user'
 import { store } from '../../store'
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 const UploadAvatarModal = (props: any) => {
     const [imageUrl, setImageUrl] = useState('')
@@ -113,18 +114,25 @@ const UploadAvatarModal = (props: any) => {
                                     alt="avatar"
                                 />
                             </div>
-                            <div className="upload-btn" style={{
-                                opacity: loading ? .8 : 0
-                            }}>
+                            <div
+                                className="upload-btn"
+                                style={{
+                                    opacity: loading ? 0.8 : 0,
+                                }}
+                            >
                                 <div>
-                                    <Icon type={loading ? 'loading' : 'plus'} />
+                                    {loading ? (
+                                        <LoadingOutlined />
+                                    ) : (
+                                        <PlusOutlined />
+                                    )}
                                     <p>点击上传</p>
                                 </div>
                             </div>
                         </div>
                     ) : (
                         <div className="upload-btn-default">
-                            <Icon type={loading ? 'loading' : 'plus'} />
+                            {loading ? <LoadingOutlined /> : <PlusOutlined />}
                             <p>点击上传</p>
                         </div>
                     )}

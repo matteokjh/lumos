@@ -1,9 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { Form, Input, Icon, Button, message } from 'antd'
+import { Form, Input, Button, message } from 'antd'
 import { store } from '../../store'
 import { LoginProps } from './types/login'
 import './styles/registerModal.sass'
 import { register, resend } from '../../api/user'
+import {
+    CloseOutlined,
+    ArrowLeftOutlined,
+    UserOutlined,
+    LockOutlined,
+} from '@ant-design/icons'
 
 const RegisterModal = (props: any) => {
     const globalStore = useContext(store)
@@ -11,10 +17,12 @@ const RegisterModal = (props: any) => {
 
     const TIME = 60
 
-    const { getFieldDecorator } = props.form
-    const [remainTime, setRemainTime] = useState(localStorage['remainTime'] || TIME)
-    const [timeStart, setTimeStart] = useState(localStorage['timeStart'] === 'true')
-
+    const [remainTime, setRemainTime] = useState(
+        localStorage['remainTime'] || TIME
+    )
+    const [timeStart, setTimeStart] = useState(
+        localStorage['timeStart'] === 'true'
+    )
 
     // methods
 
@@ -89,7 +97,7 @@ const RegisterModal = (props: any) => {
         function count2() {
             if (remainTime > 0) {
                 window.timer = setTimeout(() => {
-                    setRemainTime(remainTime-1)
+                    setRemainTime(remainTime - 1)
                     count2()
                 }, 1000)
             } else {
@@ -101,15 +109,15 @@ const RegisterModal = (props: any) => {
         return () => {
             localStorage['timeStart'] = timeStart
             localStorage['remainTime'] = remainTime
-            
+
             window.timer && clearTimeout(window.timer)
             window.timer = null
-        };
+        }
     }, [timeStart, remainTime])
 
     return (
         <div className="loginModal">
-            <Form onSubmit={handleSubmit} className="login-form">
+            <Form className="login-form">
                 {/* cross */}
                 <span
                     className="cross"
@@ -120,11 +128,11 @@ const RegisterModal = (props: any) => {
                         })
                     }
                 >
-                    <Icon type="close"></Icon>
+                    <CloseOutlined />
                 </span>
                 {/* return to login */}
                 <span className="return" onClick={backToLogin}>
-                    <Icon type="arrow-left" />
+                    <ArrowLeftOutlined />
                 </span>
                 <div
                     style={{
@@ -139,47 +147,42 @@ const RegisterModal = (props: any) => {
                     style={{
                         marginBottom: 20,
                     }}
+                    name="username"
+                    rules={[
+                        {
+                            required: true,
+                            message: '用户名不能为空!',
+                        },
+                    ]}
                 >
-                    {getFieldDecorator('username', {
-                        rules: [
-                            {
-                                required: true,
-                                message: '用户名不能为空!',
-                            },
-                        ],
-                    })(
-                        <Input
-                            prefix={
-                                <Icon
-                                    type="user"
-                                    style={{ color: 'rgba(0,0,0,.25)' }}
-                                />
-                            }
-                            placeholder="用户名（邮箱）"
-                        />
-                    )}
+                    <Input
+                        prefix={
+                            <UserOutlined
+                                style={{ color: 'rgba(0,0,0,.25)' }}
+                            />
+                        }
+                        placeholder="用户名（邮箱）"
+                    />
                 </Form.Item>
                 {/* 密码 */}
-                <Form.Item>
-                    {getFieldDecorator('password', {
-                        rules: [
-                            {
-                                required: true,
-                                message: '密码不能为空!',
-                            },
-                        ],
-                    })(
-                        <Input
-                            prefix={
-                                <Icon
-                                    type="lock"
-                                    style={{ color: 'rgba(0,0,0,.25)' }}
-                                />
-                            }
-                            type="password"
-                            placeholder="密码"
-                        />
-                    )}
+                <Form.Item
+                    name="password"
+                    rules={[
+                        {
+                            required: true,
+                            message: '密码不能为空!',
+                        },
+                    ]}
+                >
+                    <Input
+                        prefix={
+                            <LockOutlined
+                                style={{ color: 'rgba(0,0,0,.25)' }}
+                            />
+                        }
+                        type="password"
+                        placeholder="密码"
+                    />
                 </Form.Item>
                 {/* 登录 */}
                 <Form.Item>
@@ -211,6 +214,4 @@ const RegisterModal = (props: any) => {
     )
 }
 
-export default Form.create({
-    name: 'register',
-})(RegisterModal)
+export default RegisterModal

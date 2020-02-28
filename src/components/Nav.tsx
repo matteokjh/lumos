@@ -1,11 +1,18 @@
 import React, { useContext, useRef } from 'react'
-import { Menu, Icon, Dropdown, Popconfirm, message } from 'antd'
+import { Menu, Dropdown, Popconfirm, message } from 'antd'
 import { NavLink, useHistory } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
 import './Nav.sass'
 import { store } from '../store/index'
 import { logout } from '../api/user'
+import {
+    UserOutlined,
+    StarOutlined,
+    FormOutlined,
+    TrophyOutlined,
+    LogoutOutlined,
+} from '@ant-design/icons'
 
 // 下拉菜单
 const UserMenu = (props: any) => {
@@ -18,25 +25,25 @@ const UserMenu = (props: any) => {
         <Menu selectedKeys={[`/${location.pathname.split('/')[1]}`]}>
             <Menu.Item key="/user">
                 <NavLink to={`/user/${props.username}/baseinfo`}>
-                    <Icon type="user" />
+                    <UserOutlined />
                     <p>个人中心</p>
                 </NavLink>
             </Menu.Item>
             <Menu.Item key="/collection">
                 <NavLink to={`/collection`}>
-                    <Icon type="star" />
+                    <StarOutlined />
                     <p>收藏列表</p>
                 </NavLink>
             </Menu.Item>
             <Menu.Item key="/record">
                 <NavLink to={`/record`}>
-                    <Icon type="form" />
+                    <FormOutlined />
                     <p>提交记录</p>
                 </NavLink>
             </Menu.Item>
             <Menu.Item key="/coin">
                 <NavLink to={`/coin`}>
-                    <Icon type="trophy" />
+                    <TrophyOutlined />
                     <p>积分</p>
                 </NavLink>
             </Menu.Item>
@@ -49,7 +56,7 @@ const UserMenu = (props: any) => {
                     cancelText="取消"
                 >
                     <div onClick={e => e.stopPropagation()}>
-                        <Icon type="logout" />
+                        <LogoutOutlined />
                         <p>退出</p>
                     </div>
                 </Popconfirm>
@@ -115,7 +122,7 @@ const Nav = () => {
                             style={{
                                 backgroundImage:
                                     userInfo.avatar &&
-                                    `url(${userInfo.avatar})`
+                                    `url(${userInfo.avatar})`,
                             }}
                             onClick={() => {
                                 !userInfo.isLogin &&

@@ -1,6 +1,7 @@
 .userInfoSetting
     display: flex
     width: 600px
+    padding-left: 20px!important
     flex-wrap: wrap
     .ant-form-item
         display: inline-flex
@@ -13,40 +14,31 @@
     .career
         display: inline-flex
         position: relative
-        padding-bottom: 10px
+        padding-bottom: 15px
+        width: 100%
         .ant-form-item-label
             flex-shrink: 0
-        &-active
-            &:hover .add-btn > div
-                display: block
         .ant-form-item-children
             display: block
         .company-wrapper
             display: flex
             flex-wrap: wrap
-            .company-group
+            position: relative
+            align-items: center
+            width: 100%
+            > .ant-form-item
+                margin-bottom: 10px
+            
+            .minus
+                margin-bottom: 24px
+                margin-right: 5px
+            .company-group,.school-group
                 display: inline-flex
                 width: 300px
                 align-items: center
-                .minus
-                    margin-bottom: 24px
-                .ant-form-item-children
+                .ant-form-item
                     margin-right: 10px
-                    display: inline-flex
-    .add-btn
+                    margin-bottom: 0
+    .submit_btn
         text-align: center
-        height: 30px
-        line-height: 28px
-        width: 300px
-        display: flex
-        justify-content: center
-        position: absolute
-        bottom: -20px
-        > div
-            width: 70px
-            border: 1px solid #333
-            border-radius: 5px
-            cursor: pointer
-            display: none
-            span
-                margin-left: 5px
+        transform: translateX(-12%)

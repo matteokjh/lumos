@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { store } from '../../store'
 import { getUserInfo } from '../../api/user'
-import { message, Button, Icon, Tooltip } from 'antd'
+import { message, Button, Tooltip } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
 import { UserProps } from '../../types/user'
 import MyIcon from '../../components/MyIcon'
+import { EditOutlined } from '@ant-design/icons'
 
 const BaseInfo = () => {
     // 自己的个人信息
@@ -76,12 +77,9 @@ const BaseInfo = () => {
                                         color: '#fff',
                                     }}
                                 >
-                                    <Icon
-                                        type="edit"
-                                        style={{
+                                    <EditOutlined style={{
                                             marginRight: '5px',
-                                        }}
-                                    />
+                                        }}/>
                                     <span>编辑个人资料</span>
                                 </NavLink>
                             </Button>
