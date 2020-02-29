@@ -29,8 +29,7 @@ const UserCenter = () => {
                 ></Route>
                 {/* 文章 */}
                 <Route
-                    exact
-                    path="/user/:username/articles"
+                    path="/user/:username/articles/:type"
                     component={Articles}
                 ></Route>
                 {/* 设置 */}

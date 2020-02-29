@@ -22,7 +22,7 @@ const Nav = (props: { userInfo: UserProps }) => {
                 </Menu.Item>
                 <VerticalLine></VerticalLine>
                 <Menu.Item key="articles">
-                    <NavLink to={`${PREFIX}/articles`}>文章</NavLink>
+                    <NavLink to={`${PREFIX}/articles/post`}>文章</NavLink>
                 </Menu.Item>
                 <VerticalLine></VerticalLine>
                 {username === props.userInfo.username && (
