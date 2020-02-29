@@ -6,6 +6,7 @@ import { setSelfInfo } from '../api/user'
 import moment from 'moment'
 import CompanyList from '@/components/CompanyList'
 import SchoolList from '@/components/SchoolList'
+import { CompanyProps, SchoolProps, UserProps } from '@/types/user'
 
 const PROP_MAP: any = {
     name: 1,
@@ -51,6 +52,44 @@ const UserInfoForm = () => {
         // set false
         setIsEdit(false)
     }
+    // 处理数据
+    const formatData = (userObj: UserProps) => {
+        // 生日日期转字符串
+        userObj['birthday'] =
+            userObj['birthday'] && userObj['birthday'].format(dateFormat)
+        // 保证 公司 和 学校 每一行不为空
+        if (userObj['companys'] && userObj['companys'].length) {
+            userObj['companys'] = userObj['companys'].map((e: CompanyProps) => {
+                if (!e) {
+                    e = {
+                        name: '',
+                        title: '',
+                    }
+                } else if (!e.name) {
+                    e.name = ''
+                } else if (!e.title) {
+                    e.title = ''
+                }
+                return e
+            })
+        }
+        if (userObj['schools'] && userObj['schools'].length) {
+            userObj['schools'] = userObj['schools'].map((e: SchoolProps) => {
+                if (!e) {
+                    e = {
+                        name: '',
+                        time: '',
+                    }
+                } else if (!e.name) {
+                    e.name = ''
+                } else if (!e.time) {
+                    e.time = ''
+                }
+                return e
+            })
+        }
+        return userObj
+    }
     // 提交信息
     const submit = async () => {
         let userObj = {} as any
@@ -59,28 +98,22 @@ const UserInfoForm = () => {
         } catch (err) {
             return
         }
+        userObj = formatData(userObj)
         try {
-            userObj['birthday'] =
-                userObj['birthday'] && userObj['birthday'].format(dateFormat)
-            try {
-                let res = await setSelfInfo(userObj)
-                if (res.code === 200) {
-                    message.success(res.msg)
-                    dispatch({
-                        type: 'SET_USER',
-                        payload: res.data,
-                    })
-                } else {
-                    message.error(res.msg)
-                }
-            } catch (err) {
-                message.error(err)
+            let res = await setSelfInfo(userObj)
+            if (res.code === 200) {
+                message.success(res.msg)
+                dispatch({
+                    type: 'SET_USER',
+                    payload: res.data,
+                })
+            } else {
+                message.error(res.msg)
             }
-            // set false
-            setIsEdit(false)
         } catch (err) {
-            console.error(err)
+            message.error(err)
         }
+        setIsEdit(false)
     }
 
     useEffect(() => {

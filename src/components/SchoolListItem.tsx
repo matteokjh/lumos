@@ -1,10 +1,8 @@
 import React from 'react'
 import { Form, Input } from 'antd'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { SchoolProps } from '@/types/user'
 
 interface ItemProps {
-    field?: SchoolProps
     idx: number
     isEdit: boolean
     key: number
@@ -14,13 +12,13 @@ interface ItemProps {
 }
 
 const SchoolListItem = (props: ItemProps) => {
-    const { idx, isEdit, remove, field, showAddBtn, add } = props
+    const { idx, isEdit, remove, showAddBtn, add } = props
 
     return (
         <Form.Item key={`schools_${idx}`}>
             <div className="school-group">
                 {/* 学校名 */}
-                <Form.Item name={[`schools[${idx}]`, 'name']}>
+                <Form.Item name={[idx, 'name']}>
                     <Input
                         disabled={!isEdit}
                         spellCheck={false}
@@ -30,7 +28,7 @@ const SchoolListItem = (props: ItemProps) => {
                     ></Input>
                 </Form.Item>
                 {/* time */}
-                <Form.Item name={[`schools[${idx}]`, 'time']}>
+                <Form.Item name={[idx, 'time']}>
                     <Input
                         disabled={!isEdit}
                         spellCheck={false}

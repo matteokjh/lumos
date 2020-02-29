@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
-// import qs from 'qs'
 
+axios.defaults.withCredentials = true;
 
 let fetch = axios.create({
     baseURL: process.env.REACT_APP_BACKEND_URL || 'http://localhost:3000'

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { store } from '../../store'
-import { LoginProps } from './types/login'
+// import { LoginProps } from './types/login'
 import './styles/loginModal.sass'
 import { login } from '../../api/user'
 import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
@@ -9,23 +9,27 @@ import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 const LoginModal = (props: any) => {
     const globalStore = useContext(store)
     const { dispatch } = globalStore
+    const [form] = Form.useForm()
 
     // methods
-    const handleSubmit = () => {
-        props.form.validateFields(async (err: Error, values: LoginProps) => {
-            if (!err) {
-                try {
-                    let res = await login(values)
-                    if (res.code === 200) {
-                        // window.location.reload()
-                    } else {
-                        message.error(res.msg)
-                    }
-                } catch (err) {
-                    message.error(err)
-                }
+    const handleSubmit = async () => {
+        let values: any = {}
+        try {
+            values = await form.validateFields()
+        } catch(err) {
+            return
+        }
+        try {
+            let res = await login(values)
+            if (res.code === 200) {
+                console.log(res.data)
+                // window.location.reload()
+            } else {
+                message.error(res.msg)
             }
-        })
+        } catch (err) {
+            message.error(err)
+        }
     }
     const showRegister = () => {
         dispatch({
@@ -40,7 +44,7 @@ const LoginModal = (props: any) => {
 
     return (
         <div className="loginModal">
-            <Form className="login-form">
+            <Form form={form} className="login-form">
                 <span
                     className="cross"
                     onClick={() =>

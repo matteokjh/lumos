@@ -67,6 +67,20 @@ const BaseInfo = () => {
             <div className="main">
                 {/* left */}
                 <div className="info-detail">
+                    <div className="statistics">
+                        <div>
+                            <span>关注数：99</span>
+                        </div>
+                        <div>
+                            <span>粉丝数：99999</span>
+                        </div>
+                        <div>
+                            <span>文章数：99</span>
+                        </div>
+                        <div>
+                            <span>文章获赞：9999</span>
+                        </div>
+                    </div>
                     {/* 编辑按钮 */}
                     {user.username === userInfo.username && (
                         <div className="edit">

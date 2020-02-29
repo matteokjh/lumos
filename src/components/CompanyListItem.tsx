@@ -1,10 +1,8 @@
 import React from 'react'
 import { Form, Input } from 'antd'
 import { MinusCircleOutlined, PlusCircleOutlined } from '@ant-design/icons'
-import { CompanyProps } from '@/types/user'
 
 interface ItemProps {
-    field?: CompanyProps
     idx: number
     isEdit: boolean
     key: number
@@ -14,13 +12,13 @@ interface ItemProps {
 }
 
 const CompanyListItem = (props: ItemProps) => {
-    const { idx, isEdit, add, remove, field, showAddBtn } = props
+    const { idx, isEdit, add, remove, showAddBtn } = props
 
     return (
         <Form.Item key={`company_${idx}`}>
             <div className="company-group">
                 {/* 公司名 */}
-                <Form.Item name={[`companys`, idx, 'name']}>
+                <Form.Item name={[idx, 'name']}>
                     <Input
                         disabled={!isEdit}
                         spellCheck={false}
@@ -30,7 +28,7 @@ const CompanyListItem = (props: ItemProps) => {
                     ></Input>
                 </Form.Item>
                 {/* title */}
-                <Form.Item name={[`companys`, idx, 'title']}>
+                <Form.Item name={[idx, 'title']}>
                     <Input
                         disabled={!isEdit}
                         spellCheck={false}

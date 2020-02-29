@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { store } from '../../store'
-import { LoginProps } from './types/login'
 import './styles/registerModal.sass'
 import { register, resend } from '../../api/user'
 import {
@@ -24,25 +23,29 @@ const RegisterModal = (props: any) => {
         localStorage['timeStart'] === 'true'
     )
 
+    const [form] = Form.useForm()
+
     // methods
 
     // 提交注册信息
-    const handleSubmit = () => {
-        props.form.validateFields(async (err: Error, values: LoginProps) => {
-            if (!err) {
-                try {
-                    let res = await register(values)
-                    if (res.code === 200) {
-                        message.success(res.msg)
-                        backToLogin()
-                    } else {
-                        message.error(res.msg)
-                    }
-                } catch (error) {
-                    throw error
-                }
+    const handleSubmit = async () => {
+        let values: any = {}
+        try {
+            values = await form.validateFields()
+        } catch (err) {
+            return
+        }
+        try {
+            let res = await register(values)
+            if (res.code === 200) {
+                message.success(res.msg)
+                backToLogin()
+            } else {
+                message.error(res.msg)
             }
-        })
+        } catch (error) {
+            throw error
+        }
     }
     // 返回
     const backToLogin = () => {
@@ -56,22 +59,28 @@ const RegisterModal = (props: any) => {
         })
     }
     // 重新发送邮件
-    const resendEmail = () => {
-        props.form.validateFields(async (err: Error, values: LoginProps) => {
-            if (values.username) {
-                startTimer()
-                try {
-                    let res = await resend(values)
-                    if (res.code === 200) {
-                        message.success(res.msg)
-                    } else {
-                        message.error(res.msg)
-                    }
-                } catch (err) {
-                    message.error(err)
+    const resendEmail = async () => {
+        let values: any = {}
+        try {
+            values = await form.validateFields()
+        } catch (err) {
+            return
+        }
+        try {
+            startTimer()
+            try {
+                let res = await resend(values)
+                if (res.code === 200) {
+                    message.success(res.msg)
+                } else {
+                    message.error(res.msg)
                 }
+            } catch (err) {
+                message.error(err)
             }
-        })
+        } catch (err) {
+            message.error(err)
+        }
     }
     // 开始计时
     const startTimer = () => {
@@ -117,7 +126,7 @@ const RegisterModal = (props: any) => {
 
     return (
         <div className="loginModal">
-            <Form className="login-form">
+            <Form form={form} className="login-form">
                 {/* cross */}
                 <span
                     className="cross"

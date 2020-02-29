@@ -3,6 +3,7 @@ import { store } from '../../store/index'
 import { Route, useLocation, Switch } from 'react-router-dom'
 import './index.sass'
 import BaseInfo from './BaseInfo'
+import Articles from './Articles'
 import Setting from './Setting/index'
 import Nav from './Nav'
 import My404Component from '../../components/My404Component'
@@ -25,6 +26,12 @@ const UserCenter = () => {
                     exact
                     path="/user/:username/baseinfo"
                     component={BaseInfo}
+                ></Route>
+                {/* 文章 */}
+                <Route
+                    exact
+                    path="/user/:username/articles"
+                    component={Articles}
                 ></Route>
                 {/* 设置 */}
                 {isSelf && (

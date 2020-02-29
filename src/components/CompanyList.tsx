@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { CompanyProps } from '../types/user'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import CompanyListItem from './CompanyListItem'
@@ -9,18 +9,12 @@ interface OperationProps {
 }
 
 const CompanyList = (props: {
-    fields: CompanyProps[]
+    fields: any[]
     operation: OperationProps
     isEdit: boolean
 }) => {
     const { fields, operation, isEdit } = props
     const { add, remove } = operation
-
-    const [showAddBtn, setShowAddBtn] = useState(false)
-
-    useEffect(() => {
-        setShowAddBtn(isEdit && fields.every(e => e && e.name))
-    }, [fields, isEdit])
 
     return (
         <div className={`career ${isEdit && 'career-active'}`}>
@@ -31,18 +25,17 @@ const CompanyList = (props: {
                 {fields.length
                     ? fields.map((e: CompanyProps, idx: number) => (
                           <CompanyListItem
-                              field={e}
                               idx={idx}
                               isEdit={isEdit}
                               key={idx}
                               add={add}
                               remove={remove}
                               showAddBtn={
-                                  idx === fields.length - 1 && showAddBtn
+                                  idx === fields.length - 1 && isEdit
                               }
                           ></CompanyListItem>
                       ))
-                    : showAddBtn && (
+                    : isEdit && (
                           <PlusCircleOutlined
                               className="add"
                               onClick={() => add()}

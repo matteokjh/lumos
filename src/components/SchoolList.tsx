@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { SchoolProps } from '../types/user'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import SchoolListItem from './SchoolListItem'
@@ -16,12 +16,6 @@ const SchoolList = (props: {
     const { fields, operation, isEdit } = props
     const { add, remove } = operation
 
-    const [showAddBtn, setShowAddBtn] = useState(false)
-
-    useEffect(() => {
-        setShowAddBtn(isEdit && fields.every(e => e && e.name))
-    }, [fields, isEdit])
-
     return (
         <div className={`career ${isEdit && 'career-active'}`}>
             <span className="ant-form-item-label">
@@ -31,18 +25,17 @@ const SchoolList = (props: {
                 {fields.length
                     ? fields.map((e: SchoolProps, idx: number) => (
                           <SchoolListItem
-                              field={e}
                               idx={idx}
                               isEdit={isEdit}
                               add={add}
                               remove={remove}
                               key={idx}
                               showAddBtn={
-                                  showAddBtn && idx === fields.length - 1
+                                  isEdit && idx === fields.length - 1
                               }
                           ></SchoolListItem>
                       ))
-                    : showAddBtn && (
+                    : isEdit && (
                           <PlusCircleOutlined
                               className="add"
                               onClick={() => add()}

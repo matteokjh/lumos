@@ -120,4 +120,26 @@
             .website
                 display: inline-flex
                 align-items: center
+            .statistics
+                display: flex
+                flex-wrap: wrap
+                justify-content: center
+                align-items: center
+                padding: 0px
+                > div
+                    width: 90px
+                    font-size: 13px
+                    margin: 0
+                    padding: 0
+                    box-sizing: content-box
+                    padding: 15px 10px
+                    width: calc(50% - 30px)
+                    &:first-child
+                        border-bottom: 1px solid #eee
+                    &:nth-child(2)
+                        border-bottom: 1px solid #eeeeee
+                        border-left: 1px solid #eeeeee
+                    &:last-child
+                        border-left: 1px solid #eeeeee
+
 
