@@ -1,0 +1,29 @@
+.MarkdownEditor
+    display: inline-flex
+    width: 100%
+    padding: 10px
+    height: calc(100vh - 125px)
+    background-color: #fafafa
+    position: relative
+    text-align: left
+    .md-editor
+        resize: none
+        margin-right: 10px
+        height: 100%
+        width: 50%
+        overflow: hidden
+    .preview
+        width: 50%
+        background-color: #fff
+        user-select: text
+        padding: 10px 30px 20px 30px
+        border: 1px solid #d9d9d9
+        border-radius: 5px
+        overflow: auto
+        *
+            user-select: text
+    .react-resizable-handle
+        background-color: #eeeeee
+        height: 100%
+        cursor: col-resize
+        right: -10px

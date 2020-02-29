@@ -1,11 +1,14 @@
 import React from 'react'
-import { Layout } from 'antd'
+import ArticleList from './components/ArticleList'
+import RightSideBar from './components/RightSideBar'
+import './styles/post.sass'
 
 const Post = () => {
     return (
-        <Layout>
-            主页
-        </Layout>
+        <div className="postLayout">
+            <ArticleList></ArticleList>
+            <RightSideBar></RightSideBar>
+        </div>
     )
 }
 

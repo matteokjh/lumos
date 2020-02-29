@@ -11,3 +11,7 @@ export interface contextProps {
     state: stateProps,
     dispatch: React.Dispatch<any>
 }
+
+export interface SearchObjProps {
+    
+}
