@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
-import { store } from '../../../store'
-import UserInfoForm from '../../../components/UserInfoForm'
-import UploadAvatarModal from '../../../components/modals/UploadAvatarModal'
+import { store } from '@/store'
+import UserInfoForm from '@/components/UserInfoForm'
+import UploadAvatarModal from '@/components/modals/UploadAvatarModal'
 
 const Info = () => {
     const { userInfo } = useContext(store).state

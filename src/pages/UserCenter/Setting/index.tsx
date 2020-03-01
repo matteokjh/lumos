@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom'
 import SideMenu from './SideMenu'
 import Info from './Info'
 import PwdChange from './PwdChange'
-import My404Component from '../../../components/My404Component'
-import './setting.sass'
+import My404Component from '@/components/My404Component'
+import '@/pages/styles/setting.sass'
 
 const Setting = () => {
     const PREFIX = `/user/:username/setting`

@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { Menu } from 'antd'
 import { NavLink, useLocation } from 'react-router-dom'
 import { store } from '../../../store'
-import './Articles.sass'
+import '@/pages/styles/Articles.sass'
 
 const SideMenu = () => {
     const { userInfo } = useContext(store).state

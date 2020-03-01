@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Menu } from 'antd'
 import { NavLink, useLocation } from 'react-router-dom'
-import { store } from '../../../store'
-import './setting.sass'
+import { store } from '@/store'
+import '@/pages/styles/setting.sass'
 
 const SideMenu = () => {
 

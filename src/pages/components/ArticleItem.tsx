@@ -5,6 +5,7 @@ import { Card, message, Modal } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { SendOutlined, DeleteOutlined } from '@ant-design/icons'
 import { articlePost, articleDel } from '@/api/article'
+import { formatDate } from '@/utils/methods'
 
 const ArticleItem = (props: {
     articleInfo: ArticleProps
@@ -17,9 +18,6 @@ const ArticleItem = (props: {
     const [confirmModalVisible, showConfirmModal] = useState(false)
 
     // methods
-    const formatDate = (time: number) => {
-        return new Date(time).toLocaleDateString()
-    }
     const handleCardClick = () => {
         if (canEdit) {
             if (articleInfo.show) {

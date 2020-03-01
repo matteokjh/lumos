@@ -1,3 +1,31 @@
 .ToolBar
     position: fixed
-    left: 0
+    top: 35%
+    transform: translateX(-8em)
+    user-select: none
+    > div
+        display: flex
+        flex-direction: column
+        width: 50px
+        align-items: center
+        justify-content: center
+        background-color: #fff
+        margin-bottom: 10px
+        box-shadow: 1px 1px 3px 1px #ddd
+        &.like
+            color: #2494ed
+        &.dislike
+            color: #FF5722
+        &.star
+            color: #ff9800
+        span
+            font-size: 14px
+            &:first-of-type
+                font-size: 22px
+            &:first-child
+                width: 50px
+                height: 50px
+                line-height: 50px
+                cursor: pointer
+                border-bottom: 1px solid #eee
+                        

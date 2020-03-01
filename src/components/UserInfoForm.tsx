@@ -183,13 +183,16 @@ const UserInfoForm = () => {
                     format={dateFormat}
                     disabled={!isEdit}
                     placeholder="请选择日期"
+                    style={{
+                        width: 185
+                    }}
                 ></DatePicker>
             </Form.Item>
             {/* 个人简介 */}
             <Form.Item label="个人简介" name="introduction">
                 <Input.TextArea
                     style={{
-                        width: '181.6px',
+                        width: '185px',
                         resize: isEdit ? 'vertical' : 'none',
                     }}
                     spellCheck={false}

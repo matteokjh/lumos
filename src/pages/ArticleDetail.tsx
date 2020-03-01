@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getArticle } from '@/api/article'
 import { ArticleProps } from '@/types/articles'
-import { message } from 'antd'
+import { message, Skeleton } from 'antd'
 import ReactMarkdown from 'react-markdown/with-html'
 import CodeBlock from '@/pages/components/react-markdown-code-block'
 import ReactMarkdownLink from '@/pages/components/react-markdown-link'
@@ -10,6 +10,7 @@ import '@/pages/styles/markdown.sass'
 import '@/pages/styles/ArticleDetail.sass'
 import { useHistory } from 'react-router-dom'
 import ToolBar from '@/components/ToolBar'
+import { formatDate } from '@/utils/methods'
 
 const ArticleDetail = (props: any) => {
     const [articleInfo, setArticleInfo] = useState({} as ArticleProps)
@@ -41,51 +42,81 @@ const ArticleDetail = (props: any) => {
 
     return (
         <div className="ArticleDetail">
-            {/* 主体 */}
-            <div className="md-wrapper">
-                <div className="title">
-                    <h1>{articleInfo.title}</h1>
-                    <p>{articleInfo.subTitle}</p>
+            <Skeleton
+                paragraph={{
+                    rows: 15,
+                }}
+                className="ske1"
+                active
+                loading={loading}
+            >
+                {/* 主体 */}
+                <div className="md-wrapper">
+                    <div className="title">
+                        <h1>{articleInfo.title}</h1>
+                        <p>{articleInfo.subTitle}</p>
+                    </div>
+                    <div className="author">
+                        作者：{articleInfo?.author?.name}
+                    </div>
+                    <div className="time">
+                        <span>
+                            发布日期：{formatDate(articleInfo?.createTime)}
+                        </span>
+                        <span>
+                            最后修改日期：{formatDate(articleInfo?.modifiedTime)}
+                        </span>
+                    </div>
                     <hr />
+                    <ReactMarkdown
+                        source={articleInfo.content}
+                        escapeHtml={false}
+                        renderers={{ code: CodeBlock, link: ReactMarkdownLink }}
+                    ></ReactMarkdown>
+                    <ToolBar></ToolBar>
                 </div>
-                <ReactMarkdown
-                    source={articleInfo.content}
-                    escapeHtml={false}
-                    renderers={{ code: CodeBlock, link: ReactMarkdownLink }}
-                ></ReactMarkdown>
-                <ToolBar></ToolBar>
-            </div>
-            {/* 右边栏 */}
-            <div className="authorBox">
-                <p className="title">作者简介</p>
-                <div className="user-wrapper" onClick={jumpUserInfo}>
-                    <div>
-                        <span
-                            className="avatar"
-                            style={{
-                                backgroundImage: `url(${articleInfo?.author?.avatar})`,
-                            }}
-                        ></span>
+            </Skeleton>
+            <Skeleton
+                className="ske2"
+                paragraph={{
+                    rows: 5,
+                }}
+                active
+                avatar
+                loading={loading}
+            >
+                {/* 右边栏 */}
+                <div className="authorBox">
+                    <p className="title">作者简介</p>
+                    <div className="user-wrapper" onClick={jumpUserInfo}>
                         <div>
-                            <h2>{articleInfo?.author?.name}</h2>
-                            <span>{articleInfo?.author?.work}</span>
+                            <span
+                                className="avatar"
+                                style={{
+                                    backgroundImage: `url(${articleInfo?.author?.avatar})`,
+                                }}
+                            ></span>
+                            <div>
+                                <h2>{articleInfo?.author?.name}</h2>
+                                <span>{articleInfo?.author?.work}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <p className="intro">
-                    「<span>{articleInfo?.author?.introduction}</span>」
-                </p>
-                <div className="counts">
-                    <p>
-                        <LikeFilled className="like" />
-                        文章获赞：9999
+                    <p className="intro">
+                        「<span>{articleInfo?.author?.introduction}</span>」
                     </p>
-                    <p>
-                        <StarFilled className="star" />
-                        文章被收藏：9999
-                    </p>
+                    <div className="counts">
+                        <p>
+                            <LikeFilled className="like" />
+                            文章获赞：9999
+                        </p>
+                        <p>
+                            <StarFilled className="star" />
+                            文章被收藏：9999
+                        </p>
+                    </div>
                 </div>
-            </div>
+            </Skeleton>
         </div>
     )
 }

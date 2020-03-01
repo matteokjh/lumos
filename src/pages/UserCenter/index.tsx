@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
-import { store } from '../../store/index'
+import { store } from '@/store/index'
 import { Route, useLocation, Switch } from 'react-router-dom'
-import './index.sass'
+import '@/pages/styles/index.sass'
 import BaseInfo from './BaseInfo'
 import Articles from './Articles'
 import Setting from './Setting/index'
 import Nav from './Nav'
-import My404Component from '../../components/My404Component'
+import My404Component from '@/components/My404Component'
 
 const UserCenter = () => {
     const globalStore = useContext(store)

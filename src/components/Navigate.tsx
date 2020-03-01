@@ -14,7 +14,7 @@ const Navigate = () => (
         style={{
             paddingTop: '20px',
             minHeight: 'calc(100vh - 50px)',
-            backgroundColor: '#eee'
+            backgroundColor: '#f1f1f1'
         }}
     >
         <Switch>
