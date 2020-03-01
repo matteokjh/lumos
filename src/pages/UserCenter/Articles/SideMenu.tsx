@@ -15,7 +15,7 @@ const SideMenu = () => {
     useEffect(() => {
         setKeys(location.pathname.split('/')[4])
         setIsSelf(location.pathname.indexOf(userInfo.username) > -1)
-    }, [location])
+    }, [location, userInfo.username])
 
     return (
         <div className="SideMenu">

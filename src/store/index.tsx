@@ -5,28 +5,29 @@ import { stateProps } from '../types/index'
 import { actionProps, Reducer } from './storeProps'
 
 const initialContext = {
-  state: {
-    userInfo: {
-      name: '',
-      avatar: '',
-      username: '',
-      isLogin: false,
-      rankId: {
-        rank: -1
-      },
-      introduction: '',
-      school: [],
-      sex: '',
-      location: '',
-      website: '',
-      birthday: '',
-      companys: [],
-      schools: []
+    state: {
+        userInfo: {
+            name: '',
+            avatar: '',
+            username: '',
+            isLogin: false,
+            rankId: {
+                rank: -1,
+            },
+            introduction: '',
+            school: [],
+            sex: '',
+            location: '',
+            website: '',
+            birthday: '',
+            companys: [],
+            schools: [],
+            work: '',
+        },
+        showLoginModal: false,
+        showRegisterModal: false,
     },
-    showLoginModal: false,
-    showRegisterModal: false,
-  },
-  dispatch: () => {}
+    dispatch: () => {},
 } as contextProps
 
 const store = createContext(initialContext)
@@ -39,8 +40,8 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
             return {
                 ...state,
                 userInfo: {
-                  ...action.payload,
-                  isLogin: true
+                    ...action.payload,
+                    isLogin: true,
                 },
             }
         // 头像
@@ -48,21 +49,21 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
             return {
                 ...state,
                 userInfo: {
-                  ...state.userInfo,
-                  avatar: action.payload
+                    ...state.userInfo,
+                    avatar: action.payload,
                 },
             }
         // 显示登录弹框
-        case 'SHOW_LOGIN_MODAL': 
+        case 'SHOW_LOGIN_MODAL':
             return {
-              ...state,
-              showLoginModal: action.payload,
+                ...state,
+                showLoginModal: action.payload,
             }
         // 显示注册弹框
-        case 'SHOW_REGISTER_MODAL': 
+        case 'SHOW_REGISTER_MODAL':
             return {
-              ...state,
-              showRegisterModal: action.payload,
+                ...state,
+                showRegisterModal: action.payload,
             }
         default:
             throw new Error()

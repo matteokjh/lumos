@@ -5,7 +5,7 @@ import { message, Button, Tooltip } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
 import { UserProps } from '../../types/user'
 import MyIcon from '../../components/MyIcon'
-import { EditOutlined } from '@ant-design/icons'
+import { EditOutlined, ToolOutlined } from '@ant-design/icons'
 
 const BaseInfo = () => {
     // 自己的个人信息
@@ -91,9 +91,11 @@ const BaseInfo = () => {
                                         color: '#fff',
                                     }}
                                 >
-                                    <EditOutlined style={{
+                                    <EditOutlined
+                                        style={{
                                             marginRight: '5px',
-                                        }}/>
+                                        }}
+                                    />
                                     <span>编辑个人资料</span>
                                 </NavLink>
                             </Button>
@@ -108,15 +110,26 @@ const BaseInfo = () => {
                         <b>个人资料</b>
                         {/* 公司 */}
                         <div className="company">
+                            <div className="work">
+                                <ToolOutlined />
+                                <span>{userInfo.work}</span>
+                            </div>
                             {userInfo.companys?.length ? (
                                 userInfo.companys.map((e, idx) => (
                                     <div key={`company_${idx}`}>
                                         {idx === 0 ? (
                                             <MyIcon type="iconcompany-fill" />
-                                        ): <MyIcon type="iconcompany-fill" />}
-                                        <div className='row-wrapper'>
-                                            <Tooltip placement='right' title={`${e.name} | ${e.title}`}>
-                                                <p>{e.name}</p><span>|</span><p>{e.title}</p>
+                                        ) : (
+                                            <MyIcon type="iconcompany-fill" />
+                                        )}
+                                        <div className="row-wrapper">
+                                            <Tooltip
+                                                placement="right"
+                                                title={`${e.name} | ${e.title}`}
+                                            >
+                                                <p>{e.name}</p>
+                                                <span>|</span>
+                                                <p>{e.title}</p>
                                             </Tooltip>
                                         </div>
                                     </div>
@@ -135,10 +148,17 @@ const BaseInfo = () => {
                                     <div key={`schools_${idx}`}>
                                         {idx === 0 ? (
                                             <MyIcon type="icongraduationcap" />
-                                        ): <MyIcon type="icongraduationcap" />}
-                                        <div className='row-wrapper'>
-                                            <Tooltip placement='right' title={`${e.name} | ${e.time}`}>
-                                                <p>{e.name}</p><span>|</span><p>{e.time}</p>
+                                        ) : (
+                                            <MyIcon type="icongraduationcap" />
+                                        )}
+                                        <div className="row-wrapper">
+                                            <Tooltip
+                                                placement="right"
+                                                title={`${e.name} | ${e.time}`}
+                                            >
+                                                <p>{e.name}</p>
+                                                <span>|</span>
+                                                <p>{e.time}</p>
                                             </Tooltip>
                                         </div>
                                     </div>

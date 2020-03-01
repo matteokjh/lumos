@@ -6,13 +6,15 @@ import UserCenter from '../pages/UserCenter/index'
 import ConfirmSucceed from '../pages/ConfirmSucceed'
 import EditArticle from '../pages/EditArticle'
 import My404Component from './My404Component'
+import ArticleDetail from '@/pages/ArticleDetail'
 import { Layout } from 'antd'
 
 const Navigate = () => (
     <Layout
         style={{
-            marginTop: '20px',
-            minHeight: 'calc(100vh - 68px)'
+            paddingTop: '20px',
+            minHeight: 'calc(100vh - 50px)',
+            backgroundColor: '#eee'
         }}
     >
         <Switch>
@@ -26,6 +28,8 @@ const Navigate = () => (
             {/* 写文章 */}
             <Route exact path="/write" component={EditArticle}></Route>
             <Route exact path="/write/:aid" component={EditArticle}></Route>
+            {/* 文章详情 */}
+            <Route exact path="/article/:aid" component={ArticleDetail}></Route>
             {/* 404 */}
             <Route component={My404Component}></Route>
         </Switch>

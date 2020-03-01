@@ -18,7 +18,11 @@ const EditArticle = (props: any) => {
 
     // methods
     const goBack = () => {
-        history.push('/')
+        if(articleId) {
+            history.push(`/user/${userInfo.username}/articles/post`)
+        } else {
+            history.push(`/`)
+        }
     }
     // 保存
     const saveMd = async () => {

@@ -3,7 +3,7 @@ import { Menu, Dropdown, Popconfirm, message } from 'antd'
 import { NavLink, useHistory } from 'react-router-dom'
 import useReactRouter from 'use-react-router'
 import Logo from './Logo'
-import './Nav.sass'
+import '@/styles/Nav.sass'
 import { store } from '../store/index'
 import { logout } from '../api/user'
 import {

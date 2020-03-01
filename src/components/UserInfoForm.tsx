@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { Form, Input, Radio, Button, message, DatePicker } from 'antd'
-import './userInfoForm.sass'
+import '@/styles/userInfoForm.sass'
 import { store } from '../store'
 import { setSelfInfo } from '../api/user'
 import moment from 'moment'
@@ -17,6 +17,7 @@ const PROP_MAP: any = {
     website: 1,
     company: 1,
     school: 1,
+    work: 1
 }
 
 const dateFormat = 'YYYY-MM-DD'
@@ -197,6 +198,15 @@ const UserInfoForm = () => {
             </Form.Item>
             {/* 个人网站 */}
             <Form.Item label="个人网站" name="website">
+                <Input
+                    autoComplete="off"
+                    allowClear
+                    disabled={!isEdit}
+                    spellCheck={false}
+                ></Input>
+            </Form.Item>
+            {/* 职业 */}
+            <Form.Item label="职业" name="work">
                 <Input
                     autoComplete="off"
                     allowClear

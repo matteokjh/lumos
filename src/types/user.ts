@@ -13,7 +13,8 @@ export interface UserProps {
     website: string,
     birthday: any,
     companys: CompanyProps[],
-    schools: SchoolProps[]
+    schools: SchoolProps[],
+    work: string
 }
 
 export interface CompanyProps {

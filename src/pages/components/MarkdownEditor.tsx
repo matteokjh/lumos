@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
 import CodeBlock from './react-markdown-code-block'
-import { debounce } from '@/utils/methods'
 import ReactMarkdownLink from './react-markdown-link'
+import { debounce } from '@/utils/methods'
 import ReactResizeDetector from 'react-resize-detector'
 import MonacoEditor, { EditorDidMount } from 'react-monaco-editor'
-import '@/pages/styles/MarkdownEditor.sass'
 import '@/pages/styles/markdown.sass'
+import '@/pages/styles/MarkdownEditor.sass'
 
 const MarkdownEditor = (props: any) => {
     const inputRef = useRef(null as any)
