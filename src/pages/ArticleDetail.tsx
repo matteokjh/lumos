@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { getArticle } from '@/api/article'
 import { ArticleProps } from '@/types/articles'
 import { message, Skeleton } from 'antd'
@@ -10,7 +10,7 @@ import '@/pages/styles/markdown.sass'
 import '@/pages/styles/ArticleDetail.sass'
 import { useHistory } from 'react-router-dom'
 import ToolBar from '@/components/ToolBar'
-import { formatDate } from '@/utils/methods'
+import { formatDate, formatNumber } from '@/utils/methods'
 
 const ArticleDetail = (props: any) => {
     const [articleInfo, setArticleInfo] = useState({} as ArticleProps)
@@ -23,13 +23,15 @@ const ArticleDetail = (props: any) => {
     }
 
     useEffect(() => {
-        let { aid } = props.match.params
         setLoading(true)
         ;(async () => {
+            // 获取文章详情信息
             try {
+                let { aid } = props.match.params
                 let res = await getArticle(aid)
                 if (res.code === 200) {
                     setArticleInfo(res.data)
+                    console.log(res.data)
                 } else {
                     message.error(res.msg)
                 }
@@ -64,7 +66,8 @@ const ArticleDetail = (props: any) => {
                             发布日期：{formatDate(articleInfo?.createTime)}
                         </span>
                         <span>
-                            最后修改日期：{formatDate(articleInfo?.modifiedTime)}
+                            最后修改日期：
+                            {formatDate(articleInfo?.modifiedTime)}
                         </span>
                     </div>
                     <hr />
@@ -73,7 +76,7 @@ const ArticleDetail = (props: any) => {
                         escapeHtml={false}
                         renderers={{ code: CodeBlock, link: ReactMarkdownLink }}
                     ></ReactMarkdown>
-                    <ToolBar></ToolBar>
+                    <ToolBar articleInfo={articleInfo}></ToolBar>
                 </div>
             </Skeleton>
             <Skeleton
@@ -108,11 +111,13 @@ const ArticleDetail = (props: any) => {
                     <div className="counts">
                         <p>
                             <LikeFilled className="like" />
-                            文章获赞：9999
+                            文章获赞：
+                            {formatNumber(articleInfo?.author?.likesTotal)}
                         </p>
                         <p>
                             <StarFilled className="star" />
-                            文章被收藏：9999
+                            文章被收藏：
+                            {formatNumber(articleInfo?.author?.starsTotal)}
                         </p>
                     </div>
                 </div>

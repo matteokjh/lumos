@@ -1,27 +1,28 @@
+
 export interface UserProps {
-    avatar: string,
-    username: string,
-    name: string,
-    isLogin: boolean,
+    avatar: string
+    username: string
+    name: string
+    isLogin: boolean
     rankId: {
         rank: string | number
-    },
-    introduction: string,
-    school: string[],
-    sex?: 'male' | 'female' | '',
-    location: string,
-    website: string,
-    birthday: any,
-    companys: CompanyProps[],
-    schools: SchoolProps[],
+    }
+    introduction: string
+    school: string[]
+    sex?: 'male' | 'female' | ''
+    location: string
+    website: string
+    birthday: any
+    companys: CompanyProps[]
+    schools: SchoolProps[]
     work: string
 }
 
 export interface CompanyProps {
-    name: string,
+    name: string
     title: string
 }
 export interface SchoolProps {
-    name: string,
+    name: string
     time: string
 }

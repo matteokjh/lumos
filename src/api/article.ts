@@ -36,3 +36,21 @@ export const articleDel = (aid: string) => {
         },
     })
 }
+// 点赞/取消点赞 文章
+export const articleLike = (aid: string) => {
+    return fetch.put(`/user${PREFIX}/like`, {
+        aid,
+    })
+}
+// dislike/取消 dislike 文章
+export const articleDisLike = (aid: string) => {
+    return fetch.put(`/user${PREFIX}/dislike`, {
+        aid,
+    })
+}
+// 收藏/取消收藏 文章
+export const articleStar = (aid: string) => {
+    return fetch.put(`/user${PREFIX}/star`, {
+        aid,
+    })
+}

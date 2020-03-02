@@ -5,7 +5,8 @@ import { Card, message, Modal } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { SendOutlined, DeleteOutlined } from '@ant-design/icons'
 import { articlePost, articleDel } from '@/api/article'
-import { formatDate } from '@/utils/methods'
+import { LikeOutlined, StarOutlined, CommentOutlined } from '@ant-design/icons'
+import { formatNumber } from '@/utils/methods'
 
 const ArticleItem = (props: {
     articleInfo: ArticleProps
@@ -62,13 +63,33 @@ const ArticleItem = (props: {
                     <h1>{articleInfo.title}</h1>
                 </div>
                 <div className="subTitle">{articleInfo.subTitle}</div>
-                <div className="author">作者：{articleInfo.author.name}</div>
-                <div className="time">
+                <div className="bottom">
+                    <span className="like">
+                        <LikeOutlined></LikeOutlined>
+                        {formatNumber(articleInfo?.likers?.length)}
+                    </span>
+                    <span className="star">
+                        <StarOutlined></StarOutlined>
+                        {formatNumber(articleInfo?.collectors?.length)}
+                    </span>
+                    <span className="comment">
+                        <CommentOutlined />
+                        {formatNumber(articleInfo?.comments?.length)}
+                    </span>
+                    <span className="author">{articleInfo.author.name}</span>
+                </div>
+                {/* <div className="time">
                     <span>发布日期：{formatDate(articleInfo.createTime)}</span>
                     <span>
                         最后修改日期：{formatDate(articleInfo.modifiedTime)}
                     </span>
-                </div>
+                </div> */}
+                <div
+                    className="pic"
+                    style={{
+                        backgroundImage: `url(${require('@/img/scene.jpg')})`,
+                    }}
+                ></div>
             </Card>
             {articleInfo.show && canEdit && (
                 <div className="toolbar">

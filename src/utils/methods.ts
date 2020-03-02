@@ -24,5 +24,5 @@ export const formatNumber = (num: number) => {
         return `${~~(num / 1000000)}M+`
     } else if(num > 999) {
         return `${~~(num / 1000)}K+`
-    } else return num
+    } else return num || 0
 }
