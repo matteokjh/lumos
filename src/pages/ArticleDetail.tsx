@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getArticle } from '@/api/article'
 import { ArticleProps } from '@/types/articles'
 import { message, Skeleton } from 'antd'
@@ -31,7 +31,7 @@ const ArticleDetail = (props: any) => {
                 let res = await getArticle(aid)
                 if (res.code === 200) {
                     setArticleInfo(res.data)
-                    console.log(res.data)
+                    // console.log(res.data)
                 } else {
                     message.error(res.msg)
                 }

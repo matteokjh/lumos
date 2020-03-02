@@ -1,49 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState } from 'react'
 import { message, Upload, Modal } from 'antd'
 import './styles/uploadAvatarModal.sass'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
-import { uploadAvatar } from '../../api/user'
-import { store } from '../../store'
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 
 const UploadAvatarModal = (props: any) => {
-    const [imageUrl, setImageUrl] = useState('')
+    const [imageUrl, setImageUrl] = useState(props.imageUrl)
     const [loading, setLoading] = useState(false)
-    const { dispatch } = useContext(store)
-    const { userInfo } = useContext(store).state
-
-    useEffect(() => {
-        if (userInfo.avatar) {
-            setImageUrl(userInfo.avatar)
-        }
-    }, [userInfo])
+    const { submit, onCancel, title, visible } = props
 
     // methods
-    const submit = async () => {
-        if (!imageUrl) {
-            message.warning('请上传图片！')
-            return
-        }
-        setLoading(true)
-        try {
-            let res = await uploadAvatar({
-                base64: imageUrl,
-            })
-            if (res.code === 200) {
-                dispatch({
-                    type: 'SET_AVATAR',
-                    payload: imageUrl,
-                })
-                setLoading(false)
-                props.hideModal()
-            } else {
-                message.error(res.msg)
-            }
-        } catch (err) {
-            message.error(err)
-        }
-    }
     const getBase64 = (
         img: Blob | File | undefined,
         callback: (file: string | ArrayBuffer | null) => void
@@ -81,64 +48,77 @@ const UploadAvatarModal = (props: any) => {
             )
         }
     }
+    const handleOk = () => {
+        if(imageUrl.indexOf('data:image') > -1) {
+            submit(imageUrl)
+        } else {
+            onCancel()
+        }
+    }
 
     return (
-        <div className="UploadAvatarModal">
-            <Modal
-                cancelText="取消"
-                okText="确定"
-                visible
-                title="上传头像"
-                onOk={submit}
-                onCancel={props.hideModal}
-                maskClosable={false}
-                okButtonProps={{
-                    loading: loading,
-                }}
-            >
-                <Upload
-                    name="avatar"
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    showUploadList={false}
-                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                    beforeUpload={beforeUpload}
-                    onChange={handleChange}
+        visible && (
+            <div className="UploadAvatarModal">
+                <Modal
+                    cancelText="取消"
+                    okText="确定"
+                    visible
+                    title={title}
+                    onOk={handleOk}
+                    onCancel={onCancel}
+                    maskClosable={false}
+                    okButtonProps={{
+                        loading: loading,
+                    }}
                 >
-                    {imageUrl ? (
-                        <div className="wrapper">
-                            <div className="img-wrapper">
-                                <img
-                                    className="avatar"
-                                    src={imageUrl}
-                                    alt="avatar"
-                                />
-                            </div>
-                            <div
-                                className="upload-btn"
-                                style={{
-                                    opacity: loading ? 0.8 : 0,
-                                }}
-                            >
-                                <div>
-                                    {loading ? (
-                                        <LoadingOutlined />
-                                    ) : (
-                                        <PlusOutlined />
-                                    )}
-                                    <p>点击上传</p>
+                    <Upload
+                        name="avatar"
+                        listType="picture-card"
+                        className="avatar-uploader"
+                        showUploadList={false}
+                        action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                        beforeUpload={beforeUpload}
+                        onChange={handleChange}
+                    >
+                        {imageUrl ? (
+                            <div className="wrapper">
+                                <div className="img-wrapper">
+                                    <img
+                                        className="avatar"
+                                        src={imageUrl}
+                                        alt="avatar"
+                                    />
+                                </div>
+                                <div
+                                    className="upload-btn"
+                                    style={{
+                                        opacity: loading ? 0.8 : 0,
+                                    }}
+                                >
+                                    <div>
+                                        {loading ? (
+                                            <LoadingOutlined />
+                                        ) : (
+                                            <PlusOutlined />
+                                        )}
+                                        <p>点击上传</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ) : (
-                        <div className="upload-btn-default">
-                            {loading ? <LoadingOutlined /> : <PlusOutlined />}
-                            <p>点击上传</p>
-                        </div>
-                    )}
-                </Upload>
-            </Modal>
-        </div>
+                        ) : (
+                            <div className="upload-btn-default">
+                                {loading ? (
+                                    <LoadingOutlined />
+                                ) : (
+                                    <PlusOutlined />
+                                )}
+                                <p>点击上传</p>
+                            </div>
+                        )}
+                    </Upload>
+                </Modal>
+            </div>
+        )
     )
 }
 

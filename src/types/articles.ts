@@ -14,6 +14,7 @@ export interface ArticleProps {
         likesTotal: number // 作者文章获赞数
         starsTotal: number // 作者文章被收藏数
     } // 作者
+    headPic: string, // 头图
     content: string // 内容
     createTime: number // 发布时间
     modifiedTime: number // 最后修改时间

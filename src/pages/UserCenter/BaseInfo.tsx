@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { store } from '../../store'
-import { getUserInfo } from '../../api/user'
+import { store } from '@/store'
+import { getUserInfo } from '@/api/user'
 import { message, Button, Tooltip } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
-import { UserProps } from '../../types/user'
-import MyIcon from '../../components/MyIcon'
+import { UserProps } from '@/types/user'
+import MyIcon from '@/components/MyIcon'
 import { EditOutlined, ToolOutlined } from '@ant-design/icons'
+import { formatNumber } from '@/utils/methods'
 
 const BaseInfo = () => {
     // 自己的个人信息
@@ -69,16 +70,16 @@ const BaseInfo = () => {
                 <div className="info-detail">
                     <div className="statistics">
                         <div>
-                            <span>关注数：99</span>
+                            <span>关注数：{formatNumber(99)}</span>
                         </div>
                         <div>
-                            <span>粉丝数：99999</span>
+                            <span>粉丝数：{formatNumber(99)}</span>
                         </div>
                         <div>
-                            <span>文章数：99</span>
+                            <span>文章获赞：{formatNumber(user?.likesTotal)}</span>
                         </div>
                         <div>
-                            <span>文章获赞：9999</span>
+                            <span>文章被收藏：{formatNumber(user?.starsTotal)}</span>
                         </div>
                     </div>
                     {/* 编辑按钮 */}

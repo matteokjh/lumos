@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import ReactMarkdown from 'react-markdown/with-html'
 import CodeBlock from './react-markdown-code-block'
 import ReactMarkdownLink from './react-markdown-link'
+import ReactMarkdownIMG from './react-markdown-img'
 import { debounce } from '@/utils/methods'
 import ReactResizeDetector from 'react-resize-detector'
 import MonacoEditor, { EditorDidMount } from 'react-monaco-editor'
@@ -116,7 +117,7 @@ const MarkdownEditor = (props: any) => {
                 <ReactMarkdown
                     source={mdContent}
                     escapeHtml={false}
-                    renderers={{ code: CodeBlock, link: ReactMarkdownLink }}
+                    renderers={{ code: CodeBlock, link: ReactMarkdownLink, image: ReactMarkdownIMG }}
                 ></ReactMarkdown>
             </div>
         </div>

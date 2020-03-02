@@ -15,7 +15,9 @@ export interface UserProps {
     birthday: any
     companys: CompanyProps[]
     schools: SchoolProps[]
-    work: string
+    work: string,
+    likesTotal?: number,
+    starsTotal?: number,
 }
 
 export interface CompanyProps {

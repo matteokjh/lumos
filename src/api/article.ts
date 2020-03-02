@@ -54,3 +54,10 @@ export const articleStar = (aid: string) => {
         aid,
     })
 }
+// 上传文章封面图
+export const saveArticleHeadPic = (obj: {
+    url: string, 
+    aid: string
+}) => {
+    return fetch.put(`/user${PREFIX}/headpic`, obj)
+}

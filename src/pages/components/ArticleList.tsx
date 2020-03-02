@@ -14,7 +14,7 @@ const ArticleList = (props: {
 
     return (
         <div className="ArticleList">
-            {articleList?.length ? (
+            {articleList.length ? (
                 articleList.map(e => (
                     <ArticleItem
                         articleInfo={e}
@@ -26,7 +26,12 @@ const ArticleList = (props: {
                 ))
             ) : (
                 <Empty style={{
-                    backgroundColor: '#fff'
+                    backgroundColor: '#fff',
+                    height: '80vh',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                 }} image={Empty.PRESENTED_IMAGE_SIMPLE} description="这里空空如也~"></Empty>
             )}
         </div>
