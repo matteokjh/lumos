@@ -45,6 +45,7 @@ const Info = () => {
                     className="avatar"
                     style={{
                         backgroundImage: `url(${userInfo.avatar})`,
+                        backgroundColor: '#eee'
                     }}
                 >
                     <div

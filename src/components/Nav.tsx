@@ -81,7 +81,7 @@ const Nav = () => {
             let res = await logout()
             if (res.code === 200) {
                 history.push('/')
-                window.location.reload() // 临时解决菜单收不起来的问题
+                window.location.reload()
             } else {
                 message.error(res.msg)
             }

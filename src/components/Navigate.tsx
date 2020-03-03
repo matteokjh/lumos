@@ -12,7 +12,6 @@ import { Layout } from 'antd'
 const Navigate = () => (
     <Layout
         style={{
-            paddingTop: '20px',
             minHeight: 'calc(100vh - 50px)',
             backgroundColor: '#f1f1f1'
         }}

@@ -53,3 +53,10 @@ export const uploadAvatar = async (imageUrl: {
 }) => {
     return fetch.put(`${PREFIX}/uploadavatar`, imageUrl)
 }
+
+// 关注/取消关注 用户
+export const userFollow = async (userId: string) => {
+    return fetch.put(`${PREFIX}/follow`, {
+        userId
+    })
+}

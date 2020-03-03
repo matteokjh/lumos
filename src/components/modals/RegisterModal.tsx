@@ -147,6 +147,7 @@ const RegisterModal = (props: any) => {
                     style={{
                         fontSize: 40,
                         marginBottom: 20,
+                        textAlign: 'center'
                     }}
                 >
                     𝕷𝖚𝖒𝖔𝖘

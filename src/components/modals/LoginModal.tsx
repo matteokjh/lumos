@@ -22,8 +22,8 @@ const LoginModal = (props: any) => {
         try {
             let res = await login(values)
             if (res.code === 200) {
-                console.log(res.data)
-                // window.location.reload()
+                // console.log(res.data)
+                window.location.reload()
             } else {
                 message.error(res.msg)
             }
@@ -60,6 +60,7 @@ const LoginModal = (props: any) => {
                     style={{
                         fontSize: 40,
                         marginBottom: 20,
+                        textAlign: 'center'
                     }}
                 >
                     𝕷𝖚𝖒𝖔𝖘

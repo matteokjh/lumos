@@ -156,6 +156,7 @@ const UserInfoForm = () => {
                 <Input
                     autoComplete="off"
                     allowClear
+                    maxLength={20}
                     disabled={!isEdit}
                     spellCheck={false}
                 ></Input>

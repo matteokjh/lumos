@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { store } from '@/store'
-import { getUserInfo } from '@/api/user'
+import { getUserInfo, userFollow } from '@/api/user'
 import { message, Button, Tooltip } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
 import { UserProps } from '@/types/user'
 import MyIcon from '@/components/MyIcon'
-import { EditOutlined, ToolOutlined } from '@ant-design/icons'
+import { EditOutlined, ToolOutlined, SwapOutlined } from '@ant-design/icons'
 import { formatNumber } from '@/utils/methods'
+import "@/pages/styles/BaseInfo.sass"
 
 const BaseInfo = () => {
     // 自己的个人信息
@@ -17,11 +18,39 @@ const BaseInfo = () => {
     const location = useLocation()
     // 跳转
     const history = useHistory()
+    const [isSelf, setIsSelf] = useState(false)
+
     // methods
+    const refresh = async () => {
+        let username = location.pathname.split('/')[2]
+        try {
+            let res = await getUserInfo(username)
+            if (res.code === 200) {
+                setUser(res.data.userInfo)
+            } else {
+                message.error(res.msg)
+            }
+        } catch (err) {
+            message.error(err)
+        }
+    }
+    const handleFollow = async () => {
+        try {
+            let res = await userFollow(user._id)
+            if (res.code === 200) {
+                await refresh()
+            } else {
+                message.error(res.msg)
+            }
+        } catch (err) {
+            message.error(err)
+        }
+    }
     useEffect(() => {
         ;(async () => {
             try {
                 let username = location.pathname.split('/')[2]
+                setIsSelf(username === userInfo.username) // 判断是否自己
                 let res = await getUserInfo(username)
                 if (res.code === 200) {
                     setUser(res.data.userInfo)
@@ -41,8 +70,8 @@ const BaseInfo = () => {
                 <div
                     className="avatar"
                     style={{
-                        backgroundImage: `url(${userInfo.avatar ||
-                            require('../../img/defaultAvatar.png')})`,
+                        backgroundImage: `url(${user.avatar ||
+                            require('@/img/defaultAvatar.png')})`,
                     }}
                 ></div>
                 <div className="info">
@@ -70,20 +99,24 @@ const BaseInfo = () => {
                 <div className="info-detail">
                     <div className="statistics">
                         <div>
-                            <span>关注数：{formatNumber(99)}</span>
+                            <span>关注数：{formatNumber(user?.follows?.length)}</span>
                         </div>
                         <div>
-                            <span>粉丝数：{formatNumber(99)}</span>
+                            <span>粉丝数：{formatNumber(user?.followers?.length)}</span>
                         </div>
                         <div>
-                            <span>文章获赞：{formatNumber(user?.likesTotal)}</span>
+                            <span>
+                                文章获赞：{formatNumber(user?.likesTotal)}
+                            </span>
                         </div>
                         <div>
-                            <span>文章被收藏：{formatNumber(user?.starsTotal)}</span>
+                            <span>
+                                文章被收藏：{formatNumber(user?.starsTotal)}
+                            </span>
                         </div>
                     </div>
-                    {/* 编辑按钮 */}
-                    {user.username === userInfo.username && (
+                    {/* 如果是自己：编辑按钮 */}
+                    {isSelf ? (
                         <div className="edit">
                             <Button type="primary">
                                 <NavLink
@@ -101,11 +134,34 @@ const BaseInfo = () => {
                                 </NavLink>
                             </Button>
                         </div>
+                    ) : (
+                        // 如果是别人：关注按钮
+                        <div className="focus">
+                            {user.youFollowHim ? (
+                                <Button onClick={handleFollow}>
+                                    {user.heFollowYou ? (
+                                        <span>
+                                            <SwapOutlined />
+                                            互相关注
+                                        </span>
+                                    ) : (
+                                        '已关注'
+                                    )}
+                                </Button>
+                            ) : (
+                                <Button
+                                    onClick={handleFollow}
+                                    type="primary"
+                                >{`关注${
+                                    user.sex === 'female' ? '她' : '他'
+                                }`}</Button>
+                            )}
+                        </div>
                     )}
                     {/* 个人简介 */}
                     <div className="intro">
                         <b>个人简介</b>
-                        <p>{userInfo.introduction || '暂无介绍'}</p>
+                        <p>{user.introduction || '暂无介绍'}</p>
                     </div>
                     <div className="info">
                         <b>个人资料</b>
@@ -113,10 +169,10 @@ const BaseInfo = () => {
                         <div className="company">
                             <div className="work">
                                 <ToolOutlined />
-                                <span>{userInfo.work}</span>
+                                <span>{user.work}</span>
                             </div>
-                            {userInfo.companys?.length ? (
-                                userInfo.companys.map((e, idx) => (
+                            {user.companys?.length ? (
+                                user.companys.map((e, idx) => (
                                     <div key={`company_${idx}`}>
                                         {idx === 0 ? (
                                             <MyIcon type="iconcompany-fill" />
@@ -144,8 +200,8 @@ const BaseInfo = () => {
                         </div>
                         {/* 学校 */}
                         <div className="school">
-                            {userInfo.schools?.length ? (
-                                userInfo.schools.map((e, idx) => (
+                            {user.schools?.length ? (
+                                user.schools.map((e, idx) => (
                                     <div key={`schools_${idx}`}>
                                         {idx === 0 ? (
                                             <MyIcon type="icongraduationcap" />
@@ -174,27 +230,27 @@ const BaseInfo = () => {
                         {/* 位置 */}
                         <div className="location">
                             <MyIcon type="iconlocation"></MyIcon>
-                            {(userInfo.location && (
-                                <p>{userInfo.location}</p>
-                            )) || <p>未设置</p>}
+                            {(user.location && <p>{user.location}</p>) || (
+                                <p>未设置</p>
+                            )}
                         </div>
                         {/* 性别 */}
                         <div className="sex">
                             <MyIcon type="iconico-sex"></MyIcon>
-                            {(userInfo.sex === 'male' && <p>男</p>) ||
-                                (userInfo.sex === 'female' && <p>女</p>) || (
+                            {(user.sex === 'male' && <p>男</p>) ||
+                                (user.sex === 'female' && <p>女</p>) || (
                                     <p>保密</p>
                                 )}
                         </div>
                         {/* 博客 */}
                         <div className="website">
                             <MyIcon type="iconwww"></MyIcon>
-                            {(userInfo.website && (
+                            {(user.website && (
                                 <a
                                     href={
-                                        userInfo.website.match(/http:\/\//)
-                                            ? userInfo.website
-                                            : `http://${userInfo.website}`
+                                        user.website.match(/(http|https):\/\//)
+                                            ? user.website
+                                            : `http://${user.website}`
                                     }
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -202,7 +258,7 @@ const BaseInfo = () => {
                                         marginLeft: '10px',
                                     }}
                                 >
-                                    {userInfo.website}
+                                    {user.website}
                                 </a>
                             )) || <p className="no">未设置</p>}
                         </div>

@@ -1,33 +1,44 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { getArticle } from '@/api/article'
 import { ArticleProps } from '@/types/articles'
 import { message, Skeleton } from 'antd'
 import ReactMarkdown from 'react-markdown/with-html'
 import CodeBlock from '@/pages/components/react-markdown-code-block'
 import ReactMarkdownLink from '@/pages/components/react-markdown-link'
+import ReactMarkdownImg from '@/pages/components/react-markdown-img'
 import { LikeFilled, StarFilled } from '@ant-design/icons'
 import '@/pages/styles/markdown.sass'
 import '@/pages/styles/ArticleDetail.sass'
 import { useHistory } from 'react-router-dom'
 import ToolBar from '@/components/ToolBar'
 import { formatDate, formatNumber } from '@/utils/methods'
+import { store } from '@/store'
 
 const ArticleDetail = (props: any) => {
     const [articleInfo, setArticleInfo] = useState({} as ArticleProps)
     const history = useHistory()
     const [loading, setLoading] = useState(false)
+    const { userInfo } = useContext(store).state
 
     // methods
     const jumpUserInfo = () => {
-        history.push(`/user/${articleInfo.author.username}/baseinfo`)
+        if(userInfo.isLogin) { 
+            history.push(`/user/${articleInfo.author.username}/baseinfo`)
+        } else {
+            message.warning('请先登录以访问他人主页')
+        }
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     useEffect(() => {
         setLoading(true)
         ;(async () => {
             // 获取文章详情信息
             try {
-                let { aid } = props.match.params
+                let aid = props.match.params.aid
                 let res = await getArticle(aid)
                 if (res.code === 200) {
                     setArticleInfo(res.data)
@@ -40,7 +51,7 @@ const ArticleDetail = (props: any) => {
             }
             setLoading(false)
         })()
-    }, [props.match.params])
+    }, [props.match.params.aid])
 
     return (
         <div className="ArticleDetail">
@@ -74,7 +85,11 @@ const ArticleDetail = (props: any) => {
                     <ReactMarkdown
                         source={articleInfo.content}
                         escapeHtml={false}
-                        renderers={{ code: CodeBlock, link: ReactMarkdownLink }}
+                        renderers={{
+                            code: CodeBlock,
+                            link: ReactMarkdownLink,
+                            image: ReactMarkdownImg,
+                        }}
                     ></ReactMarkdown>
                     <ToolBar articleInfo={articleInfo}></ToolBar>
                 </div>

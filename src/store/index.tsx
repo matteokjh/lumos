@@ -7,6 +7,7 @@ import { actionProps, Reducer } from './storeProps'
 const initialContext = {
     state: {
         userInfo: {
+            _id: '',
             name: '',
             avatar: '',
             username: '',

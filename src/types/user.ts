@@ -1,5 +1,6 @@
 
 export interface UserProps {
+    _id: string
     avatar: string
     username: string
     name: string
@@ -18,6 +19,10 @@ export interface UserProps {
     work: string,
     likesTotal?: number,
     starsTotal?: number,
+    youFollowHim?: boolean,
+    heFollowYou?: boolean,
+    follows?: string[],
+    followers?: string[]
 }
 
 export interface CompanyProps {

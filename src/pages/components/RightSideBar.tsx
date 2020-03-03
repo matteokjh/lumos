@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import '@/pages/styles/RightSideBar.sass'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
+import { store } from '@/store'
 
 const RightSideBar = () => {
     const history = useHistory()
+    const { userInfo } = useContext(store).state
 
     // methods
     const jumpToWrite = () => {
@@ -13,13 +15,16 @@ const RightSideBar = () => {
 
     return (
         <div className="RightSideBar">
-            <Button
-                className="jumpWriteBtn"
-                type="primary"
-                onClick={jumpToWrite}
-            >
-                写文章
-            </Button>
+            {userInfo.isLogin && (
+                <Button
+                    className="jumpWriteBtn"
+                    type="primary"
+                    onClick={jumpToWrite}
+                >
+                    写文章
+                </Button>
+            )}
+
             <a
                 href="https://pinfrights.tk/21-amazing-travel-apps-yo/"
                 target="_blank"

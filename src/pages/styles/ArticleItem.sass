@@ -40,12 +40,18 @@
     .bottom
         margin-top: 2em
         font-size: 12px
+        display: inline-flex
         > span
             margin-right: 12px
             span
                 margin-right: 3px
         .author
             margin-left: 15px
+            white-space: nowrap
+            max-width: 200px
+            overflow: hidden
+            text-overflow: ellipsis
+            display: inline-block
     // &:hover
     //     background-color: #90b8f6
     &:hover > .toolbar

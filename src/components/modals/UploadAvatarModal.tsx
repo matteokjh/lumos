@@ -86,7 +86,7 @@ const UploadAvatarModal = (props: any) => {
                                     <img
                                         className="avatar"
                                         src={imageUrl}
-                                        alt="avatar"
+                                        alt="pic"
                                     />
                                 </div>
                                 <div
