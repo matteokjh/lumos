@@ -62,7 +62,7 @@ const BaseInfo = () => {
                 message.error(err)
             }
         })()
-    }, [location, history])
+    }, [location, history, userInfo.username])
     return (
         <div className="baseInfo">
             {/* top */}

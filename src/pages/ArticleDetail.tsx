@@ -9,6 +9,7 @@ import ReactMarkdownImg from '@/pages/components/react-markdown-img'
 import { LikeFilled, StarFilled } from '@ant-design/icons'
 import '@/pages/styles/markdown.sass'
 import '@/pages/styles/ArticleDetail.sass'
+import CommentBox from '@/components/CommentBox'
 import { useHistory } from 'react-router-dom'
 import ToolBar from '@/components/ToolBar'
 import { formatDate, formatNumber } from '@/utils/methods'
@@ -27,6 +28,9 @@ const ArticleDetail = (props: any) => {
         } else {
             message.warning('请先登录以访问他人主页')
         }
+    }
+    const submitComment = (text: string) => {
+        console.log(text)
     }
 
     useEffect(() => {
@@ -55,6 +59,7 @@ const ArticleDetail = (props: any) => {
 
     return (
         <div className="ArticleDetail">
+            {/* 文章主体 */}
             <Skeleton
                 paragraph={{
                     rows: 15,
@@ -91,9 +96,13 @@ const ArticleDetail = (props: any) => {
                             image: ReactMarkdownImg,
                         }}
                     ></ReactMarkdown>
+                    {/* 评论 */}
+                    <CommentBox submit={submitComment}></CommentBox>
+                    {/* 左边工具栏 */}
                     <ToolBar articleInfo={articleInfo}></ToolBar>
                 </div>
             </Skeleton>
+            {/* 右边作者栏 */}
             <Skeleton
                 className="ske2"
                 paragraph={{
@@ -103,7 +112,6 @@ const ArticleDetail = (props: any) => {
                 avatar
                 loading={loading}
             >
-                {/* 右边栏 */}
                 <div className="authorBox">
                     <p className="title">作者简介</p>
                     <div className="user-wrapper" onClick={jumpUserInfo}>
