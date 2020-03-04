@@ -1,5 +1,5 @@
 import React from 'react'
-import { CompanyProps } from '../types/user'
+import { CompanyProps } from '../../types/user'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import CompanyListItem from './CompanyListItem'
 

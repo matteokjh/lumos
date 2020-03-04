@@ -104,7 +104,7 @@ const ArticleItem = (props: {
                     </span>
                     <span className="comment">
                         <CommentOutlined />
-                        {formatNumber(articleInfo?.comments?.length)}
+                        {formatNumber(articleInfo?.commentsCount)}
                     </span>
                     <span className="author">{articleInfo.author.name}</span>
                 </div>

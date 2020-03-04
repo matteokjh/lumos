@@ -6,7 +6,7 @@ import BaseInfo from './BaseInfo'
 import Articles from './Articles'
 import Setting from './Setting/index'
 import Nav from './Nav'
-import My404Component from '@/components/My404Component'
+import My404Component from '@/components/base/My404Component'
 
 const UserCenter = () => {
     const globalStore = useContext(store)

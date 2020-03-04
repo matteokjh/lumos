@@ -1,7 +1,7 @@
 import React from 'react'
 import SideMenu from './SideMenu'
 import { Switch, Route } from 'react-router-dom'
-import My404Component from '@/components/My404Component'
+import My404Component from '@/components/base/My404Component'
 import Post from './Post'
 
 const Articles = () => {

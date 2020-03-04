@@ -1,0 +1,39 @@
+.commentBar
+    display: inline-flex
+    width: 100%
+    justify-content: center
+    background-color: #f9f9f9
+    padding: 10px 0
+    margin-top: 10px
+    .avatar
+        width: 40px
+        height: 40px
+        margin-right: 10px
+        display: inline-block
+        background-size: cover
+        background-repeat: no-repeat
+        border-radius: 50%
+    .inputWrapper
+        display: flex
+        width: 80%
+        min-height: 40px
+        flex-wrap: wrap
+        .inputBar
+            border: 1px solid #eee
+            width: 100%
+            padding: 10px
+            min-height: 40px
+            background-color: #fff
+            &:empty:before
+                display: inline-block
+            &:not(:focus):empty + .btn
+                display: none
+            &::before
+                display: none
+                content: attr(data-placeholder)
+                color: #ddd
+        .btn
+            width: 100%
+            display: block
+            text-align: right
+            padding-top: 10px

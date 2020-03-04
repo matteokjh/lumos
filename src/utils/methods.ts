@@ -18,6 +18,23 @@ export const formatDate = (time: number) => {
     if (!time) return ''
     return new Date(time).toLocaleDateString()
 }
+// 处理时间
+export const formatTime = (time: number) => {
+    let now = new Date().getTime()
+    let ds = ~~((now - time)/1000)
+    const aMinute = 3600
+    const aHour = 3600
+    const aDay = 86400
+    if(ds < aMinute) {
+        return '刚刚'
+    } else if(ds < aHour) {
+        return `${~~(ds / aMinute)} 分钟前`
+    } else if(ds < aDay) {
+        return `${~~(ds / aHour)} 小时前`
+    } else if(ds < aDay * 7) {
+        return `${~~(ds / aDay)} 天前`
+    } else return new Date(time)
+}
 // 处理数字
 export const formatNumber = (num?: number) => {
     if (num !== undefined) {
@@ -34,7 +51,8 @@ export const formatNumber = (num?: number) => {
 export const convertComment = (commentList: CommentProps[]) => {
     let list = [] as ConvertedCommentProps[]
     let map = new Map()
-    let arr: ConvertedCommentProps[] = [...commentList]
+    let arr: ConvertedCommentProps[] = commentList
+    console.log(arr)
     // 先把根评论的 id 加入映射
     for (let comment of arr) {
         // 没有父评论的，是根评论

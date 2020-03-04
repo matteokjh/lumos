@@ -21,13 +21,13 @@ export interface ArticleProps {
     collectors: string[] // 收藏者
     likers: string[] // 点赞者
     dislikers: string[] // 不爱者
-    comments: [] // 评论
     tag: string[] // 标签
     type: ArticleType
     show: boolean // 管理员控制的是否显示
     isLike: boolean // 当前用户是否点赞
     isDislike: boolean
     isStar: boolean // 是否收藏
+    commentsCount: number // 评论数
 }
 
 export type ArticleType = 'draft' | 'post'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SchoolProps } from '../types/user'
+import { SchoolProps } from '../../types/user'
 import { PlusCircleOutlined } from '@ant-design/icons'
 import SchoolListItem from './SchoolListItem'
 

@@ -14,3 +14,25 @@ export const getCommentList = (aid: string) => {
         }
     })
 }
+// 获取单条评论
+export const getComment = (cid: string) => {
+    return fetch.get(`${PREFIX}/one`, {
+        params: {
+            cid
+        }
+    })
+}
+// 点赞评论
+export const commentLike = (cid: string) => {
+    return fetch.put(`${PREFIX}/like`, {
+        cid
+    })
+}
+// 删除评论
+export const commentDel = (cid: string) => {
+    return fetch.delete(`${PREFIX}/del`, {
+        params: {
+            cid
+        }
+    })
+}

@@ -8,7 +8,7 @@ import { getToken } from './api/user'
 import LoginModal from './components/modals/LoginModal'
 import RegisterModal from './components/modals/RegisterModal'
 import { message } from 'antd'
-import Loading from '@/components/Loading'
+import Loading from '@/components/base/Loading'
 
 const App: React.FC = () => {
     const { showLoginModal, showRegisterModal } = useContext(store).state

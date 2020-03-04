@@ -4,7 +4,7 @@ import { getUserInfo, userFollow } from '@/api/user'
 import { message, Button, Tooltip } from 'antd'
 import { useLocation, useHistory, NavLink } from 'react-router-dom'
 import { UserProps } from '@/types/user'
-import MyIcon from '@/components/MyIcon'
+import MyIcon from '@/components/base/MyIcon'
 import { EditOutlined, ToolOutlined, SwapOutlined } from '@ant-design/icons'
 import { formatNumber } from '@/utils/methods'
 import "@/pages/styles/BaseInfo.sass"

@@ -1,21 +1,21 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { getArticle } from '@/api/article'
-import { articleComment, getCommentList } from '@/api/comment'
-import { ArticleProps } from '@/types/articles'
+import { LikeFilled, StarFilled } from '@ant-design/icons'
 import { message, Skeleton } from 'antd'
 import ReactMarkdown from 'react-markdown/with-html'
 import CodeBlock from '@/pages/components/react-markdown-code-block'
 import ReactMarkdownLink from '@/pages/components/react-markdown-link'
 import ReactMarkdownImg from '@/pages/components/react-markdown-img'
-import { LikeFilled, StarFilled } from '@ant-design/icons'
 import '@/pages/styles/markdown.sass'
 import '@/pages/styles/ArticleDetail.sass'
 import CommentBox from '@/components/CommentBox'
 import { useHistory } from 'react-router-dom'
-import ToolBar from '@/components/ToolBar'
+import ToolBar from '@/components/base/ToolBar'
 import { formatDate, formatNumber } from '@/utils/methods'
 import { store } from '@/store'
 import { CommentProps } from '@/types/comment'
+import { ArticleProps } from '@/types/articles'
+import { getArticle } from '@/api/article'
+import { articleComment, getCommentList, commentDel } from '@/api/comment'
 
 const ArticleDetail = (props: any) => {
     const [articleInfo, setArticleInfo] = useState({} as ArticleProps)
@@ -39,12 +39,37 @@ const ArticleDetail = (props: any) => {
                 aid: articleInfo.aid,
             })
             if (res.code === 200) {
-                let list = await getCommentList(articleInfo.aid)
-                setCommentList(list)
+                await refreshComment()
             } else {
                 message.error(res.msg)
             }
         } catch (err) {
+            message.error(err)
+        }
+    }
+    // 删除评论
+    const delComment = async (cid: string) => {
+        try {
+            let res = await commentDel(cid)
+            if(res.code === 200) {
+                await refreshComment()
+            } else {
+                message.error(res.msg)
+            }
+        } catch(err) {
+            message.error(err)
+        }
+    }
+    // 刷新评论
+    const refreshComment = async () => {
+        try {
+            let r = await getCommentList(articleInfo.aid)
+            if(r.code === 200) {
+                setCommentList(r.data)
+            } else {
+                message.error(r.msg)
+            }
+        } catch(err) {
             message.error(err)
         }
     }
@@ -126,6 +151,7 @@ const ArticleDetail = (props: any) => {
                     <CommentBox
                         commentList={commentList}
                         submit={submitComment}
+                        del={delComment}
                     ></CommentBox>
                     {/* 左边工具栏 */}
                     <ToolBar articleInfo={articleInfo}></ToolBar>
