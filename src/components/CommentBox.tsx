@@ -2,10 +2,40 @@ import React, { useState, useContext } from 'react'
 import { Button } from 'antd'
 import { store } from '@/store'
 import '@/styles/CommentBox.sass'
+import { CommentProps, ConvertedCommentProps } from '@/types/comment'
+import { convertComment } from '@/utils/methods'
 
-const CommentBox = (props: { submit: (text: string) => void }) => {
+const CommentItem = (props: { commentInfo: ConvertedCommentProps }) => {
+    const { commentInfo } = props
+    return (
+        <div className="commentItem">
+            <p>{commentInfo.userInfo.name}：{commentInfo.content}</p>
+            {commentInfo.children?.length ? (
+                <CommentList list={commentInfo.children}></CommentList>
+            ) : (
+                ''
+            )}
+        </div>
+    )
+}
+
+const CommentList = (props: { list: ConvertedCommentProps[] }) => {
+    const { list } = props
+    return (
+        <div className="commentList">
+            {list.length
+                ? list.map(e => <CommentItem key={e.cid} commentInfo={e}></CommentItem>)
+                : ''}
+        </div>
+    )
+}
+
+const CommentBox = (props: {
+    submit: (text: string) => void
+    commentList: CommentProps[]
+}) => {
     const [text, setText] = useState('')
-    const { submit } = props
+    const { submit, commentList } = props
     const { userInfo } = useContext(store).state
 
     const MAX_LEN = 100
@@ -26,6 +56,7 @@ const CommentBox = (props: { submit: (text: string) => void }) => {
     return (
         <div className="CommentBox">
             <p className="title">文章评论</p>
+            {/* 输入框 */}
             <div className="commentBar">
                 <div
                     className="avatar"
@@ -39,7 +70,7 @@ const CommentBox = (props: { submit: (text: string) => void }) => {
                         contentEditable
                         spellCheck="false"
                         className="inputBar"
-                        data-placeholder={`请在此输入评论内容 不超过 ${MAX_LEN} 字`}
+                        data-placeholder={`请在此输入评论内容 ${MAX_LEN} 字以内`}
                         onInput={handleInput}
                     ></div>
                     <div className="btn">
@@ -53,6 +84,8 @@ const CommentBox = (props: { submit: (text: string) => void }) => {
                     </div>
                 </div>
             </div>
+            {/* 主体 */}
+            <CommentList list={convertComment(commentList)}></CommentList>
         </div>
     )
 }

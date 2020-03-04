@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { getArticle } from '@/api/article'
+import { articleComment, getCommentList } from '@/api/comment'
 import { ArticleProps } from '@/types/articles'
 import { message, Skeleton } from 'antd'
 import ReactMarkdown from 'react-markdown/with-html'
@@ -14,41 +15,66 @@ import { useHistory } from 'react-router-dom'
 import ToolBar from '@/components/ToolBar'
 import { formatDate, formatNumber } from '@/utils/methods'
 import { store } from '@/store'
+import { CommentProps } from '@/types/comment'
 
 const ArticleDetail = (props: any) => {
     const [articleInfo, setArticleInfo] = useState({} as ArticleProps)
     const history = useHistory()
     const [loading, setLoading] = useState(false)
     const { userInfo } = useContext(store).state
-
+    const [commentList, setCommentList] = useState([] as CommentProps[])
     // methods
     const jumpUserInfo = () => {
-        if(userInfo.isLogin) { 
+        if (userInfo.isLogin) {
             history.push(`/user/${articleInfo.author.username}/baseinfo`)
         } else {
             message.warning('请先登录以访问他人主页')
         }
     }
-    const submitComment = (text: string) => {
-        console.log(text)
+    // 评论文章
+    const submitComment = async (text: string) => {
+        try {
+            let res = await articleComment({
+                content: text,
+                aid: articleInfo.aid,
+            })
+            if (res.code === 200) {
+                let list = await getCommentList(articleInfo.aid)
+                setCommentList(list)
+            } else {
+                message.error(res.msg)
+            }
+        } catch (err) {
+            message.error(err)
+        }
     }
-
+    
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
-
+    // init
     useEffect(() => {
         setLoading(true)
         ;(async () => {
-            // 获取文章详情信息
+            let aid = props.match.params.aid
+            // 文章详情
+            let p_article = getArticle(aid)
+            // 评论
+            let p_commentList = getCommentList(aid)
             try {
-                let aid = props.match.params.aid
-                let res = await getArticle(aid)
-                if (res.code === 200) {
-                    setArticleInfo(res.data)
-                    // console.log(res.data)
+                let [articleRes, commentRes] = await Promise.all([
+                    p_article,
+                    p_commentList,
+                ])
+                if (articleRes.code === 200) {
+                    setArticleInfo(articleRes.data)
                 } else {
-                    message.error(res.msg)
+                    message.error(articleRes.msg)
+                }
+                if (commentRes.code === 200) {
+                    setCommentList(commentRes.data)
+                } else {
+                    message.error(commentRes.msg)
                 }
             } catch (err) {
                 message.error(err)
@@ -97,7 +123,10 @@ const ArticleDetail = (props: any) => {
                         }}
                     ></ReactMarkdown>
                     {/* 评论 */}
-                    <CommentBox submit={submitComment}></CommentBox>
+                    <CommentBox
+                        commentList={commentList}
+                        submit={submitComment}
+                    ></CommentBox>
                     {/* 左边工具栏 */}
                     <ToolBar articleInfo={articleInfo}></ToolBar>
                 </div>
