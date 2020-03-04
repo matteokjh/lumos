@@ -2,6 +2,7 @@ import { ArticleProps } from './articles'
 import { UserProps } from './user'
 // 评论信息
 export interface CommentProps {
+    _id: string, // _id
     cid: string // uuid
     content: string // 内容
     createTime: number // 创建时间
@@ -9,7 +10,7 @@ export interface CommentProps {
     fatherComment: CommentProps // 父评论
     userInfo: UserProps // 评论者信息
     like: string[] // 谁点赞了
-    to: UserProps // 评论谁的
+    to: UserProps // 评论谁
     isLiked?: boolean // 用户是否赞了
     canDel?: boolean // 用户是否可以删除
 }

@@ -52,24 +52,25 @@ export const convertComment = (commentList: CommentProps[]) => {
     let list = [] as ConvertedCommentProps[]
     let map = new Map()
     let arr: ConvertedCommentProps[] = commentList
-    console.log(arr)
     // 先把根评论的 id 加入映射
     for (let comment of arr) {
         // 没有父评论的，是根评论
         if (!comment.fatherComment) {
             comment.children = []
-            map.set(comment.cid, comment)
+            map.set(comment._id, comment)
         } else {
             // 子评论入栈
             list.push(comment)
         }
     }
-    // 遍历子评论，放在对应父评论的子集
+    // // 遍历子评论，放在对应父评论的子集
     for (let childComment of list) {
-        let fatherId = childComment.fatherComment.cid
-        if (map.get(fatherId)) {
-            let father = map.get(fatherId)
-            map.set(fatherId, father.children.push(childComment))
+        if(!childComment.fatherComment) continue
+        let fatherId = childComment.fatherComment
+        let father = map.get(fatherId)
+        if (father && father.children) {
+            father.children.push(childComment)
+            map.set(fatherId, father)
         }
     }
     return [...map.values()]

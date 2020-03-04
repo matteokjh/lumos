@@ -32,10 +32,10 @@ const ArticleDetail = (props: any) => {
         }
     }
     // 评论文章
-    const submitComment = async (text: string) => {
+    const submitComment = async (obj: Partial<CommentProps>) => {
         try {
             let res = await articleComment({
-                content: text,
+                content: obj.content || '',
                 aid: articleInfo.aid,
             })
             if (res.code === 200) {
@@ -152,6 +152,8 @@ const ArticleDetail = (props: any) => {
                         commentList={commentList}
                         submit={submitComment}
                         del={delComment}
+                        articleInfo={articleInfo}
+                        refreshComment={refreshComment}
                     ></CommentBox>
                     {/* 左边工具栏 */}
                     <ToolBar articleInfo={articleInfo}></ToolBar>

@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'antd'
 import { UserProps } from '@/types/user'
+import { CommentProps } from '@/types/comment'
 import '@/styles/CommentBar.sass'
 
 interface BarProps {
     MAX_LEN: number
     userInfo: UserProps
     visible: boolean
-    submit: (text: string) => void
+    submit: (obj: Partial<CommentProps>) => void
     placeholder: string
     onBlur?: () => void
     autoFocus?: boolean
     id: string
+    clearInput: () => void
 }
 
 const CommentBar = (props: BarProps) => {
@@ -23,6 +25,7 @@ const CommentBar = (props: BarProps) => {
         placeholder,
         onBlur,
         id,
+        clearInput,
     } = props
     const [text, setText] = useState('')
 
@@ -36,7 +39,10 @@ const CommentBar = (props: BarProps) => {
         }
     }
     const handleSubmit = () => {
-        submit(text.substr(0, MAX_LEN))
+        submit({
+            content: text.substr(0, MAX_LEN),
+        })
+        clearInput()
     }
     const handleBlur = () => {
         if (!text && onBlur) {

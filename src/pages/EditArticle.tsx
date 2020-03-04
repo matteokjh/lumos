@@ -70,10 +70,6 @@ const EditArticle = (props: any) => {
                         const article = res.data
                         setArticleInfo(article)
                         setMdContent(article.content || '')
-                        form.setFieldsValue({
-                            title: article.title,
-                            subTitle: article.subTitle,
-                        })
                     } else {
                         message.error(res.msg)
                     }
@@ -83,6 +79,12 @@ const EditArticle = (props: any) => {
             })()
         }
     }, [articleId])
+    useEffect(() => {
+        form.setFieldsValue({
+            title: articleInfo.title,
+            subTitle: articleInfo.subTitle,
+        })
+    }, [articleInfo, form])
 
     return (
         <div className="EditArticle">
