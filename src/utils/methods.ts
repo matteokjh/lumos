@@ -1,4 +1,6 @@
 import { CommentProps, ConvertedCommentProps } from '@/types/comment'
+import { COLOR } from './config'
+import { ModeProps } from '@/types/exercise'
 
 // 防抖
 export const debounce = (Fn: any, ...args: any) => {
@@ -74,4 +76,13 @@ export const convertComment = (commentList: CommentProps[]) => {
         }
     }
     return [...map.values()]
+}
+// 难度
+export const formatMode = (mode: ModeProps) => {
+    switch(mode) {
+        case 'Easy': return ['简单', COLOR.EASY_MODE]
+        case 'Medium': return ['中等', COLOR.MEDIUM_MODE]
+        case 'Hard': return ['困难', COLOR.HARD_MODE]
+        default: return ['未知', COLOR.DEFAULT]
+    }
 }

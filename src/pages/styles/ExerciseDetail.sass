@@ -1,0 +1,50 @@
+.Execute
+    margin-top: 5px
+    text-align: left
+    background-color: #fff
+    .exc_title
+        border-bottom: 1px solid #eee
+        box-shadow: 1px 1px 2px 1px #eee
+        padding: 0 20px
+        height: 50px
+        display: inline-flex
+        justify-content: space-between
+        align-items: center
+        width: 100%
+        h1
+            font-size: 18px
+            margin: 0
+    .exc_main
+        width: 100%
+        height: calc(100vh - 105px)
+        display: inline-flex
+        padding: 10px
+        .exc_info
+            display: inline-block
+            height: 100%
+            width: 500px
+            border: 1px solid #eee
+            border-radius: 5px
+            padding: 10px
+            overflow: auto
+            *
+                user-select: text
+        .exc_code
+            width: calc(100% - 510px)
+            height: 100%
+            margin-left: 10px
+            position: relative
+            overflow: hidden
+            display: flex
+            flex-direction: column
+            justify-content: space-between
+            .exc_toolbar
+                margin-bottom: 10px
+                width: 100%
+                flex: 0 0
+            .exc_code_wrapper
+                width: 100%
+                flex: 1 1 0px
+                overflow: hidden
+                > *
+                    height: 100%

@@ -15,7 +15,11 @@ module.exports = function override(config, env) {
                 "markdown",
                 "css",
                 "html",
-                "scss"
+                "scss",
+                "java",
+                "cpp",
+                "typescript",
+                "javascript"
             ]
         })
     );

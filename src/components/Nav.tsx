@@ -61,7 +61,6 @@ const UserMenu = (props: any) => {
                     </div>
                 </Popconfirm>
             </Menu.Item>
-            {/* <Menu.Divider /> */}
         </Menu>
     )
 }
@@ -98,8 +97,8 @@ const Nav = () => {
                     <Menu.Item key="/">
                         <NavLink to="/">主页</NavLink>
                     </Menu.Item>
-                    <Menu.Item key="/exercise/all">
-                        <NavLink to="/exercise/all">题目</NavLink>
+                    <Menu.Item key="/exerciseList/all">
+                        <NavLink to="/exerciseList/all">题目</NavLink>
                     </Menu.Item>
                 </Menu>
             </div>

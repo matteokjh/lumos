@@ -8,6 +8,8 @@ import EditArticle from '@/pages/EditArticle'
 import My404Component from './base/My404Component'
 import ArticleDetail from '@/pages/ArticleDetail'
 import CollectionPage from '@/pages/CollectionPage'
+import ExerciseDetail from '@/pages/ExerciseDetail'
+
 import { Layout } from 'antd'
 
 const Navigate = () => (
@@ -20,7 +22,9 @@ const Navigate = () => (
         <Switch>
             <Route exact path="/" component={Post}></Route>
             {/* 题目列表 */}
-            <Route exact path="/exercise/:filter" component={Exercise}></Route>
+            <Route exact path="/exerciseList/:filter" component={Exercise}></Route>
+            {/* 题目详情 */}
+            <Route exact path="/exercise/:id" component={ExerciseDetail}></Route>
             {/* 个人信息 */}
             <Route path="/user/:username" component={UserCenter}></Route>
             {/* 注册邮箱激活成功 */}
