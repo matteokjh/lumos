@@ -18,7 +18,7 @@ const UserCenter = () => {
     return (
         <>
             {/* 导航 */}
-            {isSelf && <Nav userInfo={userInfo}></Nav>}
+            {<Nav isSelf={isSelf} userInfo={userInfo}></Nav>}
             
             <Switch>
                 {/* 基本信息 */}

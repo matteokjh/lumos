@@ -4,11 +4,12 @@ import { Menu } from 'antd'
 import { UserProps } from '@/types/user'
 import VerticalLine from '@/components/base/VerticalLine'
 
-const Nav = (props: { userInfo: UserProps }) => {
+const Nav = (props: { userInfo: UserProps, isSelf: boolean }) => {
     const [keys, setKeys] = useState('baseInfo')
     const location = useLocation()
     const username = location.pathname.split('/')[2]
-    const PREFIX = `/user/${props.userInfo.username}`
+    const PREFIX = `/user/${username}`
+    const { userInfo, isSelf } = props
 
     useEffect(() => {
         setKeys(location.pathname.split('/')[3])
@@ -22,10 +23,12 @@ const Nav = (props: { userInfo: UserProps }) => {
                 </Menu.Item>
                 <VerticalLine></VerticalLine>
                 <Menu.Item key="articles">
-                    <NavLink to={`${PREFIX}/articles/post`}>文章</NavLink>
+                    <NavLink to={`${PREFIX}/articles/post`}>
+                        {userInfo.username === username ? '我' : 'TA'}的文章
+                    </NavLink>
                 </Menu.Item>
                 <VerticalLine></VerticalLine>
-                {username === props.userInfo.username && (
+                {isSelf && (
                     <Menu.Item key="setting">
                         <NavLink to={`${PREFIX}/setting/info`}>设置</NavLink>
                     </Menu.Item>

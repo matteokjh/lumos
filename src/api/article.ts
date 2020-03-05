@@ -61,3 +61,7 @@ export const saveArticleHeadPic = (obj: {
 }) => {
     return fetch.put(`/user${PREFIX}/headpic`, obj)
 }
+// 获取用户收藏的文章
+export const getStarArticle = () => {
+    return fetch.get(`/user${PREFIX}/getstar`)
+}

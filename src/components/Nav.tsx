@@ -30,7 +30,7 @@ const UserMenu = (props: any) => {
                 </NavLink>
             </Menu.Item>
             <Menu.Item key="/collection">
-                <NavLink to={`/collection`}>
+                <NavLink to={`/collection/article`}>
                     <StarOutlined />
                     <p>收藏列表</p>
                 </NavLink>
