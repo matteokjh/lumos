@@ -94,7 +94,7 @@ const CommentItem = (props: ItemProps) => {
                     <div
                         className="avatar"
                         style={{
-                            backgroundImage: `url(${commentInfo.userInfo?.avatar})`,
+                            backgroundImage: `url(${commentInfo.userInfo?.avatar || require('@/img/defaultAvatar.png')})`,
                         }}
                     ></div>
                 </Link>
@@ -102,7 +102,7 @@ const CommentItem = (props: ItemProps) => {
                     <p>{commentInfo.userInfo?.name}</p>
                     <p>
                         {commentInfo.fatherComment &&
-                            `回复 ${commentInfo.to.name}：`}
+                            `回复 ${commentInfo.to?.name || '[用户已注销]'}：`}
                         {commentInfo.content}
                     </p>
                     {/* 底部栏 */}
@@ -145,7 +145,7 @@ const CommentItem = (props: ItemProps) => {
                         onBlur={handleBlur}
                         userInfo={userInfo}
                         MAX_LEN={100}
-                        placeholder={`回复 ${commentInfo.userInfo?.name}：`}
+                        placeholder={`回复 ${commentInfo.userInfo?.name || '[用户已注销]'}：`}
                         id={commentInfo.cid}
                     ></CommentBar>
                 </div>

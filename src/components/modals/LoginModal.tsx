@@ -6,7 +6,7 @@ import './styles/loginModal.sass'
 import { login } from '../../api/user'
 import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
 
-const LoginModal = (props: any) => {
+const LoginModal = () => {
     const globalStore = useContext(store)
     const { dispatch } = globalStore
     const [form] = Form.useForm()
@@ -23,7 +23,7 @@ const LoginModal = (props: any) => {
             let res = await login(values)
             if (res.code === 200) {
                 // console.log(res.data)
-                window.location.reload()
+                window.location.href = process.env.REACT_APP_FRONT_URL || ''
             } else {
                 message.error(res.msg)
             }
