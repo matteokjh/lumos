@@ -11,9 +11,23 @@ export const getArticle = (aid: string) => {
         },
     })
 }
+// 获取用户的一篇文章 （编辑用）
+export const getUserArticle = (aid: string) => {
+    return fetch.get(`/user${PREFIX}/`, {
+        params: {
+            aid,
+        },
+    })
+}
 // 获取全部
 export const getAllArticles = (searchObj?: SearchObjProps) => {
     return fetch.get(`${PREFIX}/all`, {
+        params: searchObj,
+    })
+}
+// 获取用户的全部
+export const getMyAllArticles = (searchObj?: SearchObjProps) => {
+    return fetch.get(`/user${PREFIX}/all`, {
         params: searchObj,
     })
 }

@@ -49,9 +49,7 @@ const ArticleItem = (props: {
     }
     const handleCardClick = () => {
         if (canEdit) {
-            if (articleInfo.show) {
-                history.push(`/write/${articleInfo.aid}`)
-            }
+            history.push(`/write/${articleInfo.aid}`)
         } else {
             history.push(`/article/${articleInfo.aid}`)
         }

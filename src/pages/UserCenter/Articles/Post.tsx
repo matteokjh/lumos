@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { getAllArticles } from '@/api/article'
+import { getMyAllArticles } from '@/api/article'
 import { message } from 'antd'
 import { store } from '@/store'
 import { useHistory } from 'react-router-dom'
@@ -18,7 +18,7 @@ const Post = (props: any) => {
         const type = props.match.params.type
         setLoading(true)
         try {
-            let res = await getAllArticles({
+            let res = await getMyAllArticles({
                 articlesAuthor,
                 type,
             })
@@ -48,7 +48,7 @@ const Post = (props: any) => {
         setLoading(true)
         ;(async () => {
             try {
-                let res = await getAllArticles({
+                let res = await getMyAllArticles({
                     username,
                     type,
                 })

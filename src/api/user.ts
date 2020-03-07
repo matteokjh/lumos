@@ -41,19 +41,16 @@ export const getRank = async (data: string) => {
         }
     })
 }
-
 // 修改个人资料
 export const setSelfInfo = async (data: UserProps) => {
     return fetch.put(`${PREFIX}/setuserinfo`,data)
 }
-
 // 上传头像
 export const uploadAvatar = async (imageUrl: {
     base64: string
 }) => {
     return fetch.put(`${PREFIX}/uploadavatar`, imageUrl)
 }
-
 // 关注/取消关注 用户
 export const userFollow = async (userId: string) => {
     return fetch.put(`${PREFIX}/follow`, {

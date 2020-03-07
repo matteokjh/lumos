@@ -5,7 +5,7 @@ import { InfoCircleOutlined } from '@ant-design/icons'
 import { useHistory } from 'react-router-dom'
 import MarkdownEditor from '@/pages/components/MarkdownEditor'
 import { ArticleProps } from '@/types/articles'
-import { saveArticle, getArticle } from '@/api/article'
+import { saveArticle, getUserArticle } from '@/api/article'
 import { store } from '@/store'
 
 const EditArticle = (props: any) => {
@@ -44,7 +44,6 @@ const EditArticle = (props: any) => {
             })
             if (res.code === 200) {
                 message.success(res.msg)
-                setArticleInfo(res.data)
                 // 如果是在 /write，跳转到 /write/:aid
                 if (!articleId) {
                     history.push(`/write/${res.data.aid}`)
@@ -65,7 +64,7 @@ const EditArticle = (props: any) => {
             // 请求
             ;(async () => {
                 try {
-                    let res = await getArticle(articleId)
+                    let res = await getUserArticle(articleId)
                     if (res.code === 200) {
                         const article = res.data
                         setArticleInfo(article)
