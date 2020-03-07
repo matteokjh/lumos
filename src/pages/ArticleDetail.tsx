@@ -51,12 +51,12 @@ const ArticleDetail = (props: any) => {
     const delComment = async (cid: string) => {
         try {
             let res = await commentDel(cid)
-            if(res.code === 200) {
+            if (res.code === 200) {
                 await refreshComment()
             } else {
                 message.error(res.msg)
             }
-        } catch(err) {
+        } catch (err) {
             message.error(err)
         }
     }
@@ -64,16 +64,16 @@ const ArticleDetail = (props: any) => {
     const refreshComment = async () => {
         try {
             let r = await getCommentList(articleInfo.aid)
-            if(r.code === 200) {
+            if (r.code === 200) {
                 setCommentList(r.data)
             } else {
                 message.error(r.msg)
             }
-        } catch(err) {
+        } catch (err) {
             message.error(err)
         }
     }
-    
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -186,7 +186,11 @@ const ArticleDetail = (props: any) => {
                         </div>
                     </div>
                     <p className="intro">
-                        「<span>{articleInfo?.author?.introduction}</span>」
+                        「
+                        <span>
+                            {articleInfo?.author?.introduction || '暂无介绍'}
+                        </span>
+                        」
                     </p>
                     <div className="counts">
                         <p>
