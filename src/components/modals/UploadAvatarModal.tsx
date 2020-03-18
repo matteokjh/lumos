@@ -49,7 +49,7 @@ const UploadAvatarModal = (props: any) => {
         }
     }
     const handleOk = () => {
-        if(imageUrl.indexOf('data:image') > -1) {
+        if(imageUrl?.indexOf('data:image') > -1) {
             submit(imageUrl)
         } else {
             onCancel()

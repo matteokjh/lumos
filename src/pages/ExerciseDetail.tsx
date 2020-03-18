@@ -177,6 +177,7 @@ const ExerciseDetail = (props: any) => {
                                 code: CodeBlock,
                                 link: ReactMarkdownLink,
                             }}
+                            className="md-wrapper"
                         ></ReactMarkdown>
                     </div>
                     {/* 右边代码编辑模块 */}

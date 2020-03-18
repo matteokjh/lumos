@@ -11,7 +11,7 @@ const CodeBlock = (props: { language: string, value: string }) => {
 
     return (
         <pre>
-            <code ref={ref} className={`language-${props.language}`}>
+            <code ref={ref} className={`language-${props.language || ""}`}>
                 {props.value}
             </code>
         </pre>

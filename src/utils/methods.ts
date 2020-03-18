@@ -35,7 +35,7 @@ export const formatTime = (time: number) => {
         return `${~~(ds / aHour)} 小时前`
     } else if(ds < aDay * 7) {
         return `${~~(ds / aDay)} 天前`
-    } else return new Date(time)
+    } else return new Date(time).toLocaleDateString()
 }
 // 处理数字
 export const formatNumber = (num?: number) => {

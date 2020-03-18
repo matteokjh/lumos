@@ -115,6 +115,7 @@ const MarkdownEditor = (props: any) => {
                 ref={previewRef}
             >
                 <ReactMarkdown
+                    className="md-wrapper"
                     source={mdContent}
                     escapeHtml={false}
                     renderers={{ code: CodeBlock, link: ReactMarkdownLink, image: ReactMarkdownIMG }}

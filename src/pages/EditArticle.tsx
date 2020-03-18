@@ -79,6 +79,7 @@ const EditArticle = (props: any) => {
         }
     }, [articleId])
     useEffect(() => {
+        console.log(articleInfo)
         form.setFieldsValue({
             title: articleInfo.title,
             subTitle: articleInfo.subTitle,
