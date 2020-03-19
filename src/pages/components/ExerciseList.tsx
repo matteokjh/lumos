@@ -23,7 +23,7 @@ const ExerciseList = (props: ListProps) => {
             title: '题目',
             dataIndex: 'title',
             render: (data: string, row: briefExerciseProps) => {
-                return <Link to={`/exercise/${row.id}`}>{data}</Link>
+                return <Link to={`/exercise/detail/${row.id}`}>{data}</Link>
             },
         },
         {

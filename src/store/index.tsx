@@ -3,28 +3,13 @@ import React, { createContext, useReducer } from 'react'
 import { contextProps } from '../types/index'
 import { stateProps } from '../types/index'
 import { actionProps, Reducer } from './storeProps'
+import { ExerciseProps } from '@/types/exercise'
+import { UserProps } from '@/types/user'
 
 const initialContext = {
     state: {
-        userInfo: {
-            _id: '',
-            name: '',
-            avatar: '',
-            username: '',
-            isLogin: false,
-            rankId: {
-                rank: -1,
-            },
-            introduction: '',
-            school: [],
-            sex: '',
-            location: '',
-            website: '',
-            birthday: '',
-            companys: [],
-            schools: [],
-            work: '',
-        },
+        userInfo: {} as UserProps,
+        exerciseInfo: {} as ExerciseProps,
         showLoginModal: false,
         showRegisterModal: false,
     },
@@ -44,6 +29,11 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
                     ...action.payload,
                     isLogin: true,
                 },
+            }
+        case 'SET_EXERCISE':
+            return {
+                ...state,
+                exerciseInfo: action.payload
             }
         // 头像
         case 'SET_AVATAR':

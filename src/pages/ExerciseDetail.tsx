@@ -2,9 +2,6 @@ import React, { useEffect, useState, useRef, useContext } from 'react'
 import { ExerciseProps } from '@/types/exercise'
 import { getExerciseInfo, execute } from '@/api/exercise'
 import { message, Select, Button } from 'antd'
-import ReactMarkdown from 'react-markdown/with-html'
-import CodeBlock from './components/react-markdown-code-block'
-import ReactMarkdownLink from './components/react-markdown-link'
 import { LangArr } from '../types/exercise'
 import MonacoEditor, { EditorDidMount } from 'react-monaco-editor'
 import ReactResizeDetector from 'react-resize-detector'
@@ -13,6 +10,8 @@ import { LANGS } from '@/utils/config'
 import '@/pages/styles/ExerciseDetail.sass'
 import { store } from '@/store'
 import { useHistory } from 'react-router-dom'
+import DetailNav from '@/components/Exercise/DetailNav'
+import DetailNavigate from '@/components/Exercise/DetailNavigate'
 const { Option } = Select
 
 type consoleBoxType = 'result' | 'testcase'
@@ -27,7 +26,8 @@ type resultType = {
     output: outputType[]
 }
 const ExerciseDetail = (props: any) => {
-    const { userInfo } = useContext(store).state
+    const { state, dispatch } = useContext(store)
+    const { userInfo } = state
     const [exercise, setExercise] = useState({} as ExerciseProps)
     const CodeRef = useRef(null as any)
     const [code, setCode] = useState('')
@@ -135,7 +135,11 @@ const ExerciseDetail = (props: any) => {
         setCode(exercise?.code?.[LumosLanguage] || '')
         exercise.defaultTestCase &&
             setSingleCaseInput(exercise.defaultTestCase.input)
-    }, [exercise, LumosLanguage])
+        dispatch({
+            type: 'SET_EXERCISE',
+            payload: exercise,
+        })
+    }, [exercise, LumosLanguage, dispatch])
 
     useEffect(() => {
         let id = props.match.params.id
@@ -160,25 +164,18 @@ const ExerciseDetail = (props: any) => {
                 <div className="exc_title">
                     <h1>
                         {exercise.id}. {exercise.title}
+                        <Button onClick={goBack}>返回</Button>
                     </h1>
-                    <Button onClick={goBack}>返回</Button>
                 </div>
                 <div
                     className="exc_main"
                     onKeyDown={handleKeyDown}
                     onKeyUp={handleKeyUp}
                 >
-                    {/* 左边介绍 */}
+                    {/* 左边 */}
                     <div className="exc_info">
-                        <ReactMarkdown
-                            source={exercise.introduction}
-                            escapeHtml={false}
-                            renderers={{
-                                code: CodeBlock,
-                                link: ReactMarkdownLink,
-                            }}
-                            className="md-wrapper"
-                        ></ReactMarkdown>
+                        <DetailNav></DetailNav>
+                        <DetailNavigate></DetailNavigate>
                     </div>
                     {/* 右边代码编辑模块 */}
                     <div className="exc_code">
