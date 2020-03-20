@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import BaseInfo from './BaseInfo'
-import Solution from './Solution'
+import SolutionList from './SolutionList'
 import '@/styles/DetailNavigate.sass'
 import My404Component from '../base/My404Component'
 
@@ -17,7 +17,7 @@ const DetailNavigate = () => {
                 <Route
                     exact
                     path="/exercise/detail/:id/solution"
-                    component={Solution}
+                    component={SolutionList}
                 ></Route>
                 <Route component={My404Component}></Route>
             </Switch>

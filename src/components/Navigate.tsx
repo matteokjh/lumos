@@ -9,6 +9,9 @@ import My404Component from './base/My404Component'
 import ArticleDetail from '@/pages/ArticleDetail'
 import CollectionPage from '@/pages/CollectionPage'
 import ExerciseDetail from '@/pages/ExerciseDetail'
+import SolutionList from '@/pages/SolutionList'
+import Solution from '@/pages/SolutionDetail'
+
 
 import { Layout } from 'antd'
 
@@ -27,6 +30,9 @@ const Navigate = () => (
             <Route path="/exercise/detail/:id" component={ExerciseDetail}></Route>
             {/* 个人信息 */}
             <Route path="/user/:username" component={UserCenter}></Route>
+            {/* 提交记录 */}
+            <Route exact path="/solution" component={SolutionList}></Route>
+            <Route exact path="/solution/:sid" component={Solution}></Route>
             {/* 注册邮箱激活成功 */}
             <Route exact path="/confirm_succeed" component={ConfirmSucceed}></Route>
             {/* 写文章 */}

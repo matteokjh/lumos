@@ -35,8 +35,8 @@ const UserMenu = (props: any) => {
                     <p>收藏列表</p>
                 </NavLink>
             </Menu.Item>
-            <Menu.Item key="/record">
-                <NavLink to={`/record`}>
+            <Menu.Item key="/solution">
+                <NavLink to={`/solution`}>
                     <FormOutlined />
                     <p>提交记录</p>
                 </NavLink>

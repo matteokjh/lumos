@@ -1,0 +1,71 @@
+.ResultBox
+    width: 100%
+    .res_wrapper
+        max-height: 240px
+        display: flex
+        flex-direction: column
+        .res_info
+            display: inline-flex
+            align-items: center
+            padding-left: 20px
+            border: 1px solid #effeef
+            border-radius: 50px
+            height: 30px
+            width: 500px
+            background-color: #effeef
+            margin-bottom: 10px
+            > span
+                font-size: 13px
+                margin-right: 10px
+                color: #999
+                .res_done
+                    margin-right: 20px
+                    font-size: 16px
+                    color: green
+        .submit_res_info
+            display: flex
+            flex-wrap: wrap
+            padding-left: 20px
+            user-select: text
+            > p
+                width: 100%
+            > span
+                border-radius: 50px
+                padding: 3px 10px
+                margin-bottom: 5px
+        .AC_box
+            > div
+                display: inline-flex
+                width: 100%
+                max-height: 50px
+                margin-bottom: 10px
+                > p
+                    width: 100px
+                    text-align: right
+                    font-weight: 600
+                    font-size: 14px
+                    margin-right: 10px
+                .valueBox
+                    background-color: #f1f1f1
+                    border: 1px solid #eee
+                    border-radius: 3px
+                    width: 100%
+                    padding: 5px 10px
+                    white-space: pre-wrap
+                    overflow: auto
+                    user-select: text
+    textarea
+        max-height: 50px
+        resize: none
+    .res_err
+        height: 150px
+        > div
+            height: 100%
+            background-color: #ffebee
+            color: #f44336
+            padding: 10px
+            border-radius: 3px
+        textarea
+            background-color: #ffebee
+            color: #f44336
+            max-height: 150px

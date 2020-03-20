@@ -1,5 +1,5 @@
 export interface ExerciseProps {
-    id: number; // 编号
+    id: string; // 编号
     title: string; // 标题
     mode: ModeProps; // 难度
     introduction: string; // 题目介绍

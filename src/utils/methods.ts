@@ -1,5 +1,7 @@
 import { CommentProps, ConvertedCommentProps } from '@/types/comment'
-import { COLOR } from './config'
+import { LangArr } from '@/types/exercise'
+import { JudgeCode } from '@/types/solution'
+import { COLOR, JUDGEMAP } from './config'
 import { ModeProps } from '@/types/exercise'
 
 // 防抖
@@ -84,5 +86,25 @@ export const formatMode = (mode: ModeProps) => {
         case 'Medium': return ['中等', COLOR.MEDIUM_MODE]
         case 'Hard': return ['困难', COLOR.HARD_MODE]
         default: return ['未知', COLOR.DEFAULT]
+    }
+}
+// 内存 KB => MB
+export const formatMemory = (m: number) => {
+    return Math.round((m / 1024) * 10) / 10 + "MB";
+};
+// 代码执行结果
+export const formatJudgeResult = (judge: JudgeCode) => {
+    if(judge !== undefined) {
+        return JUDGEMAP[judge];
+    } else return []
+};
+// 语言
+export const formatLang = (lang?: typeof LangArr[number]) => {
+    switch(lang) {
+        case "c": return ["C", COLOR.C]
+        case "cpp": return ["C++", COLOR.CPP]
+        case "java": return ["Java", COLOR.JAVA]
+        case "javascript": return ["JavaScript", COLOR.JAVASCRIPT]
+        default: return ["未知", COLOR.DEFAULT]
     }
 }

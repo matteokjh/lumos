@@ -1,0 +1,72 @@
+.ConsoleBox
+    background-color: #ffffff
+    width: 100%
+    border: 1px solid #eee
+    border-radius: 5px
+    flex: 0 0
+    user-select: none
+    .console_top
+        display: inline-flex
+        justify-content: space-between
+        align-items: center
+        width: 100%
+        border-bottom: 1px solid #eee
+        ul
+            &::before
+                display: none
+        .console_icon
+            margin-right: 20px
+            font-size: 13px
+            cursor: pointer
+        .console_menu
+            display: inline-flex
+            ul
+                line-height: 35px
+                .ant-menu-item
+                    &-selected
+                        border-color: #1890ff!important
+                    &-active
+                        border-color: transparent
+                li
+                    font-size: 12px
+                    padding: 0 10px
+    .console_mid
+        width: 100%
+        overflow: auto
+        padding: 10px
+        font-size: 13px
+        p
+            margin-top: 5px
+            margin-bottom: 5px
+        .testcaseBox,.empty
+            display: flex
+            justify-content: center
+            align-items: center
+            height: 148.5px
+            .ant-empty
+                margin: 0
+        textarea
+            height: 100%
+            resize: none
+            cursor: text
+            font-size: 13px
+        
+    .console_bottom
+        display: inline-flex
+        justify-content: space-between
+        align-items: center
+        bottom: 0px
+        width: 100%
+        padding: 8px
+        border-top: 1px solid #eee
+        z-index: 9
+        background-color: #fff
+        .waiting
+            position: absolute
+            left: 20%
+            opacity: .8
+            span
+                margin-right: 10px
+        .right
+            button
+                margin-right: 10px

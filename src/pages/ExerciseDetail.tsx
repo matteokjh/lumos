@@ -2,32 +2,26 @@ import React, { useEffect, useState, useRef, useContext } from 'react'
 import { ExerciseProps } from '@/types/exercise'
 import { getExerciseInfo, execute } from '@/api/exercise'
 import { message, Select, Button } from 'antd'
-import { LangArr } from '../types/exercise'
+import { LangArr } from '@/types/exercise'
 import MonacoEditor, { EditorDidMount } from 'react-monaco-editor'
 import ReactResizeDetector from 'react-resize-detector'
-import ConsoleBox from './components/ConsoleBox'
+import ConsoleBox from '@/components/Exercise/ConsoleBox'
 import { LANGS } from '@/utils/config'
 import '@/pages/styles/ExerciseDetail.sass'
 import { store } from '@/store'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import DetailNav from '@/components/Exercise/DetailNav'
 import DetailNavigate from '@/components/Exercise/DetailNavigate'
+import { SolutionProps } from '@/types/solution'
+import { getSolution } from '@/api/solution'
 const { Option } = Select
 
 type consoleBoxType = 'result' | 'testcase'
 
-type outputType = {
-    stdout_output: string
-    result_output: string
-}
 
-type resultType = {
-    state: 'true' | 'error' | 'false'
-    output: outputType[]
-}
 const ExerciseDetail = (props: any) => {
-    const { state, dispatch } = useContext(store)
-    const { userInfo } = state
+    const { dispatch } = useContext(store)
+    const location = useLocation()
     const [exercise, setExercise] = useState({} as ExerciseProps)
     const CodeRef = useRef(null as any)
     const [code, setCode] = useState('')
@@ -43,14 +37,19 @@ const ExerciseDetail = (props: any) => {
         'result' as consoleBoxType
     )
     // 输出
-    const [result, setResult] = useState({} as resultType)
+    const [result, setResult] = useState({} as SolutionProps)
     // 正在运行
     const [isRunning, setIsRunning] = useState(false)
     const history = useHistory()
+    // t
+    let T = 5;
+    const [timer, setTimer] = useState([] as any);
+    // 当前题号
+    const [id] = useState(location.pathname.split("detail/")[1]);
 
     // methods
     const goBack = () => {
-        history.go(-1)
+        history.push("/exercise/all")
     }
     // 初始化
     const editorDidMount: EditorDidMount = (editor, monaco) => {
@@ -59,7 +58,17 @@ const ExerciseDetail = (props: any) => {
     // 代码编辑
     const codeChange = (val: string) => {
         setCode(val)
+        saveStorage(val);
     }
+    // 存 localStorage
+    const saveStorage = (val: string) => {
+        if (!localStorage[`lumos_code_${id}`]) {
+            localStorage[`lumos_code_${id}`] = JSON.stringify({});
+        }
+        let obj = JSON.parse(localStorage[`lumos_code_${id}`]);
+        obj[LumosLanguage] = val;
+        localStorage[`lumos_code_${id}`] = JSON.stringify(obj);
+    };
     // 变更语言
     const handleChange = (value: typeof LangArr[number]) => {
         setLumosLanguage(value)
@@ -78,68 +87,115 @@ const ExerciseDetail = (props: any) => {
     // 控制台
     const showConsole = () => {
         setIsOpen(!isOpen)
-    }
+    }// 获取运行结果
+    const getRes = async (sid: string) => {
+        try {
+            let res = await getSolution(sid);
+            if (res.code === 200) {
+                console.log(res);
+                if (res.data.state === "pending" && T) {
+                    let t = setTimeout(() => {
+                        T--;
+                        getRes(sid);
+                    }, 3000);
+                    setTimer(timer.concat(t));
+                } else {
+                    if (T === 0) {
+                        message.error("执行出错");
+                    }
+                    setResult(res.data);
+                    setIsRunning(false);
+                    T = 5;
+                }
+            } else {
+                message.error(res.msg);
+                setIsRunning(false);
+            }
+        } catch (err) {
+            message.error(err);
+            setIsRunning(false);
+        }
+    };
     // 测试运行
     const testRun = async () => {
-        setIsRunning(true)
-        setConsoleActive('result')
-        setIsOpen(true)
+        setIsRunning(true);
+        setConsoleActive("result");
+        setIsOpen(true);
         try {
             let res = await execute({
-                opType: 'testRun',
+                opType: "testRun",
                 exerciseId: exercise.id,
                 code: code,
                 lang: LumosLanguage,
-                username: userInfo.username,
-                singleCaseInput: singleCaseInput,
-            })
-            console.log(res)
+                singleCaseInput: singleCaseInput
+            });
+            console.log(res);
             if (res.code === 200) {
-                setResult(res.data)
+                getRes(res.data);
             } else {
-                message.error(res.msg)
+                message.error(res.msg);
+                setIsRunning(false);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
+            setIsRunning(false);
         }
-        setIsRunning(false)
     }
     // 运行
     const submitRun = async () => {
-        setIsRunning(true)
-        setConsoleActive('result')
-        setIsOpen(true)
+        setIsRunning(true);
+        setConsoleActive("result");
+        setIsOpen(true);
         try {
             let res = await execute({
-                opType: 'submit',
+                opType: "submit",
                 exerciseId: exercise.id,
                 code: code,
-                lang: LumosLanguage,
-                username: userInfo.username,
-            })
-            console.log(res)
+                lang: LumosLanguage
+            });
+            console.log(res);
             if (res.code === 200) {
+                getRes(res.data);
             } else {
+                message.error(res.msg);
+                setIsRunning(false);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
+            setIsRunning(false);
         }
-        setIsRunning(false)
     }
     // 更改测试用例
     const changeSingleCase = (e: any) => {
         setSingleCaseInput(e.target.value)
     }
-    // methods
+    
     useEffect(() => {
-        setCode(exercise?.code?.[LumosLanguage] || '')
+        return () => {
+            for (let t of timer) {
+                clearTimeout(t);
+            }
+        };
+    }, [timer]);
+
+    useEffect(() => {
+        let obj = {} as any;
+        if (localStorage[`lumos_code_${id}`]) {
+            obj = JSON.parse(localStorage[`lumos_code_${id}`]);
+        }
+        setCode(
+            obj[LumosLanguage]
+                ? obj[LumosLanguage]
+                : exercise?.code?.[LumosLanguage] || ""
+        );
         exercise.defaultTestCase &&
             setSingleCaseInput(exercise.defaultTestCase.input)
+
         dispatch({
             type: 'SET_EXERCISE',
             payload: exercise,
         })
-    }, [exercise, LumosLanguage, dispatch])
+    }, [exercise, LumosLanguage, dispatch, id])
 
     useEffect(() => {
         let id = props.match.params.id
@@ -220,13 +276,13 @@ const ExerciseDetail = (props: any) => {
                         {/* 控制台 */}
                         <ConsoleBox
                             showConsole={showConsole}
+                            testRun={testRun}
+                            submitRun={submitRun}
+                            changeSingleCase={changeSingleCase}
                             consoleActive={consoleActive}
                             setConsoleActive={setConsoleActive}
                             result={result}
                             isRunning={isRunning}
-                            testRun={testRun}
-                            submitRun={submitRun}
-                            changeSingleCase={changeSingleCase}
                             isOpen={isOpen}
                             exercise={exercise}
                             singleCaseInput={singleCaseInput}
