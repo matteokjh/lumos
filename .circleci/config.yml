@@ -38,6 +38,9 @@ jobs:
                   fingerprints:
                       - de:22:0e:e0:2a:5e:99:d2:bd:49:62:d8:f7:ba:4b:3a
             - run:
+                name: Install rsync
+                command: yum install rsync -y
+            - run:
                   name: Deploy
                   command: |
                       rsync -avz root@$BACKEND_HOST:$LUMOS_FE_DIR/test ./build/*
