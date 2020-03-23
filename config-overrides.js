@@ -1,27 +1,30 @@
 /* config-overrides.js */
-const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+
 const path = require('path');
+
 function resolvePath(dir) {
-    return path.join(__dirname, dir)
+    return path.join(__dirname, dir);
 }
-module.exports = function override(config, env) {
+module.exports = function override(conf) {
+    const config = conf;
     config.resolve.alias = {
-        '@': resolvePath('src')
-    }
+        '@': resolvePath('src'),
+    };
     config.plugins.push(
         new MonacoWebpackPlugin({
             languages: [
-                "json",
-                "markdown",
-                "css",
-                "html",
-                "scss",
-                "java",
-                "cpp",
-                "typescript",
-                "javascript"
-            ]
+                'json',
+                'markdown',
+                'css',
+                'html',
+                'scss',
+                'java',
+                'cpp',
+                'typescript',
+                'javascript',
+            ],
         })
     );
     return config;
-}
+};

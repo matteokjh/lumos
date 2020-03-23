@@ -1,0 +1,59 @@
+module.exports = {
+    env: {
+        browser: true,
+        es6: true,
+    },
+    settings: {
+        'import/resolver': {
+            node: {
+                extensions: ['.js', '.tsx', '.ts'],
+            },
+            alias: {
+                map: [['@', './src']],
+                extensions: ['.ts', '.js', '.jsx', '.json'],
+            },
+        },
+    },
+    extends: [
+        'plugin:react/recommended',
+        'airbnb',
+        'plugin:@typescript-eslint',
+    ],
+    globals: {
+        Atomics: 'readonly',
+        SharedArrayBuffer: 'readonly',
+    },
+    parser: '@typescript-eslint/parser',
+    parserOptions: {
+        ecmaFeatures: {
+            jsx: true,
+        },
+        ecmaVersion: 2018,
+        sourceType: 'module',
+    },
+    plugins: ['react', '@typescript-eslint', 'prettier'],
+    rules: {
+        'prettier/prettier': 'error',
+        'import/extensions': [
+            'error',
+            'ignorePackages',
+            {
+                js: 'never',
+                jsx: 'never',
+                ts: 'never',
+                tsx: 'never',
+            },
+        ],
+        'linebreak-style': 0,
+        'comma-dangle': [0],
+        indent: [2, 4],
+        'react/jsx-indent': [2, 4],
+        'import/no-extraneous-dependencies': [
+            2,
+            {
+                devDependencies: true,
+            },
+        ],
+        'react/jsx-filename-extension': 0,
+    },
+};
