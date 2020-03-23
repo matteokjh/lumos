@@ -1,7 +1,6 @@
 import React, { useContext, useRef } from 'react'
 import { Menu, Dropdown, Popconfirm, message } from 'antd'
-import { NavLink, useHistory } from 'react-router-dom'
-import useReactRouter from 'use-react-router'
+import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import Logo from './base/Logo'
 import '@/styles/Nav.sass'
 import { store } from '../store/index'
@@ -16,7 +15,7 @@ import {
 
 // 下拉菜单
 const UserMenu = (props: any) => {
-    const { location } = useReactRouter()
+    const location = useLocation()
 
     // methods
     const handleLogout = props.handleLogout
@@ -66,7 +65,7 @@ const UserMenu = (props: any) => {
 }
 
 const Nav = () => {
-    const { location } = useReactRouter()
+    const location = useLocation()
     const globalStore = useContext(store)
     const { userInfo } = globalStore.state
     const { dispatch } = globalStore
