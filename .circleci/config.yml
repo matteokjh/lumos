@@ -1,0 +1,43 @@
+version: 2.1
+workflows:
+    build-lumos-fe:
+        jobs:
+            - build
+    deploy-lumos-fe:
+        jobs:
+            - deploy
+jobs:
+    build:
+        docker:
+            - image: "circleci/node"
+        steps:
+            - checkout
+            - run:
+                  name: Check node version
+                  command: |
+                      node -v
+                      npm -v
+                      yarn -v
+            - restore_cache:
+                  key: dependency-cache-{{ checksum "yarn.lock" }}
+            - run:
+                  name: Install dependencies
+                  command: yarn
+            - run:
+                  name: build
+                  command: yarn build
+    deploy:
+        docker:
+            - image: "circleci/node"
+        steps:
+            - checkout
+            - run:
+                  name: Scan ssh key
+                  command: ssh-keyscan $BACKEND_HOST >> ~/.ssh/known_hosts
+            - add_ssh_keys:
+                  fingerprints:
+                      - de:22:0e:e0:2a:5e:99:d2:bd:49:62:d8:f7:ba:4b:3a
+            - run:
+                  name: Deploy
+                  command: |
+                      rsync -avz root@$BACKEND_HOST:$LUMOS_FE_DIR/test ./build/*
