@@ -17,12 +17,12 @@ jobs:
                       yarn -v
             - restore_cache:
                   key: dependency-cache-{{ checksum "yarn.lock" }}
-            - run:
-                  name: Install dependencies
-                  command: yarn
-            - run:
-                  name: build
-                  command: yarn build
+            # - run:
+            #       name: Install dependencies
+            #       command: yarn
+            # - run:
+            #       name: build
+            #       command: yarn build
             - run:
                 name: Scan ssh key
                 command: ssh-keyscan $BACKEND_HOST >> ~/.ssh/known_hosts
@@ -35,4 +35,4 @@ jobs:
             - run:
                 name: Deploy
                 command: |
-                    rsync -avz 'ssh -p $PORT' ./build/* root@$BACKEND_HOST::lumos/test
+                    rsync -avz -e ssh ./build root@$BACKEND_HOST:$LUMOS_DIR/test
