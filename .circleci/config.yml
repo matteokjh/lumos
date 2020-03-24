@@ -5,6 +5,8 @@ workflows:
             - buildAndDeploy
 jobs:
     buildAndDeploy:
+        environment:
+            GENERATE_SOURCEMAP: false
         docker:
             - image: "circleci/node"
         steps:
@@ -38,4 +40,4 @@ jobs:
             - run:
                 name: Deploy
                 command: |
-                    rsync -avz -e ssh ./build/* root@$BACKEND_HOST:$LUMOS_DIR/test 2>&1 
+                    rsync -avz -e ssh ./build/* root@$BACKEND_HOST:$LUMOS_DIR 2>&1 
