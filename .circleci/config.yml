@@ -16,10 +16,14 @@ jobs:
                       npm -v
                       yarn -v
             - restore_cache:
-                  key: dependency-cache-{{ checksum "yarn.lock" }}
+                  key: yarn-cache
             - run:
                   name: Install dependencies
                   command: yarn
+            - save_cache:
+                paths:
+                    - yarn-cache
+                    key: yarn-cache-{{ epoch }}
             - run:
                   name: build
                   command: yarn build
