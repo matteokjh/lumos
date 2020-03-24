@@ -7,8 +7,6 @@ jobs:
     buildAndDeploy:
         environment:
             GENERATE_SOURCEMAP: false
-            REACT_APP_BACKEND_URL: $BACKEND_URL
-            REACT_APP_FRONT_URL: $FRONTEND_URL
         docker:
             - image: "circleci/node"
         steps:
