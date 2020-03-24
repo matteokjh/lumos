@@ -21,9 +21,8 @@ jobs:
                   name: Install dependencies
                   command: yarn
             - save_cache:
-                paths:
-                    - yarn-cache
-                    key: yarn-cache-{{ epoch }}
+                paths: yarn-cache
+                key: yarn-cache-{{ epoch }}
             - run:
                   name: build
                   command: yarn build
