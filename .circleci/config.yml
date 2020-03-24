@@ -30,9 +30,6 @@ jobs:
                 fingerprints:
                     - de:22:0e:e0:2a:5e:99:d2:bd:49:62:d8:f7:ba:4b:3a
             - run:
-                name: Test SSH
-                command: ssh -T $BACKEND_HOST
-            - run:
                 name: Install rsync
                 command: sudo apt-get install rsync -y
             - run:
