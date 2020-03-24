@@ -2,10 +2,9 @@ version: 2.1
 workflows:
     build-and-deploy-lumos-fe:
         jobs:
-            - build
-            - deploy
+            - buildAndDeploy
 jobs:
-    build:
+    buildAndDeploy:
         docker:
             - image: "circleci/node"
         steps:
@@ -24,21 +23,16 @@ jobs:
             - run:
                   name: build
                   command: yarn build
-    deploy:
-        docker:
-            - image: "circleci/node"
-        steps:
-            - checkout
             - run:
-                  name: Scan ssh key
-                  command: ssh-keyscan $BACKEND_HOST >> ~/.ssh/known_hosts
+                name: Scan ssh key
+                command: ssh-keyscan $BACKEND_HOST >> ~/.ssh/known_hosts
             - add_ssh_keys:
-                  fingerprints:
-                      - de:22:0e:e0:2a:5e:99:d2:bd:49:62:d8:f7:ba:4b:3a
+                fingerprints:
+                    - de:22:0e:e0:2a:5e:99:d2:bd:49:62:d8:f7:ba:4b:3a
             - run:
                 name: Install rsync
                 command: sudo apt-get install rsync -y
             - run:
-                  name: Deploy
-                  command: |
-                      rsync -avz ./build/* root@$BACKEND_HOST::lumos/test
+                name: Deploy
+                command: |
+                    rsync -avz ./build/* root@$BACKEND_HOST::lumos/test
