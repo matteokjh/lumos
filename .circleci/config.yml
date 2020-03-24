@@ -17,18 +17,18 @@ jobs:
                       yarn -v
             - restore_cache:
                   key: dependency-cache-{{ checksum "yarn.lock" }}
-            # - run:
-            #       name: Install dependencies
-            #       command: yarn
-            # - run:
-            #       name: build
-            #       command: yarn build
+            - run:
+                  name: Install dependencies
+                  command: yarn
+            - run:
+                  name: build
+                  command: yarn build
             - run:
                 name: Scan ssh key
                 command: ssh-keyscan $BACKEND_HOST >> ~/.ssh/known_hosts
             - add_ssh_keys:
                 fingerprints:
-                    - 05:03:e2:f8:85:f5:45:45:92:46:e6:19:a0:06:8a:68
+                    - de:22:0e:e0:2a:5e:99:d2:bd:49:62:d8:f7:ba:4b:3a
             - run:
                 name: Test SSH
                 command: ssh -T $BACKEND_HOST
