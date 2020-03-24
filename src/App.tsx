@@ -10,7 +10,7 @@ import { getToken } from './api/user';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
 
-const App: React.FC = () => {
+const App: React.FC = () => { 
     const { showLoginModal, showRegisterModal } = useContext(store).state;
     const { dispatch } = useContext(store);
     const [loading, setLoading] = useState(true);
