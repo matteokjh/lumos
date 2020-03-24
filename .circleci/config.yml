@@ -35,4 +35,4 @@ jobs:
             - run:
                 name: Deploy
                 command: |
-                    rsync -avz ./build/* root@$BACKEND_HOST::lumos/test
+                    rsync -avz --port=$PORT ./build/* root@$BACKEND_HOST::lumos/test
