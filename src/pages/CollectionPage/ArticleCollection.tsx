@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import ArticleList from '@/pages/components/ArticleList'
-import { ArticleProps } from '@/types/articles'
-import { message } from 'antd'
-import { getStarArticle } from '@/api/article'
+import React, { useEffect, useState } from 'react';
+import ArticleList from '@/pages/components/ArticleList';
+import { ArticleProps } from '@/types/articles';
+import { message } from 'antd';
+import { getStarArticle } from '@/api/article';
 
 const ArticleCollection = () => {
-    const [loading, setLoading] = useState(false)
-    const [articleList, setArticleList] = useState([] as ArticleProps[])
+    const [loading, setLoading] = useState(false);
+    const [articleList, setArticleList] = useState([] as ArticleProps[]);
 
     useEffect(() => {
-        setLoading(true)
-        ;(async () => {
+        (async () => {
             try {
-                let res = await getStarArticle()
+                setLoading(true);
+                let res = await getStarArticle();
                 if (res.code === 200) {
-                    setArticleList(res.data)
+                    setArticleList(res.data);
                 } else {
-                    message.error(res.msg)
+                    message.error(res.msg);
                 }
             } catch (err) {
-                message.error(err)
+                message.error(err);
+            } finally {
+                setLoading(false);
             }
-            setLoading(false)
-        })()
-    }, [])
+        })();
+    }, []);
 
     return (
         <div className="ArticleCollection">
@@ -33,7 +34,7 @@ const ArticleCollection = () => {
                 canEdit={false}
             ></ArticleList>
         </div>
-    )
-}
+    );
+};
 
-export default ArticleCollection
+export default ArticleCollection;
