@@ -6,11 +6,10 @@ import ArticleItem from './ArticleItem'
 
 const ArticleList = (props: {
     articleList: ArticleProps[]
-    loading: boolean
     refresh?: () => void
     canEdit: boolean
 }) => {
-    const { articleList, loading, refresh, canEdit } = props
+    const { articleList, refresh, canEdit } = props
 
     return (
         <div className="ArticleList">
@@ -19,7 +18,6 @@ const ArticleList = (props: {
                     <ArticleItem
                         articleInfo={e}
                         key={e.aid}
-                        loading={loading}
                         refresh={refresh}
                         canEdit={canEdit}
                     ></ArticleItem>

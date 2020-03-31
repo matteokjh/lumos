@@ -17,11 +17,10 @@ import { saveArticleHeadPic } from '@/api/article'
 
 const ArticleItem = (props: {
     articleInfo: ArticleProps
-    loading: boolean
     refresh?: () => void
     canEdit: boolean
 }) => {
-    const { articleInfo, loading, refresh, canEdit } = props
+    const { articleInfo, refresh, canEdit } = props
     const history = useHistory()
     const [confirmModalVisible, showConfirmModal] = useState(false)
     const [picModalVisible, setPicModalVisible] = useState(false)
@@ -86,7 +85,7 @@ const ArticleItem = (props: {
 
     return (
         <div className={`ArticleItem ${articleInfo.show ? '' : 'forbidden'}`}>
-            <Card onClick={handleCardClick} loading={loading}>
+            <Card onClick={handleCardClick}>
                 <div className="title">
                     <h1>{articleInfo.title}</h1>
                 </div>

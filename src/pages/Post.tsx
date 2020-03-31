@@ -3,7 +3,7 @@ import ArticleList from './components/ArticleList'
 import RightSideBar from './components/RightSideBar'
 import './styles/post.sass'
 import { getAllArticles } from '@/api/article'
-import { message } from 'antd'
+import { message, Skeleton } from 'antd'
 
 // 主页
 const Post = () => {
@@ -30,8 +30,11 @@ const Post = () => {
 
     return (
         <div className="postLayout">
-            <ArticleList loading={loading} articleList={articleList} canEdit={false}></ArticleList>
-            <RightSideBar></RightSideBar>
+            {
+                loading ? <><ArticleList articleList={articleList} canEdit={false}></ArticleList>
+                <RightSideBar></RightSideBar></> : <Skeleton active paragraph={{rows: 20}}></Skeleton>
+            }
+            
         </div>
     )
 }
