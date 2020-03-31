@@ -1,10 +1,10 @@
 import fetch from './'
 
 
-export const getList = (sid?: string) => {
+export const getList = (id?: string) => {
     return fetch.get(`/user/solution/list`, {
         params: {
-            sid
+            id
         }
     })
 }

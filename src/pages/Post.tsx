@@ -11,8 +11,8 @@ const Post = () => {
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
         ;(async () => {
+            setLoading(true)
             try {
                 let res = await getAllArticles()
                 if (res.code === 200) {
@@ -22,8 +22,9 @@ const Post = () => {
                 }
             } catch (err) {
                 message.error(err)
+            } finally {
+                setLoading(false)
             }
-            setLoading(false)
         })()
     }, [])
 
