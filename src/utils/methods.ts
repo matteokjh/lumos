@@ -25,7 +25,7 @@ export const formatDate = (time: number) => {
 export const formatTime = (time: number) => {
     let now = new Date().getTime();
     let ds = ~~((now - time) / 1000);
-    const aMinute = 3600;
+    const aMinute = 60;
     const aHour = 3600;
     const aDay = 86400;
     if (ds < aMinute) {
