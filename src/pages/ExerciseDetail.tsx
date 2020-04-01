@@ -45,7 +45,7 @@ const ExerciseDetail = (props: any) => {
     let T = 5;
     const [timer, setTimer] = useState([] as any);
     // 当前题号
-    const [id] = useState(location.pathname.split("detail/")[1]);
+    const [id] = useState(props.match.params.id);
 
     // methods
     const goBack = () => {
