@@ -1,6 +1,7 @@
 /* config-overrides.js */
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const path = require('path');
 
 function resolvePath(dir) {
@@ -24,14 +25,23 @@ module.exports = function override(config) {
                 'javascript',
             ],
         }),
+        // 去除 console
         new UglifyJsPlugin({
+            cache: true,
+            parallel: true,
+            sourceMap: false,
             uglifyOptions: {
+                warnings: false,
                 compress: {
-                    warnings: false,
                     drop_debugger: true,
                     drop_console: true,
-                },
+                }
             },
+        }),
+        // gzip
+        new CompressionWebpackPlugin({
+            test: /\.js$|\.css$/,
+            threshold: 1024,
         })
     );
     return config;
