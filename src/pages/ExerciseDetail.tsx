@@ -9,7 +9,7 @@ import ConsoleBox from '@/components/Exercise/ConsoleBox'
 import { LANGS } from '@/utils/config'
 import '@/pages/styles/ExerciseDetail.sass'
 import { store } from '@/store'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import DetailNav from '@/components/Exercise/DetailNav'
 import DetailNavigate from '@/components/Exercise/DetailNavigate'
 import { SolutionProps } from '@/types/solution'
@@ -21,7 +21,6 @@ type consoleBoxType = 'result' | 'testcase'
 
 const ExerciseDetail = (props: any) => {
     const { dispatch } = useContext(store)
-    const location = useLocation()
     const [exercise, setExercise] = useState({} as ExerciseProps)
     const CodeRef = useRef(null as any)
     const [code, setCode] = useState('')
