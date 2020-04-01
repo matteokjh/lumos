@@ -111,7 +111,7 @@ const SolutionList = () => {
                 <>
                     <div className="top">
                         <h2>提交记录</h2>
-                        <Button onClick={() => history.go(-1)}>返回</Button>
+                        <Button onClick={() => history.push('/')}>返回</Button>
                     </div>
                     <div className="solutionTable">
                         <Table

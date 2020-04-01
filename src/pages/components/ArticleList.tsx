@@ -15,7 +15,7 @@ const ArticleList = (props: {
     return (
         <div className="ArticleList">
             {loading ? (
-                <Skeleton className="ske" active paragraph={{ rows: 20 }}></Skeleton>
+                <Skeleton className="ske" active paragraph={{ rows: 30 }}></Skeleton>
             ) : articleList.length ? (
                 articleList.map(e => (
                     <ArticleItem

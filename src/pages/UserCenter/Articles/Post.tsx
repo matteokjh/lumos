@@ -19,7 +19,7 @@ const Post = (props: any) => {
         setLoading(true)
         try {
             let res = await getMyAllArticles({
-                articlesAuthor,
+                username: articlesAuthor,
                 type,
             })
             if (res.code === 200) {
