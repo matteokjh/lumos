@@ -44,11 +44,11 @@ module.exports = function override(config) {
         }),
 
         // gzip
-        new CompressionWebpackPlugin({
-            test: /\.js$|\.css$/,
-            threshold: 1024,
-            deleteOriginalAssets: true
-        })
+        // new CompressionWebpackPlugin({
+        //     test: /\.js$|\.css$/,
+        //     threshold: 1024,
+        //     deleteOriginalAssets: true
+        // })
     );
     return config
     // return smp.wrap(config);
