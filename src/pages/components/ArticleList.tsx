@@ -1,8 +1,9 @@
 import React from 'react';
 import '@/pages/styles/ArticleList.sass';
 import { ArticleProps } from '@/types/articles';
-import { Empty, Skeleton } from 'antd';
+import { Empty } from 'antd';
 import ArticleItem from './ArticleItem';
+import ListSkeleton from '@/components/base/ListSkeleton'
 
 const ArticleList = (props: {
     articleList: ArticleProps[];
@@ -15,7 +16,7 @@ const ArticleList = (props: {
     return (
         <div className="ArticleList">
             {loading ? (
-                <Skeleton className="ske" active paragraph={{ rows: 30 }}></Skeleton>
+                <ListSkeleton></ListSkeleton>
             ) : articleList.length ? (
                 articleList.map(e => (
                     <ArticleItem

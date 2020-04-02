@@ -1,5 +1,5 @@
-import React from 'react'
-import { LoadingOutlined } from '@ant-design/icons'
+import React from 'react';
+import { LoadingOutlined } from '@ant-design/icons';
 
 const Loading = () => {
     return (
@@ -11,6 +11,7 @@ const Loading = () => {
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                backgroundColor: '#fff',
             }}
         >
             <LoadingOutlined
@@ -19,7 +20,7 @@ const Loading = () => {
                 }}
             />
         </div>
-    )
-}
+    );
+};
 
-export default Loading
+export default Loading;

@@ -1,69 +1,80 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { store } from '@/store'
-import { getUserInfo, userFollow } from '@/api/user'
-import { message, Button, Tooltip } from 'antd'
-import { useLocation, useHistory, NavLink } from 'react-router-dom'
-import { UserProps } from '@/types/user'
-import MyIcon from '@/components/base/MyIcon'
-import { EditOutlined, ToolOutlined, SwapOutlined } from '@ant-design/icons'
-import { formatNumber } from '@/utils/methods'
-import "@/pages/styles/BaseInfo.sass"
+import React, { useContext, useEffect, useState } from 'react';
+import { store } from '@/store';
+import { getUserInfo, userFollow } from '@/api/user';
+import { message, Button, Tooltip } from 'antd';
+import { useLocation, useHistory, NavLink } from 'react-router-dom';
+import { UserProps } from '@/types/user';
+import MyIcon from '@/components/base/MyIcon';
+import { EditOutlined, ToolOutlined, SwapOutlined } from '@ant-design/icons';
+import { formatNumber } from '@/utils/methods';
+import Loading from '@/components/base/Loading'
+import '@/pages/styles/BaseInfo.sass';
 
 const BaseInfo = () => {
     // 自己的个人信息
-    const { userInfo } = useContext(store).state
+    const { userInfo } = useContext(store).state;
     // 个人信息（可能是别人的）
-    const [user, setUser] = useState({} as UserProps)
+    const [user, setUser] = useState({} as UserProps);
     // 根据 url 请求个人信息
-    const location = useLocation()
+    const location = useLocation();
     // 跳转
-    const history = useHistory()
-    const [isSelf, setIsSelf] = useState(false)
+    const history = useHistory();
+    const [isSelf, setIsSelf] = useState(false);
+
+    const [loading, setLoading] = useState(false);
 
     // methods
     const refresh = async () => {
-        let username = location.pathname.split('/')[2]
+        let username = location.pathname.split('/')[2];
         try {
-            let res = await getUserInfo(username)
+            setLoading(true);
+            let res = await getUserInfo(username);
             if (res.code === 200) {
-                setUser(res.data.userInfo)
+                setUser(res.data.userInfo);
             } else {
-                message.error(res.msg)
+                message.error(res.msg);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
+        } finally {
+            setLoading(false);
         }
-    }
+    };
     const handleFollow = async () => {
         try {
-            let res = await userFollow(user._id)
+            let res = await userFollow(user._id);
             if (res.code === 200) {
-                await refresh()
+                await refresh();
             } else {
-                message.error(res.msg)
+                message.error(res.msg);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
         }
-    }
+    };
     useEffect(() => {
-        ;(async () => {
+        (async () => {
             try {
-                let username = location.pathname.split('/')[2]
-                setIsSelf(username === userInfo.username) // 判断是否自己
-                let res = await getUserInfo(username)
+                setLoading(true);
+                let username = location.pathname.split('/')[2];
+                setIsSelf(username === userInfo.username); // 判断是否自己
+                let res = await getUserInfo(username);
                 if (res.code === 200) {
-                    setUser(res.data.userInfo)
+                    setUser(res.data.userInfo);
                 } else {
-                    message.error(res.msg)
-                    history.push('/')
+                    message.error(res.msg);
+                    history.push('/');
                 }
             } catch (err) {
-                message.error(err)
+                message.error(err);
+            } finally {
+                setLoading(false);
             }
-        })()
-    }, [location, history, userInfo.username])
-    return (
+        })();
+    }, [location, history, userInfo.username]);
+    return loading ? (
+        <Loading />
+    ) : (
         <div className="baseInfo">
             {/* top */}
             <div className="header">
@@ -99,10 +110,14 @@ const BaseInfo = () => {
                 <div className="info-detail">
                     <div className="statistics">
                         <div>
-                            <span>关注数：{formatNumber(user?.follows?.length)}</span>
+                            <span>
+                                关注数：{formatNumber(user?.follows?.length)}
+                            </span>
                         </div>
                         <div>
-                            <span>粉丝数：{formatNumber(user?.followers?.length)}</span>
+                            <span>
+                                粉丝数：{formatNumber(user?.followers?.length)}
+                            </span>
                         </div>
                         <div>
                             <span>
@@ -270,7 +285,7 @@ const BaseInfo = () => {
                 <div className="chart"></div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default BaseInfo
+export default BaseInfo;

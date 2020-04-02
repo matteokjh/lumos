@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { message } from 'antd';
-import Nav from './components/Nav';
-import Navigate from './components/Navigate';
 import '@/styles/App.sass';
 import Loading from '@/components/base/Loading';
 import { store } from './store/index';
 import { getToken } from './api/user';
+import Nav from './components/Nav';
+import Navigate from './components/Navigate';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
 

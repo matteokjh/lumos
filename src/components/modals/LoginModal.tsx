@@ -1,7 +1,7 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Form, Input, Button, message } from 'antd'
 import { store } from '../../store'
-// import { LoginProps } from './types/login'
+
 import './styles/loginModal.sass'
 import { login } from '../../api/user'
 import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
@@ -10,6 +10,7 @@ const LoginModal = () => {
     const globalStore = useContext(store)
     const { dispatch } = globalStore
     const [form] = Form.useForm()
+    const [loading, setLoading] = useState(false)
 
     // methods
     const handleSubmit = async () => {
@@ -20,6 +21,7 @@ const LoginModal = () => {
             return
         }
         try {
+            setLoading(true)
             let res = await login(values)
             if (res.code === 200) {
                 // console.log(res.data)
@@ -29,6 +31,8 @@ const LoginModal = () => {
             }
         } catch (err) {
             message.error(err)
+        } finally {
+            setLoading(false)
         }
     }
     const showRegister = () => {
@@ -113,6 +117,7 @@ const LoginModal = () => {
                         type="primary"
                         className="login-form-button"
                         onClick={handleSubmit}
+                        disabled={loading}
                     >
                         登录
                     </Button>

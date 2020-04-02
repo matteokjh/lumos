@@ -68,7 +68,7 @@ const UploadAvatarModal = (props: any) => {
                     onCancel={onCancel}
                     maskClosable={false}
                     okButtonProps={{
-                        loading: loading,
+                        disabled: loading
                     }}
                 >
                     <Upload

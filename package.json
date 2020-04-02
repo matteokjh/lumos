@@ -33,8 +33,7 @@
     "react-resize-detector": "^4.2.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "typescript": "~3.7.2",
-    "uglifyjs-webpack-plugin": "^2.2.0"
+    "typescript": "~3.7.2"
   },
   "browserslist": {
     "production": [
@@ -63,6 +62,7 @@
     "eslint-plugin-react-hooks": "^2.5.1",
     "monaco-editor-webpack-plugin": "^1.9.0",
     "prettier": "^1.19.1",
-    "react-app-rewired": "^2.1.5"
+    "react-app-rewired": "^2.1.5",
+    "terser-webpack-plugin": "^2.3.5"
   }
 }
