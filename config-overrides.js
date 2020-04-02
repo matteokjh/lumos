@@ -40,7 +40,7 @@ module.exports = function override(config) {
                     drop_debugger: true,
                 },
             },
-            include: './src'
+            include: ['./src', './public']
         }),
 
         // gzip
