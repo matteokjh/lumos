@@ -2,6 +2,7 @@
   "name": "lumos",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://lumos.sulpures.com",
   "scripts": {
     "start": "react-app-rewired start",
     "start:prod": "SET NODE_ENV=production && react-app-rewired start",
