@@ -2,8 +2,8 @@
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
-const smp = new SpeedMeasurePlugin();
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const smp = new SpeedMeasurePlugin();
 const path = require('path');
 
 function resolvePath(dir) {
@@ -50,6 +50,6 @@ module.exports = function override(config) {
             deleteOriginalAssets: true
         })
     );
-    // return config
-    return smp.wrap(config);
+    return config
+    // return smp.wrap(config);
 };
