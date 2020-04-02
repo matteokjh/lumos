@@ -1,7 +1,9 @@
 /* config-overrides.js */
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+const smp = new SpeedMeasurePlugin();
 const path = require('path');
 
 function resolvePath(dir) {
@@ -12,6 +14,7 @@ module.exports = function override(config) {
         '@': resolvePath('src'),
     };
     config.plugins.push(
+        // monaco
         new MonacoWebpackPlugin({
             languages: [
                 'json',
@@ -30,16 +33,23 @@ module.exports = function override(config) {
         new TerserPlugin({
             terserOptions: {
                 output: {
-                    comments: false
-                }
-            }
+                    comments: false,
+                },
+                compress: {
+                    drop_console: true,
+                    drop_debugger: true,
+                },
+            },
+            include: './src'
         }),
 
         // gzip
         new CompressionWebpackPlugin({
             test: /\.js$|\.css$/,
             threshold: 1024,
+            deleteOriginalAssets: true
         })
     );
-    return config;
+    // return config
+    return smp.wrap(config);
 };
