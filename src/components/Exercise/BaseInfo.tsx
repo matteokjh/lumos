@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown/with-html'
 import CodeBlock from '@/components/ReactMd/react-markdown-code-block'
 import ReactMarkdownLink from '@/components/ReactMd/react-markdown-link'
 import { store } from '@/store'
+import "@/pages/styles/markdown.sass"
 
 const BaseInfo = () => {
     const { exerciseInfo } = useContext(store).state
