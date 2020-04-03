@@ -1,112 +1,115 @@
-import React, { useEffect, useState, useContext } from 'react'
-import { LikeFilled, StarFilled } from '@ant-design/icons'
-import { message, Skeleton } from 'antd'
-import ReactMarkdown from 'react-markdown/with-html'
-import CodeBlock from '@/components/ReactMd/react-markdown-code-block'
-import ReactMarkdownLink from '@/components/ReactMd/react-markdown-link'
-import ReactMarkdownImg from '@/components/ReactMd/react-markdown-img'
-import '@/pages/styles/markdown.sass'
-import '@/pages/styles/ArticleDetail.sass'
-import CommentBox from '@/components/CommentBox'
-import { useHistory } from 'react-router-dom'
-import ToolBar from '@/components/base/ToolBar'
-import { formatDate, formatNumber } from '@/utils/methods'
-import { store } from '@/store'
-import { CommentProps } from '@/types/comment'
-import { ArticleProps } from '@/types/articles'
-import { getArticle } from '@/api/article'
-import { articleComment, getCommentList, commentDel } from '@/api/comment'
+import React, { useEffect, useState, useContext } from 'react';
+import { LikeFilled, StarFilled } from '@ant-design/icons';
+import { message, Skeleton } from 'antd';
+import ReactMarkdown from 'react-markdown/with-html';
+import CodeBlock from '@/components/ReactMd/react-markdown-code-block';
+import ReactMarkdownLink from '@/components/ReactMd/react-markdown-link';
+import ReactMarkdownImg from '@/components/ReactMd/react-markdown-img';
+import '@/pages/styles/markdown.sass';
+import '@/pages/styles/ArticleDetail.sass';
+import CommentBox from '@/components/CommentBox';
+import { useHistory } from 'react-router-dom';
+import ToolBar from '@/components/base/ToolBar';
+import { formatDate, formatNumber } from '@/utils/methods';
+import { store } from '@/store';
+import { CommentProps } from '@/types/comment';
+import { ArticleProps } from '@/types/articles';
+import { getArticle } from '@/api/article';
+import { articleComment, getCommentList, commentDel } from '@/api/comment';
 
 const ArticleDetail = (props: any) => {
-    const [articleInfo, setArticleInfo] = useState({} as ArticleProps)
-    const history = useHistory()
-    const [loading, setLoading] = useState(false)
-    const { userInfo } = useContext(store).state
-    const [commentList, setCommentList] = useState([] as CommentProps[])
+    const [articleInfo, setArticleInfo] = useState({} as ArticleProps);
+    const history = useHistory();
+    const [loading, setLoading] = useState(false);
+    const { userInfo } = useContext(store).state;
+    const [commentList, setCommentList] = useState([] as CommentProps[]);
     // methods
     const jumpUserInfo = () => {
         if (userInfo.isLogin) {
-            history.push(`/user/${articleInfo.author.username}/baseinfo`)
+            history.push(`/user/${articleInfo.author.username}/baseinfo`);
         } else {
-            message.warning('请先登录以访问他人主页')
+            message.warning('请先登录以访问他人主页');
         }
-    }
+    };
     // 评论文章
     const submitComment = async (obj: Partial<CommentProps>) => {
         try {
             let res = await articleComment({
                 content: obj.content || '',
                 aid: articleInfo.aid,
-            })
+            });
             if (res.code === 200) {
-                await refreshComment()
+                await refreshComment();
             } else {
-                message.error(res.msg)
+                message.error(res.msg);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
         }
-    }
+    };
     // 删除评论
     const delComment = async (cid: string) => {
         try {
-            let res = await commentDel(cid)
+            let res = await commentDel(cid);
             if (res.code === 200) {
-                await refreshComment()
+                await refreshComment();
             } else {
-                message.error(res.msg)
+                message.error(res.msg);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
         }
-    }
+    };
     // 刷新评论
     const refreshComment = async () => {
         try {
-            let r = await getCommentList(articleInfo.aid)
+            let r = await getCommentList(articleInfo.aid);
             if (r.code === 200) {
-                setCommentList(r.data)
+                setCommentList(r.data);
             } else {
-                message.error(r.msg)
+                message.error(r.msg);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
         }
-    }
+    };
 
     useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+        window.scrollTo(0, 0);
+    }, []);
     // init
     useEffect(() => {
-        setLoading(true)
-        ;(async () => {
-            let aid = props.match.params.aid
-            // 文章详情
-            let p_article = getArticle(aid)
-            // 评论
-            let p_commentList = getCommentList(aid)
-            try {
-                let [articleRes, commentRes] = await Promise.all([
-                    p_article,
-                    p_commentList,
-                ])
-                if (articleRes.code === 200) {
-                    setArticleInfo(articleRes.data)
-                } else {
-                    message.error(articleRes.msg)
+        (async () => {
+            let aid = props.match.params.aid;
+            if (aid) {
+                setLoading(true);
+                // 文章详情
+                let p_article = getArticle(aid);
+                // 评论
+                let p_commentList = getCommentList(aid);
+                try {
+                    let [articleRes, commentRes] = await Promise.all([
+                        p_article,
+                        p_commentList,
+                    ]);
+                    if (articleRes.code === 200) {
+                        setArticleInfo(articleRes.data);
+                    } else {
+                        message.error(articleRes.msg);
+                    }
+                    if (commentRes.code === 200) {
+                        setCommentList(commentRes.data);
+                    } else {
+                        message.error(commentRes.msg);
+                    }
+                } catch (err) {
+                    message.error(err);
+                } finally {
+                    setLoading(false);
                 }
-                if (commentRes.code === 200) {
-                    setCommentList(commentRes.data)
-                } else {
-                    message.error(commentRes.msg)
-                }
-            } catch (err) {
-                message.error(err)
             }
-            setLoading(false)
-        })()
-    }, [props.match.params.aid])
+        })();
+    }, [props.match.params.aid]);
 
     return (
         <div className="ArticleDetail">
@@ -207,7 +210,7 @@ const ArticleDetail = (props: any) => {
                 </div>
             </Skeleton>
         </div>
-    )
-}
+    );
+};
 
-export default ArticleDetail
+export default ArticleDetail;
