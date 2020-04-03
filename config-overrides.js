@@ -37,6 +37,7 @@ module.exports = function override(config) {
                 output: {
                     comments: false,
                 },
+                extractComments: 'all',
                 compress: {
                     drop_console: true,
                     drop_debugger: true,
@@ -45,6 +46,6 @@ module.exports = function override(config) {
             include: ['./src', './public'],
         })
     );
-    return config
+    return config;
     // return smp.wrap(config);
 };
