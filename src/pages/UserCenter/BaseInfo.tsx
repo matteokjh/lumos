@@ -21,7 +21,7 @@ const BaseInfo = () => {
     const history = useHistory();
     const [isSelf, setIsSelf] = useState(false);
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     // methods
     const refresh = async () => {
