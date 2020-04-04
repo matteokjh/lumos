@@ -106,7 +106,9 @@ const SolutionList = () => {
     return (
         <div className="SolutionList">
             {isRunning ? (
-                <Skeleton></Skeleton>
+                <Skeleton className="so-ske" active paragraph={{
+                    rows: 20
+                }}></Skeleton>
             ) : (
                 <>
                     <div className="top">

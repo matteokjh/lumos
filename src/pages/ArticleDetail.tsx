@@ -189,11 +189,9 @@ const ArticleDetail = (props: any) => {
                         </div>
                     </div>
                     <p className="intro">
-                        「
                         <span>
                             {articleInfo?.author?.introduction || '暂无介绍'}
                         </span>
-                        」
                     </p>
                     <div className="counts">
                         <p>
