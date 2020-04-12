@@ -40,4 +40,4 @@ jobs:
             - run:
                 name: Deploy
                 command: |
-                    rsync -avz -e ssh --delete ./build/* root@$BACKEND_HOST:$LUMOS_DIR 2>&1 
+                    rsync -avz -e ssh p $PORT --delete ./build/* root@$BACKEND_HOST:$LUMOS_DIR 2>&1 
