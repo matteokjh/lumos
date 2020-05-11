@@ -4,4 +4,4 @@ fe
 
 ---
 
-A Leetcode-liked OJ which is also my graduation design (WIP)
+A Leetcode-liked OJ which is also my graduation design.
