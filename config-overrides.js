@@ -29,18 +29,14 @@ module.exports = function override(config) {
                 'typescript',
                 'javascript',
             ],
-        }),
-
-        // 压缩代码
-        new TerserPlugin({
-            terserOptions: {
-                compress: {
-                    drop_console: true
-                },
-            },
-            include: [/\/src/, /\/public/],
         })
     );
+
+    // 压缩代码
+    const minimizer = config.optimization.minimizer
+    const tp = minimizer.find(e => e.constructor.name === "TerserPlugin")
+    tp.options.terserOptions.compress.drop_console = true
+    
     return config;
     // return smp.wrap(config);
 };
