@@ -34,16 +34,11 @@ module.exports = function override(config) {
         // 压缩代码
         new TerserPlugin({
             terserOptions: {
-                output: {
-                    comments: false,
-                },
-                extractComments: 'all',
                 compress: {
-                    drop_console: true,
-                    drop_debugger: true,
+                    drop_console: true
                 },
             },
-            include: ['./src', './public'],
+            include: [/\/src/, /\/public/],
         })
     );
     return config;
