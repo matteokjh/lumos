@@ -9,6 +9,24 @@ import { message } from 'antd';
 const Post = () => {
     const [articleList, setArticleList] = useState([]);
     const [loading, setLoading] = useState(false);
+    // 0 --- 顶部显示；1 --- 超过显示
+    const [scrollState, setScrollState] = useState(0)
+
+    // methods
+    const handleScroll = (e: any) => {
+        const scrollTop = e.target.scrollingElement.scrollTop
+        const clientHeight = e.target.scrollingElement.clientHeight
+        let d = scrollTop - clientHeight
+        if(d <= 0) setScrollState(0)
+        else setScrollState(1)
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll)
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
 
     useEffect(() => {
         (async () => {
@@ -29,13 +47,13 @@ const Post = () => {
     }, []);
 
     return (
-        <div className="postLayout">
+        <div className="postLayout" onScroll={handleScroll}>
             <ArticleList
                 loading={loading}
                 articleList={articleList}
                 canEdit={false}
             ></ArticleList>
-            <RightSideBar></RightSideBar>
+            <RightSideBar scrollState={scrollState}></RightSideBar>
         </div>
     );
 };

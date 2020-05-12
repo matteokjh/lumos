@@ -57,3 +57,5 @@ export const userFollow = async (userId: string) => {
         userId
     })
 }
+// 获取作者榜
+export const getAuthorList = () => fetch.get(`${PREFIX}/authorList`)
