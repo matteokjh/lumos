@@ -19,7 +19,11 @@ const EditArticle = (props: any) => {
     // methods
     const goBack = () => {
         if (articleId) {
-            history.push(`/user/${userInfo.username}/articles/post`);
+            if(articleInfo.type === 'draft') {
+                history.push(`/user/${userInfo.username}/articles/draft`);
+            } else {
+                history.push(`/user/${userInfo.username}/articles/post`);
+            }
         } else {
             history.push(`/`);
         }
