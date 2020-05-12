@@ -22,12 +22,15 @@ const BaseInfo = () => {
     const [isSelf, setIsSelf] = useState(false);
 
     const [loading, setLoading] = useState(true);
+    const [followLoading, setFollowLoading] = useState(false);
 
     // methods
+
+    // 关注的 refresh
     const refresh = async () => {
         let username = location.pathname.split('/')[2];
         try {
-            setLoading(true);
+            setFollowLoading(true);
             let res = await getUserInfo(username);
             if (res.code === 200) {
                 setUser(res.data.userInfo);
@@ -37,7 +40,7 @@ const BaseInfo = () => {
         } catch (err) {
             message.error(err);
         } finally {
-            setLoading(false);
+            setFollowLoading(false);
         }
     };
     const handleFollow = async () => {
@@ -153,7 +156,7 @@ const BaseInfo = () => {
                         // 如果是别人：关注按钮
                         <div className="focus">
                             {user.youFollowHim ? (
-                                <Button onClick={handleFollow}>
+                                <Button onClick={handleFollow} loading={followLoading}>
                                     {user.heFollowYou ? (
                                         <span>
                                             <SwapOutlined />

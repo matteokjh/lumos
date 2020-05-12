@@ -1,11 +1,18 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom'
 import { UserProps } from '@/types/user';
 import Rank from '@/components/base/Rank'
 
 const ListItem = (props: { data: UserProps }) => {
     const { data } = props;
+    const history = useHistory()
 
-    return <div className="ListItem">
+    // methods
+    const handleClick = () => {
+        history.push(`/user/${data.username}/baseinfo`)
+    }
+
+    return <div className="ListItem" onClick={handleClick}>
         <div className="avatar" style={{
             backgroundImage: `url(${data.avatar})`
         }}></div>
