@@ -1,25 +1,29 @@
 import { UserProps } from '../types/user'
 import { ExerciseProps } from '@/types/exercise'
 
-export interface setUserAction {
+interface setUserAction {
     type: 'SET_USER'
     payload: UserProps
 }
-export interface showLoginModalAction {
+interface showLoginModalAction {
     type: 'SHOW_LOGIN_MODAL'
     payload: boolean
 }
-export interface showRegisterModalAction {
+interface showRegisterModalAction {
     type: 'SHOW_REGISTER_MODAL'
     payload: boolean
 }
-export interface setAvatarAction {
+interface setAvatarAction {
     type: 'SET_AVATAR'
     payload: string
 }
-export interface setExerciseAction {
+interface setExerciseAction {
     type: 'SET_EXERCISE'
     payload: ExerciseProps
+}
+interface setLastSeen {
+    type: 'SET_LASTSEEN'
+    payload: number
 }
 
 export type actionProps =
@@ -28,5 +32,6 @@ export type actionProps =
     | showLoginModalAction
     | showRegisterModalAction
     | setExerciseAction
+    | setLastSeen
 
 export type Reducer<S, A> = (prevState: S, action: A) => S

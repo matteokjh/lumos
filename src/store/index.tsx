@@ -11,7 +11,7 @@ const initialContext = {
         userInfo: {} as UserProps,
         exerciseInfo: {} as ExerciseProps,
         showLoginModal: false,
-        showRegisterModal: false,
+        showRegisterModal: false
     },
     dispatch: () => {},
 } as contextProps
@@ -55,6 +55,11 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
             return {
                 ...state,
                 showRegisterModal: action.payload,
+            }
+        case 'SET_LASTSEEN':
+            return {
+                ...state,
+                lastSeen: action.payload
             }
         default:
             throw new Error()

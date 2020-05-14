@@ -3,7 +3,7 @@ import '@/pages/styles/ArticleList.sass';
 import { ArticleProps } from '@/types/articles';
 import { Empty } from 'antd';
 import ArticleItem from './ArticleItem';
-import ListSkeleton from '@/components/base/ListSkeleton'
+import ListSkeleton from '@/components/base/ListSkeleton';
 
 const ArticleList = (props: {
     articleList: ArticleProps[];
@@ -13,19 +13,22 @@ const ArticleList = (props: {
 }) => {
     const { articleList, refresh, canEdit, loading } = props;
 
+
     return (
         <div className="ArticleList">
             {loading ? (
                 <ListSkeleton></ListSkeleton>
             ) : articleList.length ? (
-                articleList.map(e => (
-                    <ArticleItem
-                        articleInfo={e}
-                        key={e.aid}
-                        refresh={refresh}
-                        canEdit={canEdit}
-                    ></ArticleItem>
-                ))
+                <>
+                    {articleList.map(e => (
+                        <ArticleItem
+                            articleInfo={e}
+                            key={e.aid}
+                            refresh={refresh}
+                            canEdit={canEdit}
+                        ></ArticleItem>
+                    ))}
+                </>
             ) : (
                 <Empty
                     style={{
