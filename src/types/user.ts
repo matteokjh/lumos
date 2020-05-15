@@ -21,8 +21,8 @@ export interface UserProps {
     starsTotal?: number,
     youFollowHim?: boolean,
     heFollowYou?: boolean,
-    follows?: string[],
-    followers?: string[]
+    follows?: UserProps[],
+    followers?: UserProps[]
 }
 
 export interface CompanyProps {

@@ -44,7 +44,7 @@ const UserInfo = (props: UserInfoProps) => {
                     <span>文章获赞：{formatNumber(user?.likesTotal)}</span>
                 </div>
                 <div>
-                    <span>文章被收藏：{formatNumber(user?.starsTotal)}</span>
+                    <span>文章收藏数：{formatNumber(user?.starsTotal)}</span>
                 </div>
             </div>
             {/* 如果是自己：编辑按钮 */}

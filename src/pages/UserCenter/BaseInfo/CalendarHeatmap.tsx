@@ -7,6 +7,7 @@ import '@/pages/styles/CalendarHeatmap.sass';
 
 interface CalendarProps {
     username: string;
+    isSelf: boolean
 }
 interface originalHeatmapProps {
     _id: string;
@@ -40,7 +41,7 @@ const periodArr = [
 ];
 
 const CalendarHeatmap = (props: CalendarProps) => {
-    const { username } = props;
+    const { username, isSelf } = props;
     // 日历热力图数据
     const [heatmapData, setHeatmapData] = useState(
         [] as originalHeatmapProps[]
@@ -79,8 +80,8 @@ const CalendarHeatmap = (props: CalendarProps) => {
         return arr.reduce((acc, cur) => acc + cur.count, 0);
     };
     const handleChange = (idx: number) => {
-        setSelectedPeriod(periodArr[idx])
-    }
+        setSelectedPeriod(periodArr[idx]);
+    };
 
     // 获取 calender heatmap 数据
     useEffect(() => {
@@ -112,11 +113,24 @@ const CalendarHeatmap = (props: CalendarProps) => {
                     {selectedPeriod.label}内共提交{' '}
                     <span>{getHeatMapTotal(heatmapData)}</span> 次
                 </p>
-                <Select size="small" className="selector" defaultValue={0} onChange={handleChange}>
-                    {periodArr.map((e, idx) => (
-                        <Select.Option className="selector-option" key={idx} value={idx}>{e.label}</Select.Option>
-                    ))}
-                </Select>
+                {isSelf && (
+                    <Select
+                        size="small"
+                        className="selector"
+                        defaultValue={0}
+                        onChange={handleChange}
+                    >
+                        {periodArr.map((e, idx) => (
+                            <Select.Option
+                                className="selector-option"
+                                key={idx}
+                                value={idx}
+                            >
+                                {e.label}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                )}
             </div>
             {calendarLoading ? (
                 <Skeleton></Skeleton>

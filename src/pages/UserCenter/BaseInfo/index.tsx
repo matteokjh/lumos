@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { store } from '@/store';
-import { getUserInfo } from '@/api/user';
+import { getUserInfo, getSolutionLsit } from '@/api/user';
 import { message } from 'antd';
 import { useLocation, useHistory } from 'react-router-dom';
 import { UserProps } from '@/types/user';
@@ -8,6 +8,7 @@ import Loading from '@/components/base/Loading';
 import Header from './Header';
 import UserInfo from './UserInfo';
 import CalendarHeatmap from './CalendarHeatmap';
+import MiddleWrapper from './MiddleWrapper';
 import 'react-calendar-heatmap/dist/styles.css';
 import '@/pages/styles/BaseInfo.sass';
 
@@ -21,8 +22,10 @@ const BaseInfo = () => {
     // 跳转
     const history = useHistory();
     const [isSelf, setIsSelf] = useState(false);
-    const [followLoading, setFollowLoading] = useState(false);
+    // 提交记录
+    const [solutionList, setSolutionList] = useState([])
 
+    const [followLoading, setFollowLoading] = useState(false);
     const [loading, setLoading] = useState(true);
 
     // methods
@@ -59,6 +62,15 @@ const BaseInfo = () => {
                     message.error(res.msg);
                     history.push('/');
                 }
+                // 获取提交记录
+                let res2 = await getSolutionLsit({
+                    username,
+                })
+                if(res2.code === 200) {
+                    setSolutionList(res2.data)
+                } else {
+                    message.error(res2.msg)
+                }
             } catch (err) {
                 message.error(err);
             } finally {
@@ -86,7 +98,16 @@ const BaseInfo = () => {
                 {/* middle */}
                 <div className="middle">
                     {/* 提交日历图 */}
-                    <CalendarHeatmap username={location.pathname.split('/')[2]}></CalendarHeatmap>
+                    <CalendarHeatmap
+                        isSelf={isSelf}
+                        username={location.pathname.split('/')[2]}
+                    ></CalendarHeatmap>
+                    {/* 中部展示区域 */}
+                    <MiddleWrapper
+                        isSelf={isSelf}
+                        user={user}
+                        solutionList={solutionList}
+                    ></MiddleWrapper>
                 </div>
                 {/* right */}
                 <div className="right"></div>

@@ -201,7 +201,7 @@ const ArticleDetail = (props: any) => {
                         </p>
                         <p>
                             <StarFilled className="star" />
-                            文章被收藏：
+                            文章收藏数：
                             {formatNumber(articleInfo?.author?.starsTotal)}
                         </p>
                     </div>

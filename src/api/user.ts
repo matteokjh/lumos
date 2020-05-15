@@ -64,3 +64,9 @@ export const getCalendar = (obj?: {
     startAt?: number;
     endAt?: number;
 }) => fetch.get(`${PREFIX}/calendar`, { params: obj });
+// 获取用户主页的最近提交记录
+export const getSolutionLsit = (obj?: {
+    username?: string;
+    startAt?: number;
+    endAt?: number;
+}) => fetch.get(`${PREFIX}/solutionList`, { params: obj });
