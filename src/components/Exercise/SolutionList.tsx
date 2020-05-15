@@ -97,7 +97,7 @@ const SolutionList = () => {
         setIsRunning(true)
         ;(async () => {
             try {
-                let res = await getList(exerciseInfo.id)
+                let res = await getList({id: exerciseInfo.id})
                 if (res.code === 200) {
                     setlist(res.data)
                 } else {

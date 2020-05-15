@@ -5,7 +5,7 @@ import '@/pages/styles/index.sass';
 import Nav from './Nav';
 import Loading from '@/components/base/Loading';
 
-const BaseInfo = lazy(() => import('./BaseInfo'));
+const BaseInfo = lazy(() => import('./BaseInfo/index'));
 const Articles = lazy(() => import('./Articles'));
 const Setting = lazy(() => import('./Setting/index'));
 const My404Component = lazy(() => import('@/components/base/My404Component'));
