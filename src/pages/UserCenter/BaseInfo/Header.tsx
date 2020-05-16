@@ -28,7 +28,7 @@ const Header = (props: { user: UserProps }) => {
                             color: '#333',
                         }}
                     >
-                        {user?.rankId?.rank}
+                        {user?.rankId?.rank || 9999}
                     </span>
                 </p>
             </div>
