@@ -44,7 +44,7 @@ const ResetPwd = (props: any) => {
                 message.error(err);
             }
         })();
-    }, [token]);
+    }, [token, history]);
 
     return (
         <div className="ResetPwd">
