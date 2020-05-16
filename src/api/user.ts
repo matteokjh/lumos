@@ -55,8 +55,10 @@ export const userFollow = async (userId: string) => {
         userId,
     });
 };
+
 // 获取作者榜
 export const getAuthorList = () => fetch.get(`${PREFIX}/authorList`);
+
 // 获取用户提交日历
 export const getCalendar = (obj?: {
     id?: string;
@@ -64,9 +66,15 @@ export const getCalendar = (obj?: {
     startAt?: number;
     endAt?: number;
 }) => fetch.get(`${PREFIX}/calendar`, { params: obj });
+
 // 获取用户主页的最近提交记录
 export const getSolutionLsit = (obj?: {
     username?: string;
     startAt?: number;
     endAt?: number;
 }) => fetch.get(`${PREFIX}/solutionList`, { params: obj });
+
+// 修改密码
+export const changePwd = (obj: { originPwd: string, newPwd: string }) => {
+    return fetch.put(`${PREFIX}/changepwd`, obj)
+}
