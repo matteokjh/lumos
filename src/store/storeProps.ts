@@ -13,6 +13,10 @@ interface showRegisterModalAction {
     type: 'SHOW_REGISTER_MODAL'
     payload: boolean
 }
+interface showResetPwdModalAction {
+    type: 'SHOW_RESETPWD_MODAL'
+    payload: boolean
+}
 interface setAvatarAction {
     type: 'SET_AVATAR'
     payload: string
@@ -31,6 +35,7 @@ export type actionProps =
     | setAvatarAction
     | showLoginModalAction
     | showRegisterModalAction
+    | showResetPwdModalAction
     | setExerciseAction
     | setLastSeen
 

@@ -9,9 +9,12 @@ import Nav from './components/Nav';
 import Navigate from './components/Navigate';
 import LoginModal from './components/modals/LoginModal';
 import RegisterModal from './components/modals/RegisterModal';
+import ResetPwdModal from './components/modals/ResetPwdModal';
 
-const App: React.FC = () => { 
-    const { showLoginModal, showRegisterModal } = useContext(store).state;
+const App: React.FC = () => {
+    const { showLoginModal, showRegisterModal, showResetPwdModal } = useContext(
+        store
+    ).state;
     const { dispatch } = useContext(store);
     const [loading, setLoading] = useState(true);
 
@@ -45,7 +48,8 @@ const App: React.FC = () => {
                         <Navigate />
                     </Router>
                     {(showLoginModal && <LoginModal />) ||
-                        (showRegisterModal && <RegisterModal />)}
+                        (showRegisterModal && <RegisterModal />) ||
+                        (showResetPwdModal && <ResetPwdModal />)}
                 </>
             )}
         </div>

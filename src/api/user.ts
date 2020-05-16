@@ -75,6 +75,6 @@ export const getSolutionLsit = (obj?: {
 }) => fetch.get(`${PREFIX}/solutionList`, { params: obj });
 
 // 修改密码
-export const changePwd = (obj: { originPwd: string, newPwd: string }) => {
-    return fetch.put(`${PREFIX}/changepwd`, obj)
-}
+export const changePwd = (obj: { originPwd: string; newPwd: string }) => {
+    return fetch.put(`${PREFIX}/changepwd`, obj);
+};

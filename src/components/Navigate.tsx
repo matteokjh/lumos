@@ -14,6 +14,7 @@ const CollectionPage = lazy(() => import('@/pages/CollectionPage'));
 const ExerciseDetail = lazy(() => import('@/pages/ExerciseDetail'));
 const SolutionList = lazy(() => import('@/pages/SolutionList'));
 const Solution = lazy(() => import('@/pages/SolutionDetail'));
+const ResetPwd = lazy(() => import('@/pages/ResetPwd'));
 
 const Navigate = () => (
     <Layout
@@ -61,6 +62,8 @@ const Navigate = () => (
                     path="/collection/:type"
                     component={CollectionPage}
                 ></Route>
+                {/* 忘记密码页 */}
+                <Route path="/resetPwd/:token" component={ResetPwd}></Route>
                 {/* 404 */}
                 <Route component={My404Component}></Route>
             </Switch>

@@ -7,6 +7,7 @@ export interface stateProps {
     exerciseInfo: ExerciseProps,
     showLoginModal: boolean,
     showRegisterModal: boolean
+    showResetPwdModal: boolean
     lastSeen?: number
 }
 

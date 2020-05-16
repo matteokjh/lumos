@@ -11,7 +11,8 @@ const initialContext = {
         userInfo: {} as UserProps,
         exerciseInfo: {} as ExerciseProps,
         showLoginModal: false,
-        showRegisterModal: false
+        showRegisterModal: false,
+        showResetPwdModal: false
     },
     dispatch: () => {},
 } as contextProps
@@ -55,6 +56,12 @@ const reducer: Reducer<stateProps, actionProps> = (state, action) => {
             return {
                 ...state,
                 showRegisterModal: action.payload,
+            }
+        // 显示忘记密码弹框
+        case 'SHOW_RESETPWD_MODAL':
+            return {
+                ...state,
+                showResetPwdModal: action.payload,
             }
         case 'SET_LASTSEEN':
             return {

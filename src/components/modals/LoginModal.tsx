@@ -1,49 +1,59 @@
-import React, { useContext, useState } from 'react'
-import { Form, Input, Button, message } from 'antd'
-import { store } from '../../store'
+import React, { useContext, useState } from 'react';
+import { Form, Input, Button, message } from 'antd';
+import { store } from '@/store';
 
-import './styles/loginModal.sass'
-import { login } from '../../api/user'
-import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons'
+import './styles/loginModal.sass';
+import { login } from '@/api/user';
+import { CloseOutlined, UserOutlined, LockOutlined } from '@ant-design/icons';
 
 const LoginModal = () => {
-    const globalStore = useContext(store)
-    const { dispatch } = globalStore
-    const [form] = Form.useForm()
-    const [loading, setLoading] = useState(false)
+    const globalStore = useContext(store);
+    const { dispatch } = globalStore;
+    const [form] = Form.useForm();
+    const [loading, setLoading] = useState(false);
 
     // methods
     const handleSubmit = async () => {
-        let values: any = {}
+        let values: any = {};
         try {
-            values = await form.validateFields()
-        } catch(err) {
-            return
+            values = await form.validateFields();
+        } catch (err) {
+            return;
         }
         try {
-            setLoading(true)
-            let res = await login(values)
+            setLoading(true);
+            let res = await login(values);
             if (res.code === 200) {
                 // console.log(res.data)
-                window.location.href = process.env.REACT_APP_FRONT_URL || ''
+                window.location.href = process.env.REACT_APP_FRONT_URL || '';
             } else {
-                message.error(res.msg)
+                message.error(res.msg);
             }
         } catch (err) {
-            message.error(err)
+            message.error(err);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
     const showRegister = () => {
         dispatch({
             type: 'SHOW_REGISTER_MODAL',
             payload: true,
-        })
+        });
         dispatch({
             type: 'SHOW_LOGIN_MODAL',
             payload: false,
-        })
+        });
+    };
+    const showResetPwd = () => {
+        dispatch({
+            type: 'SHOW_RESETPWD_MODAL',
+            payload: true,
+        });
+        dispatch({
+            type: 'SHOW_LOGIN_MODAL',
+            payload: false,
+        });
     }
 
     return (
@@ -64,7 +74,7 @@ const LoginModal = () => {
                     style={{
                         fontSize: 40,
                         marginBottom: 20,
-                        textAlign: 'center'
+                        textAlign: 'center',
                     }}
                 >
                     𝕷𝖚𝖒𝖔𝖘
@@ -129,7 +139,9 @@ const LoginModal = () => {
                         justifyContent: 'space-between',
                     }}
                 >
-                    <Button className="link">忘记密码</Button>
+                    <Button className="link" onClick={showResetPwd}>
+                        忘记密码
+                    </Button>
                     <Button
                         onClick={showRegister}
                         style={{
@@ -142,7 +154,7 @@ const LoginModal = () => {
                 </div>
             </Form>
         </div>
-    )
-}
+    );
+};
 
-export default LoginModal
+export default LoginModal;
