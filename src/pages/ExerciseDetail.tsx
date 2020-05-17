@@ -51,7 +51,7 @@ const ExerciseDetail = (props: any) => {
 
     // methods
     const goBack = () => {
-        history.go(-1);
+        history.push('/exercise/all');
     };
     // 初始化
     const editorDidMount: EditorDidMount = (editor, monaco) => {
