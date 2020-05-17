@@ -1,3 +1,4 @@
+import { briefExerciseProps } from "./exercise";
 
 export interface UserProps {
     _id: string
@@ -23,6 +24,7 @@ export interface UserProps {
     heFollowYou?: boolean,
     follows?: UserProps[],
     followers?: UserProps[]
+    starExercise?: briefExerciseProps[]
 }
 
 export interface CompanyProps {

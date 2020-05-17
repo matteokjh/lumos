@@ -20,7 +20,8 @@ const { Option } = Select;
 type consoleBoxType = 'result' | 'testcase';
 
 const ExerciseDetail = (props: any) => {
-    const { dispatch } = useContext(store);
+    const { dispatch, state } = useContext(store);
+    const { userInfo } = state;
     const [exercise, setExercise] = useState({} as ExerciseProps);
     const CodeRef = useRef(null as any);
     const [code, setCode] = useState('');
@@ -50,7 +51,7 @@ const ExerciseDetail = (props: any) => {
 
     // methods
     const goBack = () => {
-        history.push('/exercise/all');
+        history.go(-1);
     };
     // 初始化
     const editorDidMount: EditorDidMount = (editor, monaco) => {
@@ -203,7 +204,10 @@ const ExerciseDetail = (props: any) => {
         (async () => {
             try {
                 setLoading(true);
-                let res = await getExerciseInfo(id);
+                let res = await getExerciseInfo({
+                    id,
+                    username: userInfo.username,
+                });
                 if (res.code === 200) {
                     setExercise(res.data);
                     console.log(res.data);
@@ -216,7 +220,7 @@ const ExerciseDetail = (props: any) => {
                 setLoading(false);
             }
         })();
-    }, [props.match.params.id]);
+    }, [props.match.params.id, userInfo]);
 
     return (
         <div className="ExerciseDetail">

@@ -15,8 +15,7 @@ interface MiddleWrapperProps {
 
 const MiddleWrapper = (props: MiddleWrapperProps) => {
     const { isSelf, user, solutionList } = props;
-    // const [selectedKeys, setSelectedKeys] = useState('solution');
-    const [selectedKeys, setSelectedKeys] = useState('follow');
+    const [selectedKeys, setSelectedKeys] = useState('solution');
 
     // methods
     const handleSelect = (obj: SelectParam) => {

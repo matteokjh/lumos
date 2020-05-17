@@ -11,6 +11,7 @@ export interface ExerciseProps {
     passTimes: number; // 通过次数
     defaultTestCase: testCaseProps; // 测试用例
     lang: LangProps; // 题目指定语言
+    isStar?: boolean // 是否被用户收藏
 }
 export type ModeProps = "Easy" | "Medium" | "Hard"
 export interface briefExerciseProps {
@@ -19,6 +20,7 @@ export interface briefExerciseProps {
     mode: ModeProps; // 难度
     submitTimes: number; // 提交次数
     passTimes: number; // 通过次数
+    isStar?: boolean
 }
 export const LangArr = <const>["javascript", "cpp", "java", "c"];
 export type LangProps = Partial<typeof LangArr>;

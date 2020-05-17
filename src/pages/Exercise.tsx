@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { message, Input } from 'antd'
 import { getExerciseList } from '../api/exercise'
 import ExerciseList from './components/ExerciseList'
 import { briefExerciseProps } from '@/types/exercise'
 import './styles/ExerciseWrapper.sass'
 import { SearchOutlined } from '@ant-design/icons'
+import { store } from '@/store'
 
 const Exercise = () => {
     const [exerciseList, setExerciseList] = useState([] as briefExerciseProps[])
     const [loading, setLoading] = useState(false)
+    const { userInfo } = useContext(store).state
     useEffect(() => {
         setLoading(true)
         ;(async () => {
             try {
-                let res = await getExerciseList()
+                let res = await getExerciseList({username: userInfo.username})
                 setExerciseList(res.data)
             } catch (err) {
                 message.error(err)
             }
             setLoading(false)
         })()
-    }, [])
+    }, [userInfo])
 
     return (
         <div className="ExerciseWrapper">

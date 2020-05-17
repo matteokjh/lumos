@@ -1,17 +1,18 @@
-import React from 'react'
-import { briefExerciseProps } from '@/types/exercise'
-import { Table } from 'antd'
-import { Link } from 'react-router-dom'
-import '@/pages/styles/ExerciseList.sass'
-import { formatMode } from '@/utils/methods'
-import { ModeProps } from '@/types/exercise'
+import React from 'react';
+import { briefExerciseProps } from '@/types/exercise';
+import { Table } from 'antd';
+import { Link } from 'react-router-dom';
+import '@/pages/styles/ExerciseList.sass';
+import { formatMode } from '@/utils/methods';
+import { ModeProps } from '@/types/exercise';
+import { StarFilled } from '@ant-design/icons';
 
 interface ListProps {
-    exerciseList: briefExerciseProps[]
-    loading: boolean
+    exerciseList: briefExerciseProps[];
+    loading: boolean;
 }
 const ExerciseList = (props: ListProps) => {
-    const { exerciseList, loading } = props
+    const { exerciseList, loading } = props;
 
     // columns
     const columns = [
@@ -23,14 +24,22 @@ const ExerciseList = (props: ListProps) => {
             title: '题目',
             dataIndex: 'title',
             render: (data: string, row: briefExerciseProps) => {
-                return <Link to={`/exercise/detail/${row.id}`}>{data}</Link>
+                return (
+                    <>
+                        <Link to={`/exercise/detail/${row.id}`}>{data}</Link>
+                        {row.isStar && <StarFilled style={{
+                            color: "#ff9800",
+                            marginLeft: 5
+                        }}></StarFilled>}
+                    </>
+                );
             },
         },
         {
             title: '难度',
             dataIndex: 'mode',
             render: (data: ModeProps) => {
-                const [text, color] = formatMode(data)
+                const [text, color] = formatMode(data);
                 return (
                     <span
                         style={{
@@ -39,7 +48,7 @@ const ExerciseList = (props: ListProps) => {
                     >
                         {text}
                     </span>
-                )
+                );
             },
         },
         {
@@ -50,10 +59,10 @@ const ExerciseList = (props: ListProps) => {
                         ? Math.round((row.passTimes / row.submitTimes) * 100) /
                           100
                         : 0
-                }%`
+                }%`;
             },
         },
-    ]
+    ];
 
     // methods
 
@@ -67,7 +76,7 @@ const ExerciseList = (props: ListProps) => {
                 columns={columns}
             ></Table>
         </div>
-    )
-}
+    );
+};
 
-export default ExerciseList
+export default ExerciseList;
