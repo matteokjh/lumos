@@ -40,7 +40,7 @@ const UserMenu = (props: any) => {
                     <p>提交记录</p>
                 </NavLink>
             </Menu.Item>
-            <Menu.Item key="/coin">
+            <Menu.Item key="/coin" disabled>
                 <NavLink to={`/coin`}>
                     <TrophyOutlined />
                     <p>积分</p>

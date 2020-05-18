@@ -27,10 +27,14 @@ const ExerciseList = (props: ListProps) => {
                 return (
                     <>
                         <Link to={`/exercise/detail/${row.id}`}>{data}</Link>
-                        {row.isStar && <StarFilled style={{
-                            color: "#ff9800",
-                            marginLeft: 5
-                        }}></StarFilled>}
+                        {row.isStar && (
+                            <StarFilled
+                                style={{
+                                    color: '#ff9800',
+                                    marginLeft: 5,
+                                }}
+                            ></StarFilled>
+                        )}
                     </>
                 );
             },
@@ -56,8 +60,9 @@ const ExerciseList = (props: ListProps) => {
             render: (row: briefExerciseProps) => {
                 return `${
                     row.submitTimes
-                        ? Math.round((row.passTimes / row.submitTimes) * 100) /
-                          100
+                        ? Math.round(
+                              (row.passTimes / row.submitTimes) * 10000
+                          ) / 100
                         : 0
                 }%`;
             },
