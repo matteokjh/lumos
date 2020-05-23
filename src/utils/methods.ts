@@ -116,3 +116,10 @@ export const formatLang = (lang?: typeof LangArr[number]) => {
             return ['未知', COLOR.DEFAULT];
     }
 };
+
+// 转义正则表达式的特殊字符
+const espMap = new Set(['+','*'])
+export const formatEspSign = (c: string) => {
+    if(espMap.has(c)) return new RegExp(`\\${c}`)
+    return escape(c)
+}

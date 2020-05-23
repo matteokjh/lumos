@@ -1,43 +1,51 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
-import { message, Input } from 'antd'
-import { getExerciseList } from '../api/exercise'
-import ExerciseList from './components/ExerciseList'
-import { briefExerciseProps } from '@/types/exercise'
-import './styles/ExerciseWrapper.sass'
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import { message, Input } from 'antd';
+import { getExerciseList } from '../api/exercise';
+import ExerciseList from './components/ExerciseList';
+import { briefExerciseProps } from '@/types/exercise';
+import './styles/ExerciseWrapper.sass';
 // import { SearchOutlined } from '@ant-design/icons'
-import { store } from '@/store'
-import { debounce } from '@/utils/methods'
+import { store } from '@/store';
+import { debounce, formatEspSign } from '@/utils/methods';
 
 const Exercise = () => {
-    const [originList, setOriginList] = useState([] as briefExerciseProps[])
-    const [exerciseList, setExerciseList] = useState([] as briefExerciseProps[])
-    const [loading, setLoading] = useState(false)
-    const { userInfo } = useContext(store).state
-    const inputRef = useRef(null as any)
+    const [originList, setOriginList] = useState([] as briefExerciseProps[]);
+    const [exerciseList, setExerciseList] = useState(
+        [] as briefExerciseProps[]
+    );
+    const [loading, setLoading] = useState(false);
+    const { userInfo } = useContext(store).state;
+    const inputRef = useRef(null as any);
 
     // methods
     const handleInput = () => {
-        const value = inputRef.current.state.value
-        if(!value) {
-            setExerciseList(originList)
+        const value = inputRef.current.state.value;
+        if (!value) {
+            setExerciseList(originList);
         } else {
-            setExerciseList(originList.filter(e => e.title.match(value)))
+            setExerciseList(
+                originList.filter(e =>
+                    escape(e.title).match(formatEspSign(value))
+                )
+            );
         }
-    }
+    };
 
     useEffect(() => {
-        setLoading(true)
-        ;(async () => {
+        setLoading(true);
+        (async () => {
             try {
-                let res = await getExerciseList({username: userInfo.username})
-                setExerciseList(res.data)
-                setOriginList(res.data)
+                let res = await getExerciseList({
+                    username: userInfo.username,
+                });
+                setExerciseList(res.data);
+                setOriginList(res.data);
             } catch (err) {
-                message.error(err)
+                message.error(err);
             }
-            setLoading(false)
-        })()
-    }, [userInfo])
+            setLoading(false);
+        })();
+    }, [userInfo]);
 
     return (
         <div className="ExerciseWrapper">
@@ -77,7 +85,7 @@ const Exercise = () => {
                 </a>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Exercise
+export default Exercise;
